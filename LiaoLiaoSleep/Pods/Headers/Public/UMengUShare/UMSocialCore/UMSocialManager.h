@@ -1,0 +1,5 @@
+XSym
+0094
+73ef97d82e0610cbb2a3a2c7aaf08ddd
+../../../../UMengUShare/UShareSDK/UMSocialSDK/UMSocialCore.framework/Headers/UMSocialManager.h
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
