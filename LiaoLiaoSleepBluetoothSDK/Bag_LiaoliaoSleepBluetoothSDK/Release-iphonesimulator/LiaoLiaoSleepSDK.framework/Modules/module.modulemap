@@ -1,0 +1,6 @@
+framework module LiaoLiaoSleepSDK {
+  umbrella header "LiaoLiaoSleepSDK.h"
+
+  export *
+  module * { export * }
+}

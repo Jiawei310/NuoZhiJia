@@ -1,0 +1,195 @@
+<html>
+<head>
+	<meta name="viewport" content="target-densitydpi=xhigh-dpi" />
+	<style>
+		body {
+			margin: 0;
+			padding: 10px 0;
+		}
+		h1 {
+			font-weight: bold;
+			font-size: 13pt;
+			color: #009CDE;
+			margin-left: -40px;
+		}
+		ol li a, ol li h2 {
+			font-weight: bold;
+			font-size: 12pt;
+			color: black;
+		}
+		ol.questions li a {
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+	<ol class="questions">
+		<h1>General questions:</h1>
+		<li><a href="#qg1">What does the application do?</a></li>
+		<li><a href="#qg2">How it uses the required permissions?</a></li>
+		<li><a href="#qg3">Is the application free?</a></li>
+		<li><a href="#qg4">Is the source code available?</a></li>
+		<h1>Device list questions:</h1>
+		<li><a href="#qal1">Why can't I see my device on the list?</a></li>
+		<li><a href="#qal2">How can I see the advertising data of the device?</a></li>
+		<li><a href="#qal3">Why some rows in the device details have an arrow on the left side?</a></li>
+		<li><a href="#qal4">Can I clear the list of devices?</a></li>
+		<li><a href="#qal5">Can I filter the list of devices?</a></li>
+		<li><a href="#qal5">What is the RSSI?</a></li>
+		<li><a href="#qal6">Why the RSSI values are different on two Android devices?</a></li>
+		<li><a href="#qal7">Why the RSSI graph ends few seconds after it has been found?</a></li>
+		<li><a href="#qal8">Can I copy the advertising data to another application?</a></li>
+		<li><a href="#qal9">Can I export the graph to EXCEL or CSV format?</a></li>
+		<h1>Connection questions:</h1>
+		<li><a href="#qa10">How can I connect to a device without CONNECT button?</a></li>
+		<li><a href="#qa11">What does autoConnect mean?</a></li>
+		<li><a href="#qa12">How can I bond to the device?</a></li>
+		<li><a href="#qa13">Can I connect to more than one device at once?</a></li>
+		<li><a href="#qa14">Can I save or export the log?</a></li>
+		<li><a href="#qa15">How can I enable all notifications at once?</a></li>
+		<li><a href="#qa16">How can I write any bytes to a characteristic with custom writer?</a></li>
+		<h1>Other questions:</h1>
+		<li><a href="#qao1">What is the DFU?</a></li>
+	</ol>
+	<ol>
+	<h1>Answers:</h1>
+	<li>
+		<h2 id="qg1">What does the application do?</h2>
+		The nRF Master Control Panel is an application that lets you scan, discover, and debug your Bluetooth Smart devices.
+		It displays the list of advertising BLE devices and allows you to connect to them, and read and write data. You must have 
+		a Bluetooth 4.0+ device in order to make use of the application.
+	</li>
+	<li>
+		<h2 id="qg2">How it uses the required permissions?</h2>
+		The application currently requires the following permissions:
+		<ul>
+			<li>modify or delete content of your USB storage</li>
+			When you launch the nRF Master Control Panel application for the first time it copies some scripts and sample apps to 
+			the 'Nordic Semiconductor' folder on your external storage (f.e. SD card).<br />
+			The application lets you save the advertising data, RSSI values or the log session into the file.
+			<li>access Bluetooth settings, pair with Bluetooth devices</li>
+			Application scans for Bluetooth Smart devices, lets you connect to them, send and receive data, and bond.
+		</ul>
+	</li>
+	<li>
+		<h2 id="qg3">Is the application free?</h2>
+		Yes. The application is available on Google Play free of charge.
+	</li>
+	<li>
+		<h2 id="qg4">Is the source code available?</h2>
+		No, the source code is not available. If you would like to suggest some change, report a bug or make a feature request please
+		contact us using the "Send feedback" button in the menu.
+		If you are interested in a sample code, we've released the source code of our other applications (f.e. nRF Toolbox) for Android 
+		and iOS on our web-site for our customers.
+		Please, go to <a href="http://www.nordicsemi.com/eng/Products/nRFready-Demo-APPS">www.nordicsemi.no</a> for more information.
+	</li>
+	<li>
+		<h2 id="qal1">Why can't I see my device on the list?</h2>
+		The nRF Master Control Panel application scans for all Bluetooth Smart devices in the range. Your device may not be visible on the list 
+		if at least one of the following statements is true:
+		<ul>
+		<li>the device does not support Bluetooth 4.0+</li>
+		<li>the device is already connected to another device</li>
+		<li>the device is bonded to another device</li>
+		<li>Bluetooth adapter is disabled or not available on the phone/tablet</li>
+		<li>the Bluetooth error occurred on the Android system</li>
+		</ul>
+	</li>
+	<li>
+		<h2 id="qal2">How can I see the advertising data of the device?</h2>
+		Click on the device row to expand it and see the advertising data in an accessible form. Click on the RAW button to see the unformatted raw data.
+	</li>
+	<li>
+		<h2 id="qal3">Why some rows in the device details have an arrow on the left side?</h2>
+		Some data in the advertising packet may have more than one meaning. nRF MCP gives you an option to change the parser assigned to this value by
+		showing the small arrow icon on the left. List of available parsers varies and depends on the value length and format.
+	</li>
+	<li>
+		<h2 id="qal4">Can I clear the list of devices?</h2>
+		Yes. Please stop the scanner, open the menu and click on the Refresh menu item.
+	</li>
+	<li>
+		<h2 id="qal5">Can I filter the list of devices?</h2>
+		The only option to filter some devices is to mark them as favourite. Please, press the icon next to its name to add it to favourites. Than
+		you may select the "Only favourites" option in the menu to hide devices that are not on your list.
+	</li>
+	<li>
+		<h2 id="qal5">What is the RSSI?</h2>
+		The RSSI (Received Signal Strength Indication) is a measurement of the power present in a received radio signal. It's usually displayed
+		in dBm (Decibel-milliwatts). Low power devices, like Bluetooth Smart devices, are using very week power to transfer data, therefore the usual values 
+		of RSSI are between -100dBm	(very week signal) to around -20 dBm (strong signal).
+	</li>
+	<li>
+		<h2 id="qal6">Why the RSSI values are different on two Android devices?</h2>
+		By definition the RSSI value is a measurement of the power present in received radio signal. The signal strength depends on the antennas,
+		device orientation, location, distance from the phone to the target device, humidity etc.
+	</li>
+	<li>
+		<h2 id="qal7">Why the RSSI graph ends few seconds after it has been found?</h2>
+		On some phones (f.e. Nexus 4 and Nexus 7) the application is being notified only about the first advertising packet received during one 
+		scanning. This value is being shown on the graph. After few seconds, when no more packets are received, the graph ends for this device.
+		You may disable continuous scanning in Settings-&gt;Scanner. When disabled the application will scan in 1 second periods which will 
+		keep the graph going. This option should be enabled if your phone/tablet does not have this issue.
+	</li>
+	<li>
+		<h2 id="qal8">Can I copy the advertising data to another application?</h2>
+		Yes. Long-press the row you want to copy to go to selection mode. You may select more device while in selection mode by pressing other rows.
+		Click COPY or SHARE icon to copy the devices' data to your application or select the SAVE option to save it in a file. You may also 
+		export the advertising data to the nRF Logger application.
+	</li>
+	<li>
+		<h2 id="qal9">Can I export the graph to EXCEL or CSV format?</h2>
+		Yes. Please, long-press the row you want to copy to go to selection mode. 
+		You may select more device while in selection mode by pressing other rows. Press on the SAVE menu and select desired format.
+	</li>
+	<li>
+		<h2 id="qa10">How can I connect to a device without CONNECT button?</h2>
+		By default application allows to connect only to bonded devices or those with GENERAL DISCOVERABLE or LIMITED DISCOVERABLE flag set. 
+		If you want to connect to other device, please go to Settings-&gt;Connectivity and change the switch to ALL.
+	</li>
+	<li>
+		<h2 id="qa11">What does autoConnect mean?</h2>
+		When connected with autoConnect the Android will try to establish connection whenever the device is in range. Please, refer to 
+		<a href="http://developer.android.com/reference/android/bluetooth/BluetoothDevice.html#connectGatt%28android.content.Context,%20boolean,%20android.bluetooth.BluetoothGattCallback%29">Android documentation</a>
+		for more information.
+	</li>
+	<li>
+		<h2 id="qa12">How can I bond to the device?</h2>
+		You may bond to a device in 3 ways: 
+		<ul>
+		<li>Press the small white arrow on the CONNECT button to show the connection options. Click the Bond item.</li>
+		<li>Connect to the device by pressing CONNECT button and wait until the device connects. Click the Bond item in the menu.</li>
+		<li>Go to Android settings-&gt;Bluetooth and click on the device you want to bond.</li>
+		</ul>
+	</li>
+	<li>
+		<h2 id="qa13">Can I connect to more than one device at once?</h2>
+		Ensure that all devices that you want to connect are visible on the list and have the CONNECT button visible. Check the "Connectivity"
+		and "Only favourites" options if necessary. Connect to one of devices. On the new screen press the navigation menu at the top to see more 
+		available devices. Click on the row with a device you want to connect to. You may also set the autoConnect option by pressing the 
+		blue settings icon.
+	</li>
+	<li>
+		<h2 id="qa14">Can I save or export the log?</h2>
+		Yes. If you have the <a href="https://play.google.com/store/apps/details?id=no.nordicsemi.android.log">nRF Logger</a> application 
+		installed on your phone/tablet the log session may be saved automatically. See Settings-&gt;Logger for more options. If you are not interested
+		in this application you may always save the log to a file, copy it or share it using the menu below be log.
+	</li>
+	<li>
+		<h2 id="qa15">How can I enable all notifications at once?</h2>
+		When connected open the menu and select Bulk operations-&gt;Enable services. You may also read all characteristics at once. Those operations may take some time 
+		depending on the interval connection of the device and number of characteristics.
+	</li>
+	<li>
+		<h2 id="qa16">How can I write any bytes to a characteristic with custom writer?</h2>
+		nRF Master Control Panel has build in parsers and writers for number of characteristics. If you want to disable this feature and use the default dialog uncheck the 
+		"Parse known characteristics" option in the menu.
+	</li>
+	<li>
+		<h2 id="qao1">What is the DFU?</h2>
+		DFU (Device Firmware Update) is a protocol used to transfer an updated version of the application, SoftDevice or a Bootloader on a nRF51822 chip
+		Over-the-Air. Please, see the documentation for more details: <a href="https://devzone.nordicsemi.com/documentation/nrf51/6.1.0/s110/html/a00056.html">link</a>.
+	</li>
+	</ol>
+</body>
+</html>

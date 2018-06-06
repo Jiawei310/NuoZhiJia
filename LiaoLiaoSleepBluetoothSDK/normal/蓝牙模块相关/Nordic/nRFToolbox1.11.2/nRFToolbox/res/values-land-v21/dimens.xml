@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2013 Nordic Semiconductor. All Rights Reserved.
+  
+  The information contained herein is property of Nordic Semiconductor ASA.
+  Terms and conditions of usage are described in detail in NORDIC SEMICONDUCTOR STANDARD SOFTWARE LICENSE AGREEMENT.
+  Licensees are granted free, non-transferable use of the information. NO WARRANTY of ANY KIND is provided. 
+  This heading must NOT be removed from the file.
+-->
+<resources>
+
+    <!-- On Android 5 the background is drawn behind the navigation bar. In order to put the 'Wireless by Nordic' text in the middle on phones in landscape mode we must set the margin. -->
+    <dimen name="navigation_bar_height">6dp</dimen>
+    <dimen name="navigation_bar_width">42dp</dimen>
+    
+</resources>
