@@ -1,0 +1,25 @@
+//
+//  Cervella-PrefixHeader.pch
+//  Cervella
+//
+//  Created by Justin on 2017/6/27.
+//  Copyright © 2017年 Justin. All rights reserved.
+//
+
+#ifndef Cervella_PrefixHeader_pch
+#define Cervella_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import "TypeDefine.h"
+
+#import "PatientInfo.h"
+
+#import "DataBaseOpration.h"
+#import "SendCommand.h"
+#import "InterfaceModel.h"
+
+#import "JXTAlertManagerHeader.h"
+
+#endif /* Cervella_PrefixHeader_pch */

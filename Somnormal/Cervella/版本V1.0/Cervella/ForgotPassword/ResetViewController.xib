@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResetViewController">
+            <connections>
+                <outlet property="resetTableView" destination="2kz-00-hR8" id="32h-gl-bHf"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="2kz-00-hR8">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="100" id="6yl-PU-Wzi"/>
+                    </constraints>
+                </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b6Z-ag-Ien">
+                    <rect key="frame" x="10" y="200" width="300" height="40"/>
+                    <color key="backgroundColor" red="0.1450980392" green="0.4941176471" blue="0.83921568629999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="mXF-hS-3Nx"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <state key="normal" title="Comfirm">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="confirmBtnClick:" destination="-1" eventType="touchUpInside" id="QZW-sg-s6y"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="2kz-00-hR8" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="1Ps-re-aIT"/>
+                <constraint firstAttribute="trailing" secondItem="b6Z-ag-Ien" secondAttribute="trailing" constant="10" id="1rj-Ac-Zn3"/>
+                <constraint firstItem="2kz-00-hR8" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3Da-h2-6Ys"/>
+                <constraint firstAttribute="trailing" secondItem="2kz-00-hR8" secondAttribute="trailing" id="GrZ-xV-uh7"/>
+                <constraint firstItem="b6Z-ag-Ien" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="h91-1k-HMs"/>
+                <constraint firstItem="b6Z-ag-Ien" firstAttribute="top" secondItem="2kz-00-hR8" secondAttribute="bottom" constant="100" id="q3j-Zf-HqH"/>
+            </constraints>
+        </view>
+    </objects>
+</document>
