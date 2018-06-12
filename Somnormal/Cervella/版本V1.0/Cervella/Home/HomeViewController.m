@@ -10,7 +10,7 @@
 
 #import "BLEInfo.h"
 
-#import "JustinMenu.h"
+//#import "JustinMenu.h"
 
 #import "SCNavTabBarController.h"
 
@@ -63,6 +63,7 @@
     UIBarButtonItem *menu_Item=[[UIBarButtonItem alloc] initWithCustomView:btn_Menu];
     [self.navigationItem setRightBarButtonItem:menu_Item];
     
+    //tabbar
     StartsViewController *startsVC = [[StartsViewController alloc] init];
     startsVC.title = @"Start";
     startsVC.patientInfo = _patientInfo;
@@ -104,78 +105,51 @@
     });
 }
 
+#pragma - mark sendElectricQuality delegate
 //实现CES代理中的传值
 -(void)sendElectricQualityValue:(NSString *)string
 {
-    electricQuality=string;
+    electricQuality = string;
 }
 
+#pragma mark - notification
 //实现通知传值
 -(void)sendBluetoothInfoValue:(NSNotification *)bluetoothInfo
 {
-    _BleInfo=[bluetoothInfo.userInfo objectForKey:@"BLEInfo"];
-    BluetoothInfo *tmp=[[BluetoothInfo alloc] init];
+    _BleInfo = [bluetoothInfo.userInfo objectForKey:@"BLEInfo"];
+    BluetoothInfo *tmp = [[BluetoothInfo alloc] init];
     tmp.peripheralIdentify=_BleInfo.discoveredPeripheral.identifier.UUIDString;
-    tmp.saveId=@"1";
-    _bluetoothInfo=tmp;
+    tmp.saveId = @"1";
+    _bluetoothInfo = tmp;
 }
 
 //清除蓝牙信息
 -(void)freeBluetoothInfoAtViewController
 {
-    _bluetoothInfo=nil;
+    _bluetoothInfo = nil;
 }
 
 -(void)changeUser
 {
-    _bluetoothInfo=nil;
+    _bluetoothInfo =  nil;
 }
 
-- (void)addNewMenuView:(UIButton *)sender
-{
-    NSArray *menuItems = @[
 
-      [JustinMenuItem menuItem:@"Binding"
-                     image:[UIImage imageNamed:@"menu_device"]
-                    target:self
-                    action:@selector(pushMenuItem:)],
-      [JustinMenuItem menuItem:@"About"
-                         image:[UIImage imageNamed:@"menu_company"]
-                        target:self
-                        action:@selector(pushMenuItem:)],
-      [JustinMenuItem menuItem:@"Help"
-                         image:[UIImage imageNamed:@"help"]
-                        target:self
-                        action:@selector(pushMenuItem:)],
-      ];
-    
-    JustinMenuItem *first = menuItems[0];
-    first.foreColor = [UIColor colorWithRed:47/255.0f green:112/255.0f blue:225/255.0f alpha:1.0];
-    first.alignment = NSTextAlignmentCenter;
-    
-    NSLog(@"%f,%f,%f,%f",sender.frame.origin.x,sender.frame.origin.y,sender.frame.size.width,sender.frame.size.height);
-    [JustinMenu showMenuInView:self.view
-                      fromRect:CGRectMake(sender.frame.origin.x,sender.frame.origin.y - 30,sender.frame.size.width,sender.frame.size.height)
-                     menuItems:menuItems];
-}
-
-- (void)pushMenuItem:(id)sender
-{
-    NSLog(@"%@", sender);
-}
-
-//添加菜单的tableview
+#pragma mark - 右侧导航菜单栏
 -(void)addMenuView
 {
     view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
     view.backgroundColor=[UIColor colorWithWhite:0.1 alpha:0.5];
     [self.view.window addSubview:view];
+    
     _menuTableView=[[UITableView alloc] initWithFrame:CGRectMake(SCREENWIDTH*25/40, 64+SCREENHEIGHT/60, SCREENWIDTH*14.5/40, SCREENWIDTH*4.5/10)];
     [_menuTableView.layer setCornerRadius:10.0];
     _menuTableView.backgroundColor=[UIColor clearColor];
+    
     UIView *bgView=[[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH*25/40, 64+SCREENHEIGHT/60, SCREENWIDTH*14.5/40, SCREENWIDTH*4.5/10)];
     [bgView.layer setCornerRadius:10.0];
     bgView.backgroundColor=[UIColor colorWithRed:0x25/255.0 green:0x7e/255.0 blue:0xd6/255.0 alpha:1];
+    
     _menuTableView.scrollEnabled=NO;
     menuArray=@[@"Binding",@"About",@"Help"];
     if ([_menuTableView respondsToSelector:@selector(setSeparatorInset:)])
@@ -300,6 +274,7 @@
     }
 }
 
+#pragma mark - service
 //向服务器传输评估数据
 -(void)sendEvaluateDataToSevice
 {
@@ -428,9 +403,7 @@
     }
 }
 
-#pragma mark -
 #pragma mark URL Connection Data Delegate Methods
-
 // 刚开始接受响应时调用
 -(void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *) response
 {
@@ -467,9 +440,7 @@
 }
 
 
-#pragma mark -
 #pragma mark XML Parser Delegate Methods
-
 // 开始解析一个元素名
 -(void) parser:(NSXMLParser *) parser didStartElement:(NSString *) elementName namespaceURI:(NSString *) namespaceURI qualifiedName:(NSString *) qName attributes:(NSDictionary *) attributeDict
 {
@@ -525,6 +496,46 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+
+//#pragma mark -
+//- (void)addNewMenuView:(UIButton *)sender
+//{
+//    NSArray *menuItems = @[
+//
+//      [JustinMenuItem menuItem:@"Binding"
+//                     image:[UIImage imageNamed:@"menu_device"]
+//                    target:self
+//                    action:@selector(pushMenuItem:)],
+//      [JustinMenuItem menuItem:@"About"
+//                         image:[UIImage imageNamed:@"menu_company"]
+//                        target:self
+//                        action:@selector(pushMenuItem:)],
+//      [JustinMenuItem menuItem:@"Help"
+//                         image:[UIImage imageNamed:@"help"]
+//                        target:self
+//                        action:@selector(pushMenuItem:)],
+//      ];
+//
+//    JustinMenuItem *first = menuItems[0];
+//    first.foreColor = [UIColor colorWithRed:47/255.0f green:112/255.0f blue:225/255.0f alpha:1.0];
+//    first.alignment = NSTextAlignmentCenter;
+//
+//    NSLog(@"%f,%f,%f,%f",sender.frame.origin.x,sender.frame.origin.y,sender.frame.size.width,sender.frame.size.height);
+//    [JustinMenu showMenuInView:self.view
+//                      fromRect:CGRectMake(sender.frame.origin.x,sender.frame.origin.y - 30,sender.frame.size.width,sender.frame.size.height)
+//                     menuItems:menuItems];
+//}
+//
+//- (void)pushMenuItem:(id)sender
+//{
+//    NSLog(@"%@", sender);
+//}
+
+
+
 
 /*
 #pragma mark - Navigation

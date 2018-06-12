@@ -464,14 +464,14 @@
 		D04376E51F0251B60061F279 /* Assess */ = {
 			isa = PBXGroup;
 			children = (
+				D07B34B91F13887D0077B2F9 /* AnswerList.plist */,
+				D07B34BD1F13887D0077B2F9 /* SleepTipsList.plist */,
 				D04377D21F04CA3E0061F279 /* AssessViewController.h */,
 				D04377D31F04CA3E0061F279 /* AssessViewController.m */,
 				D04377D41F04CA3E0061F279 /* AssessViewController.xib */,
-				D07B34B91F13887D0077B2F9 /* AnswerList.plist */,
 				D07B34BA1F13887D0077B2F9 /* AssessmentViewController.h */,
 				D07B34BB1F13887D0077B2F9 /* AssessmentViewController.m */,
 				D07B34BC1F13887D0077B2F9 /* AssessmentViewController.xib */,
-				D07B34BD1F13887D0077B2F9 /* SleepTipsList.plist */,
 			);
 			path = Assess;
 			sourceTree = "<group>";

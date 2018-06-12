@@ -42,13 +42,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    //UIView
     self.title = @"Cervella";
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
+    //Data
     interfaceModel = [[InterfaceModel alloc] init];
     interfaceModel.delegate = self;
     
+    //UI
     _loginTableView.scrollEnabled =NO; //设置tableview不能滚动
     _loginTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     _loginTableView.delegate = self;
@@ -63,125 +66,11 @@
     [tap setCancelsTouchesInView:NO];
 }
 
+#pragma mark action
 - (void)doHideKeyBoard
 {
     [_acountTextField resignFirstResponder];
     [_passwordTextField resignFirstResponder];
-}
-
-- (void)sendValueBackToController:(id)value type:(InterfaceModelBackType)interfaceModelBackType
-{
-    if (interfaceModelBackType == InterfaceModelBackTypeLogin)
-    {
-        isOverTime = NO;
-        //隐藏Loading
-        jxt_dismissHUD();
-        
-        patientInfo = value;
-        //记住密码（这里记住的不是三方注册账号的账号和密码，不是使用账户密码登陆方式的账号和密码）
-        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-        [userDefault setObject:patientInfo.PatientID forKey:@"PatientID"];
-        [userDefault setObject:patientInfo.PatientPwd forKey:@"PatientPwd"];
-        
-        [self changeRoot];
-    }
-    else if (interfaceModelBackType == InterfaceModelBackTypeLoginPasswordError)
-    {
-        isOverTime = NO;
-        //隐藏Loading
-        jxt_dismissHUD();
-    }
-    else if (interfaceModelBackType == InterfaceModelBackTypeFindPassword)
-    {
-        //先判断邮箱是否存在
-        [interfaceModel sendJsonPatientIDToServer:_acountTextField.text andPwd:nil];
-        
-    }
-    else if (interfaceModelBackType == InterfaceModelBackTypeGetPatientInfo)
-    {
-        patientInfo = value;
-        if (patientInfo.Email.length > 0)
-        {
-            //获取storyboard:通过bundle根据storyboard的名字来获取我们的storyboard,
-            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-            //由storyboard根据myView的storyBoardID来获取我们要切换的视图
-            
-            ForgotPasswordViewController *fpVC = [story instantiateViewControllerWithIdentifier:@"ForgotPassword"];
-            fpVC.patientInfo = patientInfo;
-            [self.navigationController pushViewController:fpVC animated:YES];
-        }
-        else
-        {
-            [JXTAlertView showToastViewWithTitle:@"Kindly Reminder" message:@"Your email is empty" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
-                NSLog(@"关闭");
-            }];
-        }
-        //将之前“忘记密码”按钮设置成用户可点击
-        _forgotPasswordBtn.userInteractionEnabled = YES;
-    }
-    else if (interfaceModelBackType == InterfaceModelBackTypeAccountNotExist)
-    {
-        _forgotPasswordBtn.userInteractionEnabled = YES;
-    }
-}
-
-//切换app的根视图控制器
-- (void)changeRoot
-{
-    //变更app的根视图控制器
-    UIApplication *app = [UIApplication sharedApplication];
-    AppDelegate *app2 =  (AppDelegate*)app.delegate;
-    
-    HomeViewController *homeVC = [[HomeViewController alloc] init];
-    homeVC.patientInfo = patientInfo;
-    UINavigationController *rootVC = [[UINavigationController alloc] initWithRootViewController:homeVC];
-    
-    app2.window.rootViewController = rootVC;
-    app2.window.backgroundColor = [UIColor whiteColor];
-    [app2.window makeKeyAndVisible];
-}
-
-#pragma loginTableView -- delegate
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50;
-}
-#pragma loginTableView -- dataSource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 2;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
-    cell.backgroundColor = [UIColor colorWithRed:0xF4/255.0 green:0xF4/255.0 blue:0xF4/255.0 alpha:1.0];
-    if (indexPath.row == 0)
-    {
-        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 20, 20)];
-        [headImageView setImage:[UIImage imageNamed:@"login_head"]];
-        [cell.contentView addSubview:headImageView];
-        
-        _acountTextField = [[UITextField alloc] initWithFrame:CGRectMake(50, 5, 240, 40)];
-        _acountTextField.font = [UIFont systemFontOfSize:18];
-        _acountTextField.placeholder = @"Acount";
-        [cell.contentView addSubview:_acountTextField];
-    }
-    else
-    {
-        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 20, 20)];
-        [headImageView setImage:[UIImage imageNamed:@"login_password"]];
-        [cell.contentView addSubview:headImageView];
-        
-        _passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(50, 5, 240, 40)];
-        _passwordTextField.font = [UIFont systemFontOfSize:18];
-        _passwordTextField.placeholder = @"Password";
-        _passwordTextField.secureTextEntry = YES;
-        [cell.contentView addSubview:_passwordTextField];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    return cell;
 }
 
 - (IBAction)loginAction:(UIButton *)sender
@@ -248,6 +137,123 @@
         //设置“忘记密码”按钮不可点击，避免多次点击多次响应
         _forgotPasswordBtn.userInteractionEnabled = NO;
     }
+}
+
+#pragma mark InterfaceModelDelegate
+- (void)sendValueBackToController:(id)value type:(InterfaceModelBackType)interfaceModelBackType
+{
+    if (interfaceModelBackType == InterfaceModelBackTypeLogin)
+    {
+        isOverTime = NO;
+        //隐藏Loading
+        jxt_dismissHUD();
+        
+        patientInfo = value;
+        //记住密码（这里记住的不是三方注册账号的账号和密码，不是使用账户密码登陆方式的账号和密码）
+        NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+        [userDefault setObject:patientInfo.PatientID forKey:@"PatientID"];
+        [userDefault setObject:patientInfo.PatientPwd forKey:@"PatientPwd"];
+        
+        [self changeRoot];
+    }
+    else if (interfaceModelBackType == InterfaceModelBackTypeLoginPasswordError)
+    {
+        isOverTime = NO;
+        //隐藏Loading
+        jxt_dismissHUD();
+    }
+    else if (interfaceModelBackType == InterfaceModelBackTypeFindPassword)
+    {
+        //先判断邮箱是否存在
+        [interfaceModel sendJsonPatientIDToServer:_acountTextField.text andPwd:nil];
+        
+    }
+    else if (interfaceModelBackType == InterfaceModelBackTypeGetPatientInfo)
+    {
+        patientInfo = value;
+        if (patientInfo.Email.length > 0)
+        {
+            //获取storyboard:通过bundle根据storyboard的名字来获取我们的storyboard,
+            UIStoryboard *story = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+            //由storyboard根据myView的storyBoardID来获取我们要切换的视图
+            
+            ForgotPasswordViewController *fpVC = [story instantiateViewControllerWithIdentifier:@"ForgotPassword"];
+            fpVC.patientInfo = patientInfo;
+            [self.navigationController pushViewController:fpVC animated:YES];
+        }
+        else
+        {
+            [JXTAlertView showToastViewWithTitle:@"Kindly Reminder" message:@"Your email is empty" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
+                NSLog(@"关闭");
+            }];
+        }
+        //将之前“忘记密码”按钮设置成用户可点击
+        _forgotPasswordBtn.userInteractionEnabled = YES;
+    }
+    else if (interfaceModelBackType == InterfaceModelBackTypeAccountNotExist)
+    {
+        _forgotPasswordBtn.userInteractionEnabled = YES;
+    }
+}
+
+//切换app的根视图控制器
+- (void)changeRoot
+{
+    //变更app的根视图控制器
+    UIApplication *app = [UIApplication sharedApplication];
+    AppDelegate *app2 =  (AppDelegate*)app.delegate;
+    app2.window.backgroundColor = [UIColor whiteColor];
+
+    HomeViewController *homeVC = [[HomeViewController alloc] init];
+    homeVC.patientInfo = patientInfo;
+    
+    UINavigationController *rootVC = [[UINavigationController alloc] initWithRootViewController:homeVC];
+    app2.window.rootViewController = rootVC;
+    
+    [app2.window makeKeyAndVisible];
+}
+
+#pragma loginTableView -- delegate
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 50;
+}
+#pragma loginTableView -- dataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 2;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [[UITableViewCell alloc] init];
+    cell.backgroundColor = [UIColor colorWithRed:0xF4/255.0 green:0xF4/255.0 blue:0xF4/255.0 alpha:1.0];
+    if (indexPath.row == 0)
+    {
+        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 20, 20)];
+        [headImageView setImage:[UIImage imageNamed:@"login_head"]];
+        [cell.contentView addSubview:headImageView];
+        
+        _acountTextField = [[UITextField alloc] initWithFrame:CGRectMake(50, 5, 240, 40)];
+        _acountTextField.font = [UIFont systemFontOfSize:18];
+        _acountTextField.placeholder = @"Acount";
+        [cell.contentView addSubview:_acountTextField];
+    }
+    else
+    {
+        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 15, 20, 20)];
+        [headImageView setImage:[UIImage imageNamed:@"login_password"]];
+        [cell.contentView addSubview:headImageView];
+        
+        _passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(50, 5, 240, 40)];
+        _passwordTextField.font = [UIFont systemFontOfSize:18];
+        _passwordTextField.placeholder = @"Password";
+        _passwordTextField.secureTextEntry = YES;
+        [cell.contentView addSubview:_passwordTextField];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    return cell;
 }
 
 - (void)didReceiveMemoryWarning {

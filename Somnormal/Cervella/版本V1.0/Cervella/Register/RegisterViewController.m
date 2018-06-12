@@ -42,25 +42,31 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    //UIView
     self.title = @"Register";
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    //添加返回按钮
+    
+    //back btn
     UIButton *backLogin = [UIButton buttonWithType:UIButtonTypeSystem];
     backLogin.frame = CGRectMake(12, 30, 23, 23);
     [backLogin setImage:[UIImage imageNamed:@"btn_back"] forState:UIControlStateNormal];
     [backLogin addTarget:self action:@selector(backLoginClick:) forControlEvents:UIControlEventTouchUpInside];
+    
     UIBarButtonItem *backLoginItem = [[UIBarButtonItem alloc] initWithCustomView:backLogin];
     //添加fixedButton是为了让backLoginItem往左边靠拢
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedButton.width = -10;
     self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
+    //tableView
     _registerTableView.scrollEnabled =NO; //设置tableview不能滚动
     _registerTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     _registerTableView.delegate = self;
     _registerTableView.dataSource = self;
     
+    
+    //Data
     _patientInfo = [[PatientInfo alloc] init];
 }
 

@@ -34,6 +34,7 @@
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent=YES;
+    
     //添加返回按钮
     UIButton *backLogin = [UIButton buttonWithType:UIButtonTypeSystem];
     backLogin.frame = CGRectMake(12, 30, 23, 23);
@@ -45,6 +46,7 @@
     fixedButton.width = -10;
     self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
+    //圆环
     myLayer=[[CAShapeLayer alloc] init];
     if (SCREENWIDTH==320)
     {
@@ -63,6 +65,7 @@
     myLayer.strokeColor = [UIColor colorWithRed:0.86f green:0.86f blue:0.86f alpha:0.4f].CGColor;
     myLayer.lineWidth = 10;
     
+    //百分比
     percentLabel=[[UILabel alloc] init];
     percentLabel.textAlignment=NSTextAlignmentCenter;
     percentLabel.font=[UIFont systemFontOfSize:20];
@@ -71,6 +74,8 @@
     lineOne.backgroundColor=[UIColor grayColor];
     [self.view addSubview:lineOne];
     
+    
+    //tableView
     _IntelligentHardwareTableView.contentInset=UIEdgeInsetsMake(-64, 0, 0, 0);
     _IntelligentHardwareTableView.scrollEnabled=NO;
     
@@ -145,7 +150,7 @@
     //progressLayer.path = [self drawPathWithArcCenter:([numberStr_One floatValue]*16+[numberStr_Two floatValue])/25];
     CGFloat position_y = myLayer.frame.size.height/2;
     CGFloat position_x = myLayer.frame.size.width/2;
-    progressLayer.path =[UIBezierPath bezierPathWithArcCenter:CGPointMake(position_x, position_y) radius:position_y startAngle:((3-([numberStr_One floatValue]*16+[numberStr_Two floatValue])/25)*M_PI/2) endAngle:(3*M_PI/2)clockwise:YES].CGPath;
+    progressLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(position_x, position_y) radius:position_y startAngle:((3-([numberStr_One floatValue]*16+[numberStr_Two floatValue])/25)*M_PI/2) endAngle:(3*M_PI/2)clockwise:YES].CGPath;
     
     progressLayer.fillColor = [UIColor clearColor].CGColor;
     progressLayer.strokeColor = [UIColor colorWithRed:184/255.0 green:233/255.0 blue:134/255.0 alpha:1.0].CGColor;

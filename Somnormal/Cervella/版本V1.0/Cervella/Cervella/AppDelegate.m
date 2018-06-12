@@ -27,19 +27,17 @@
     //从NSUserDefaults中获取存储的用户信息
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     NSString *userName = [userDefault objectForKey:@"PatientID"];
+    
+    UIViewController *rootVC = nil;
     if (userName.length == 0 || userName == nil)
     {
-        //1.获取工程当中名字为"Main"的storyboard
+        //登录 "Main"的storyboard
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        //2.设置LoginViewController为根视图控制器
         LoginViewController *rootView = (LoginViewController *)[mainStoryboard instantiateViewControllerWithIdentifier:@"loginView"];
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:rootView];
-        self.window.rootViewController = navController;
-        [self.window makeKeyAndVisible];
-    }
-    else
-    {
-        //1.从数据库读取数据传到主界面（读取NSUserDefaults中的该PatientID用户信息表信息、治疗数据、评估数据以及蓝牙外设，读完数据之后关闭数据库）
+        rootVC = rootView;
+        
+    } else {
+        //从数据库读取数据传到主界面（读取NSUserDefaults中的该PatientID用户信息表信息、治疗数据、评估数据以及蓝牙外设，读完数据之后关闭数据库）
         DataBaseOpration *dataBaseOpration = [[DataBaseOpration alloc] init];
         NSArray *bluetoothInfoArray=[dataBaseOpration getBluetoothDataFromDataBase];
         NSArray *patientInfoArray = [dataBaseOpration getPatientDataFromDataBase];
@@ -62,10 +60,12 @@
         HomeViewController *rootView = [[HomeViewController alloc] init];
         rootView.patientInfo = patientInfo;
         rootView.bluetoothInfo = bluetoothInfo;
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:rootView];
-        self.window.rootViewController = navController;
-        [self.window makeKeyAndVisible];
+        rootVC = rootView;
     }
+    
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:rootVC];
+    self.window.rootViewController = navController;
+    [self.window makeKeyAndVisible];
     
     return YES;
 }
