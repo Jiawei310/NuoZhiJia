@@ -42,9 +42,9 @@
 }
 
 
-- (void)selectBtnAction:(UIButton *)btn {
-    self.selector = btn.tag - 10;
-}
+//- (void)selectBtnAction:(UIButton *)btn {
+//    self.selector = btn.tag - 10;
+//}
 
 //tableView需要实现的代理方法
 #pragma mark - UITableViewDelegate,UITableViewDataSource
@@ -84,23 +84,36 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:Identifier];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Identifier];
-        
-        UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5, 0, 30,40)];
-        [selectBtn addTarget:self action:@selector(selectBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-        selectBtn.tag = indexPath.row + 10;
-        [cell.contentView addSubview:selectBtn];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5, 0, 30,40)];
+//        [selectBtn addTarget:self action:@selector(selectBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+//        selectBtn.tag = indexPath.row + 10;
+//        [cell.contentView addSubview:selectBtn];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5, 0, 30,40)];
+        imageView.tag = 10;
+        [cell.contentView addSubview:imageView];
     }
-    UIButton *selectBtn = [cell.contentView viewWithTag:indexPath.row + 10];
-    if (indexPath.row == self.selector)
-    {
-        [selectBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateNormal];
+//    UIButton *selectBtn = [cell.contentView viewWithTag:indexPath.row + 10];
+//    if (indexPath.row == self.selector)
+//    {
+//        [selectBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateNormal];
+//    } else {
+//        [selectBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
+//    }
+    UIImageView *imageView = [cell.contentView viewWithTag:10];
+    if (self.selector == indexPath.row) {
+        imageView.image = [UIImage imageNamed:@"selected"];
     } else {
-        [selectBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
+        imageView.image = [UIImage imageNamed:@"unselected"];
     }
     cell.textLabel.text = self.items[indexPath.row];
     
     return cell;
-    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selector = indexPath.row;
+    [self.tableView reloadData];
 }
 
 #pragma mark - get

@@ -136,6 +136,7 @@
 		D09E92541F14B257005D45C2 /* JustinMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D09E92531F14B257005D45C2 /* JustinMenu.m */; };
 		E905492D20D1078600F39334 /* ColorsSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492C20D1078600F39334 /* ColorsSliderView.m */; };
 		E905493020D11BFC00F39334 /* SelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492F20D11BFC00F39334 /* SelectView.m */; };
+		E905493320D125E200F39334 /* ImageTitleDetialView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905493220D125E200F39334 /* ImageTitleDetialView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -378,6 +379,8 @@
 		E905492C20D1078600F39334 /* ColorsSliderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorsSliderView.m; sourceTree = "<group>"; };
 		E905492E20D11BFC00F39334 /* SelectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectView.h; sourceTree = "<group>"; };
 		E905492F20D11BFC00F39334 /* SelectView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectView.m; sourceTree = "<group>"; };
+		E905493120D125E200F39334 /* ImageTitleDetialView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageTitleDetialView.h; sourceTree = "<group>"; };
+		E905493220D125E200F39334 /* ImageTitleDetialView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageTitleDetialView.m; sourceTree = "<group>"; };
 		E937B2C520C4DEEF00BDC5D8 /* Cervella-PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Cervella-PrefixHeader.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -726,6 +729,8 @@
 				E905492C20D1078600F39334 /* ColorsSliderView.m */,
 				E905492E20D11BFC00F39334 /* SelectView.h */,
 				E905492F20D11BFC00F39334 /* SelectView.m */,
+				E905493120D125E200F39334 /* ImageTitleDetialView.h */,
+				E905493220D125E200F39334 /* ImageTitleDetialView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1225,6 +1230,7 @@
 				D07B34BF1F13887D0077B2F9 /* AssessmentViewController.m in Sources */,
 				D07B34571F13591C0077B2F9 /* BindViewController.m in Sources */,
 				D04377CA1F04B2BE0061F279 /* SCNavTabBarController.m in Sources */,
+				E905493320D125E200F39334 /* ImageTitleDetialView.m in Sources */,
 				D04377BC1F03AB610061F279 /* ResetViewController.m in Sources */,
 				D043778F1F026E370061F279 /* UIImage+GIF.m in Sources */,
 				D07B34591F13591C0077B2F9 /* FreeBindViewController.m in Sources */,
