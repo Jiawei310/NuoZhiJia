@@ -12,10 +12,7 @@
 
 @interface SCNavTabBarController () <UIScrollViewDelegate, SCNavTabBarDelegate>
 {
-    NSInteger       _currentIndex;              // current page index
-    NSMutableArray  *_titles;                   // array of children view controller's title
-    
-    SCNavTabBar     *_navTabBar;                // NavTabBar: press item on it to exchange view
+    NSInteger       _currentIndex;              // current page index    
     UIScrollView    *_mainView;                 // content view
 }
 
@@ -25,13 +22,12 @@
 
 #pragma mark - Life Cycle
 #pragma mark -
-
 - (id)initWithShowArrowButton:(BOOL)show
 {
     self = [super init];
     if (self)
     {
-        _showArrowButton = show;
+        self.navTabBar.showArrowButton = show;
     }
     return self;
 }
@@ -60,7 +56,7 @@
 {
     self = [self initWithSubViewControllers:subControllers];
     
-    _showArrowButton = show;
+    self.navTabBar.showArrowButton = show;
     [self addParentController:viewController];
     return self;
 }
@@ -69,8 +65,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    [self initConfig];
+    _currentIndex = 1;
+
     [self viewConfig];
 }
 
@@ -81,40 +77,19 @@
 }
 
 #pragma mark - Private Methods
-#pragma mark -
-- (void)initConfig
-{
-    // Iinitialize value
-    _currentIndex = 1;
-    _navTabBarColor = _navTabBarColor ? _navTabBarColor : NavTabbarColor;
-    
-    // Load all title of children view controllers
-    _titles = [[NSMutableArray alloc] initWithCapacity:_subViewControllers.count];
-    for (UIViewController *viewController in _subViewControllers)
-    {
-        [_titles addObject:viewController.title];
-    }
-}
-
 - (void)viewInit
 {
     // Load NavTabBar and content view to show on window
-    _navTabBar = [[SCNavTabBar alloc] initWithFrame:CGRectMake(DOT_COORDINATE, DOT_COORDINATE, SCREEN_WIDTH, NAV_TAB_BAR_HEIGHT) showArrowButton:_showArrowButton];
-    _navTabBar.delegate = self;
-    _navTabBar.backgroundColor = _navTabBarColor;
-    _navTabBar.lineColor = _navTabBarLineColor;
-    _navTabBar.itemTitles = _titles;
-    _navTabBar.arrowImage = _navTabBarArrowImage;
-    [_navTabBar updateData];
+    [self.navTabBar updateData];
     
-    _mainView = [[UIScrollView alloc] initWithFrame:CGRectMake(DOT_COORDINATE, _navTabBar.frame.origin.y + _navTabBar.frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT - _navTabBar.frame.origin.y - _navTabBar.frame.size.height - STATUS_BAR_HEIGHT - NAVIGATION_BAR_HEIGHT)];
+    _mainView = [[UIScrollView alloc] initWithFrame:CGRectMake(DOT_COORDINATE,  self.navTabBar.frame.origin.y +  self.navTabBar.frame.size.height, SCREEN_WIDTH, SCREEN_HEIGHT -  self.navTabBar.frame.origin.y -  self.navTabBar.frame.size.height - STATUS_BAR_HEIGHT - NAVIGATION_BAR_HEIGHT)];
     _mainView.delegate = self;
     _mainView.pagingEnabled = YES;
     _mainView.bounces = _mainViewBounces;
     _mainView.showsHorizontalScrollIndicator = NO;
     _mainView.contentSize = CGSizeMake(SCREEN_WIDTH * _subViewControllers.count, DOT_COORDINATE);
     [self.view addSubview:_mainView];
-    [self.view addSubview:_navTabBar];
+    [self.view addSubview: self.navTabBar];
 }
 
 - (void)viewConfig
@@ -141,7 +116,7 @@
     {
         navTabbarColor = NavTabbarColor;
     }
-    _navTabBarColor = navTabbarColor;
+     self.navTabBar.backgroundColor = navTabbarColor;
 }
 
 - (void)addParentController:(UIViewController *)viewController
@@ -161,7 +136,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     _currentIndex = scrollView.contentOffset.x / SCREEN_WIDTH;
-    _navTabBar.currentItemIndex = _currentIndex;
+     self.navTabBar.currentItemIndex = _currentIndex;
 }
 
 #pragma mark - SCNavTabBarDelegate Methods
@@ -176,16 +151,25 @@
     if (pop)
     {
         [UIView animateWithDuration:0.5f animations:^{
-            _navTabBar.frame = CGRectMake(_navTabBar.frame.origin.x, _navTabBar.frame.origin.y, _navTabBar.frame.size.width, height + NAV_TAB_BAR_HEIGHT);
+             self.navTabBar.frame = CGRectMake( self.navTabBar.frame.origin.x,  self.navTabBar.frame.origin.y,  self.navTabBar.frame.size.width, height + NAV_TAB_BAR_HEIGHT);
         }];
     }
     else
     {
         [UIView animateWithDuration:0.5f animations:^{
-            _navTabBar.frame = CGRectMake(_navTabBar.frame.origin.x, _navTabBar.frame.origin.y, _navTabBar.frame.size.width, NAV_TAB_BAR_HEIGHT);
+             self.navTabBar.frame = CGRectMake( self.navTabBar.frame.origin.x,  self.navTabBar.frame.origin.y,  self.navTabBar.frame.size.width, NAV_TAB_BAR_HEIGHT);
         }];
     }
-    [_navTabBar refresh];
+    [ self.navTabBar refresh];
+}
+
+- (SCNavTabBar *)navTabBar {
+    if (!_navTabBar) {
+        _navTabBar = [[SCNavTabBar alloc] initWithFrame:CGRectMake(DOT_COORDINATE, DOT_COORDINATE, SCREEN_WIDTH, NAV_TAB_BAR_HEIGHT)];
+        _navTabBar.delegate = self;
+        _navTabBar.backgroundColor = _navTabBar.backgroundColor ? _navTabBar.backgroundColor : NavTabbarColor;
+    }
+    return _navTabBar;
 }
 
 @end

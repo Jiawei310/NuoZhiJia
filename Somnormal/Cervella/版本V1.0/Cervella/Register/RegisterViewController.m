@@ -10,9 +10,10 @@
 
 #import "DatePickerView.h"
 
-@interface RegisterViewController ()<UITableViewDelegate, UITableViewDataSource>
+@interface RegisterViewController ()<UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *registerTableView;
+@property (weak, nonatomic) IBOutlet UIButton *RegisterBtn;
 
 @property (strong, nonatomic) PatientInfo *patientInfo;
 
@@ -27,6 +28,11 @@
 
 @property (strong, nonatomic) UIButton *maleBtn;
 @property (strong, nonatomic) UIButton *femaleBtn;
+
+@property (strong, nonatomic) UITextView *textView;
+@property (strong, nonatomic) UIButton *provisionBtn1;
+@property (strong, nonatomic) UIButton *provisionBtn2;
+@property (strong, nonatomic) UIButton *provisionBtn3;
 
 @end
 
@@ -59,6 +65,7 @@
     fixedButton.width = -10;
     self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
+    [self addTextView];
     //tableView
     _registerTableView.scrollEnabled =NO; //设置tableview不能滚动
     _registerTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -70,10 +77,65 @@
     _patientInfo = [[PatientInfo alloc] init];
 }
 
+- (void)addTextView {
+    UITextView *textView = [[UITextView alloc] init];
+    textView.frame = CGRectMake(0, self.registerTableView.frame.size.height + 15, self.view.frame.size.width, self.RegisterBtn.frame.origin.y - self.registerTableView.frame.size.height );
+    textView.delegate = self;
+    textView.editable = NO;
+    NSString *htmlStr =  @"<h4 align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TERMS OF SERVICE & PRIVACY POLICY</h4>    <p>INNOVATIVE NEUROLOGICAL DEVICES LLC, the makers of Cervella, take your privacy seriously. Before continuing, please read and understand our policies.</p>    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I confirm I am 18 years old or older.</p>    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I agree to the<a href=\"https://cervella.us/terms-of-service\">Terms of Service</a> and <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>. I consent to the collection, processing, and disclosure of my de-identified treatment activity data by INNOVATIVE NEUROLOGICAL DEVICES LLC as described in the <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>. I have the right to withdraw my consent at any time as described in the <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>.</p>    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I give my permission to receive marketing communications from INNOVATIVE NEUROLOGICAL DEVICES LLC about products and services that may be of interest to me. I understand that I have the right to opt-out from marketing communications at any time per the <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>.</p>";
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithData:[htmlStr dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType} documentAttributes:nil error:nil];
+    textView.attributedText = str;
+    
+    _provisionBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    _provisionBtn1.frame = CGRectMake(10, 99, 14, 14);
+    _provisionBtn1.backgroundColor = [UIColor blueColor];
+    [_provisionBtn1 addTarget:self action:@selector(provisionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [textView addSubview:_provisionBtn1];
+    
+    _provisionBtn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    _provisionBtn2.frame = CGRectMake(10, 127, 14, 14);
+    _provisionBtn2.backgroundColor = [UIColor blueColor];
+    [_provisionBtn2 addTarget:self action:@selector(provisionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [textView addSubview:_provisionBtn2];
+    
+    _provisionBtn3 = [UIButton buttonWithType:UIButtonTypeCustom];
+    _provisionBtn3.frame = CGRectMake(10, 217, 14, 14);
+    _provisionBtn3.backgroundColor = [UIColor blueColor];
+    [_provisionBtn3 addTarget:self action:@selector(provisionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [textView addSubview:_provisionBtn3];
+    
+    [self.view addSubview:textView];
+}
+
+- (void)provisionButtonAction:(UIButton *)btn {
+    btn.selected = !btn.selected;
+    if (self.provisionBtn1.selected && self.provisionBtn2.selected) {
+        self.RegisterBtn.backgroundColor = [UIColor colorWithRed:37/255.0 green:126/255.0 blue:214/255.0 alpha:1];
+        self.RegisterBtn.enabled = YES;
+    } else {
+        self.RegisterBtn.backgroundColor = [UIColor lightGrayColor];
+        self.RegisterBtn.enabled = NO;
+    }
+}
+
 //返回按钮点击事件
 - (void)backLoginClick:(UIButton *)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - UITextViewDelegate
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    if ([[URL scheme] isEqualToString:@"url1"]) {
+        NSString * url = [URL host];
+        
+        NSLog(@"%@",url);
+        
+        // 在这里利用url做点什么事情......
+        
+        return NO;
+    }
+    return YES;
 }
 
 #pragma loginTableView -- delegate
@@ -100,7 +162,7 @@
         
         _acountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 5, 230, 40)];
         _acountTextField.font = [UIFont systemFontOfSize:18];
-        _acountTextField.placeholder = @"Acount";
+        _acountTextField.placeholder = @"Username";
         [cell.contentView addSubview:_acountTextField];
     }
     else if (indexPath.row == 1)
@@ -270,7 +332,7 @@
     if (_acountTextField.text.length == 0)
     {
         //提示账号不可为空
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Account number must be entered");
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"请提供有效的电子邮件地址");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -301,6 +363,12 @@
     else if(_birthTextField.text == nil)
     {
         jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Please select Date of birth");
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            jxt_dismissHUD();
+        });
+    }
+    else if (!self.provisionBtn1.selected || !self.provisionBtn2.selected) {
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"请同意协议");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });

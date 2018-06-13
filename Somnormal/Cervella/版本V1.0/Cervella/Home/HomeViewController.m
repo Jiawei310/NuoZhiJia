@@ -10,8 +10,6 @@
 
 #import "BLEInfo.h"
 
-//#import "JustinMenu.h"
-
 #import "SCNavTabBarController.h"
 
 #import "StartsViewController.h"
@@ -57,7 +55,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     UIButton *btn_Menu=[UIButton buttonWithType:UIButtonTypeSystem];
-    btn_Menu.frame=CGRectMake(0, 0, SCREENWIDTH/12, 22);
+    btn_Menu.frame=CGRectMake(0, 0, 44, 44);
     [btn_Menu setBackgroundImage:[UIImage imageNamed:@"ces_menu"] forState:UIControlStateNormal];
     [btn_Menu addTarget:self action:@selector(addMenuView) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *menu_Item=[[UIBarButtonItem alloc] initWithCustomView:btn_Menu];
@@ -65,21 +63,28 @@
     
     //tabbar
     StartsViewController *startsVC = [[StartsViewController alloc] init];
-    startsVC.title = @"Start";
+    NSDictionary *homeImageDict = @{selectedImage:@"homeSelectedImage", normalImage:@"homeNormalImage"};
+    
     startsVC.patientInfo = _patientInfo;
     startsVC.bluetoothInfo = _bluetoothInfo;
     startsVC.delegate = self;
     
     AssessViewController *assessVC = [[AssessViewController alloc] init];
-    assessVC.title = @"Assess";
+    NSDictionary *assessImageDict = @{selectedImage:@"assessSelectedImage", normalImage:@"assessNormalImage"};
+
     assessVC.patientInfo = _patientInfo;
     
     MeViewController *meVC = [[MeViewController alloc] init];
-    meVC.title = @"Me";
+    NSDictionary *meImageDict = @{selectedImage:@"meSelectedImage", normalImage:@"meNormalIamge"};
+
     meVC.patientInfo = _patientInfo;
     
     SCNavTabBarController *navTabBarController = [[SCNavTabBarController alloc] init];
     navTabBarController.subViewControllers = @[startsVC, assessVC, meVC];
+    navTabBarController.navTabBar.itemTitles = @[@"Start", @"Assess", @"Me"];
+
+    navTabBarController.navTabBar.isNavTabBarImage = YES;
+    navTabBarController.navTabBar.itemImages = @[homeImageDict, assessImageDict, meImageDict];
     [navTabBarController addParentController:self];
     
     //注册通知
@@ -496,46 +501,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-
-
-//#pragma mark -
-//- (void)addNewMenuView:(UIButton *)sender
-//{
-//    NSArray *menuItems = @[
-//
-//      [JustinMenuItem menuItem:@"Binding"
-//                     image:[UIImage imageNamed:@"menu_device"]
-//                    target:self
-//                    action:@selector(pushMenuItem:)],
-//      [JustinMenuItem menuItem:@"About"
-//                         image:[UIImage imageNamed:@"menu_company"]
-//                        target:self
-//                        action:@selector(pushMenuItem:)],
-//      [JustinMenuItem menuItem:@"Help"
-//                         image:[UIImage imageNamed:@"help"]
-//                        target:self
-//                        action:@selector(pushMenuItem:)],
-//      ];
-//
-//    JustinMenuItem *first = menuItems[0];
-//    first.foreColor = [UIColor colorWithRed:47/255.0f green:112/255.0f blue:225/255.0f alpha:1.0];
-//    first.alignment = NSTextAlignmentCenter;
-//
-//    NSLog(@"%f,%f,%f,%f",sender.frame.origin.x,sender.frame.origin.y,sender.frame.size.width,sender.frame.size.height);
-//    [JustinMenu showMenuInView:self.view
-//                      fromRect:CGRectMake(sender.frame.origin.x,sender.frame.origin.y - 30,sender.frame.size.width,sender.frame.size.height)
-//                     menuItems:menuItems];
-//}
-//
-//- (void)pushMenuItem:(id)sender
-//{
-//    NSLog(@"%@", sender);
-//}
-
-
-
 
 /*
 #pragma mark - Navigation

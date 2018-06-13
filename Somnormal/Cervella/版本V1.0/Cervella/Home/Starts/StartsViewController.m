@@ -12,8 +12,9 @@
 #import "AutoSlider.h"
 
 #import "BindViewController.h"
+#import "ColorsSliderView.h"
 
-@interface StartsViewController ()<UITableViewDelegate,UITableViewDataSource,NSXMLParserDelegate,NSURLConnectionDelegate>
+@interface StartsViewController ()<UITableViewDelegate,UITableViewDataSource,NSXMLParserDelegate,NSURLConnectionDelegate, ColorsSliderViewDelegate>
 
 @property (strong, nonatomic) NSTimer *CircleProgressTimer;
 @property (assign, nonatomic) double initialProgress;
@@ -34,6 +35,7 @@
     UIButton *leftButton;
     UIButton *rightButton;
     AutoSlider *slider;
+    ColorsSliderView *colorsSliderView;
     
     UIButton *modelButton;                 //刺激模式按钮
     
@@ -243,7 +245,7 @@
     [electricView setImage:[UIImage imageNamed:@"ces_strength"]];
     
     UILabel *electricLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/12+SCREENWIDTH/10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT/30, SCREENWIDTH/2, CES_SCREENH_HEIGHT/16)];
-    electricLabel.text=@"Intensity Control";
+    electricLabel.text=@"Intensity Level";
     electricNumLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH-SCREENWIDTH/4, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT/30, SCREENWIDTH/8, CES_SCREENH_HEIGHT/16)];
     if (SCREENWIDTH==320)
     {
@@ -267,126 +269,44 @@
     [self.view addSubview:electricLabel];
     [self.view addSubview:electricNumLabel];
     
-    //添加进度条以及左右加减按钮控制刺激强度
-    //1.添加左边－按钮
-    leftButton=[UIButton buttonWithType:UIButtonTypeSystem];
-    leftButton.tag=1;
-    leftButton.frame=CGRectMake(SCREENWIDTH*2/20, SCREENHEIGHT/6.6, SCREENWIDTH/20, SCREENWIDTH/20);
-    [leftButton setBackgroundImage:[UIImage imageNamed:@"minus"] forState:UIControlStateNormal];
-    [leftButton addTarget:self action:@selector(reduceIntensityClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:leftButton];
-    //2.添加进度条
-    slider=[[AutoSlider alloc] initWithFrame:CGRectMake(SCREENWIDTH/5, SCREENHEIGHT/8, SCREENWIDTH*3/5, SCREENWIDTH/7) titles:@[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12"] defaultIndex:electricCurrentNum sliderImage:[UIImage imageNamed:@"seek_thumb"]];
-    [self.view addSubview:slider];
-    __weak typeof (UILabel) *elecNumLabel = electricNumLabel;
-    __weak typeof (self) weakSelf = self;
-    slider.block=^(int index){
-        electricCurrentNum=index;
-        NSString *str=[NSString stringWithFormat:@"%ld",(long)index];
-        elecNumLabel.text=str;
-        [weakSelf sendElectricSetOrder];
-        NSLog(@"当前index==%d",index);
-    };
-    //3.添加右边边＋按钮
-    rightButton=[UIButton buttonWithType:UIButtonTypeSystem];
-    rightButton.tag=1;
-    rightButton.frame=CGRectMake(SCREENWIDTH*17/20, SCREENHEIGHT/6.6, SCREENWIDTH/20, SCREENWIDTH/20);
-    [rightButton setBackgroundImage:[UIImage imageNamed:@"plus"] forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(increaseIntensityClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:rightButton];
+    colorsSliderView = [[ColorsSliderView alloc] init];
+    CGFloat w = colorSliderd_d * 11 + colorSliderWidth * 10;
+    colorsSliderView.frame = CGRectMake((SCREENWIDTH - w)/2.0, SCREENHEIGHT/6.6, w, 40);
+    colorsSliderView.delegate = self;
+    [self.view addSubview:colorsSliderView];
 }
 
-//左边减少刺激强度按钮点击事件（只可逐渐减1档刺激强度）
--(void)reduceIntensityClick:(UIButton *)sender
-{
-    if (sender.tag==1)
-    {
-        if (electricCurrentNum>1)
-        {
-            electricCurrentNum--;
-            NSString *str=[NSString stringWithFormat:@"%ld",(long)electricCurrentNum];
-            electricNumLabel.text=str;
-        }
-        else
-        {
-            alert = [[UIAlertView alloc] initWithTitle:nil message:@"The intensity is mininum" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-            [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(performDismissAtCES:) userInfo:nil repeats:NO];
-            [alert show];
-        }
-        slider.locationIndex=electricCurrentNum;
-        [self sendElectricSetOrder];
-    }
-    else
-    {
-        alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please connect to Cervella" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-        [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(performDismissAtCES:) userInfo:nil repeats:NO];
-        [alert show];
-    }
+//ColorsSliderViewDelegate
+- (void)selectIndex:(NSInteger)index {
+    electricCurrentNum = index;
+    NSString *str = [NSString stringWithFormat:@"%ld",(long)electricCurrentNum];
+    electricNumLabel.text= str ;
+    [self sendElectricSetOrder];
 }
 
-//右边增加刺激强度按钮点击事件（只可逐渐加1档刺激强度）
--(void)increaseIntensityClick:(UIButton *)sender
-{
-    if (sender.tag==1)
-    {
-        if (electricCurrentNum<12)
-        {
-            electricCurrentNum++;
-            NSString *str=[NSString stringWithFormat:@"%ld",(long)electricCurrentNum];
-            electricNumLabel.text=str;
-        }
-        else
-        {
-            alert = [[UIAlertView alloc] initWithTitle:nil message:@"The intensity is maxinum" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-            [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(performDismissAtCES:) userInfo:nil repeats:NO];
-            [alert show];
-        }
-        slider.locationIndex=electricCurrentNum;
-        [self sendElectricSetOrder];
-    }
-    else
-    {
-        alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please connect to Cervella" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-        [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(performDismissAtCES:) userInfo:nil repeats:NO];
-        [alert show];
-    }
-}
 /***************第二、三部分合并**************/
 -(void)addSectionTwoAndThree
 {
-    UIImageView *modelView=[[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/15, CES_SCREENH_HEIGHT/21)];
+    //Frequency
+    UIImageView *modelView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/15, CES_SCREENH_HEIGHT/21)];
     [modelView setImage:[UIImage imageNamed:@"ces_freq"]];
-    UILabel *modelLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/12+SCREENWIDTH/10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/4, CES_SCREENH_HEIGHT/16)];
-    modelLabel.text=@"Mode";
-    modelButton=[UIButton buttonWithType:UIButtonTypeSystem];
-    modelButton.tag=3;
-    modelButton.frame=CGRectMake(SCREENWIDTH-SCREENWIDTH*3.5/8, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16);
-    if (SCREENWIDTH==320)
-    {
-        modelLabel.font=[UIFont systemFontOfSize:20];
-        modelButton.titleLabel.font=[UIFont systemFontOfSize:20];
-    }
-    else if (SCREENWIDTH==375)
-    {
-        modelLabel.font=[UIFont systemFontOfSize:22.5];
-        modelButton.titleLabel.font=[UIFont systemFontOfSize:22.5];
-    }
-    else
-    {
-        modelLabel.font=[UIFont systemFontOfSize:25];
-        modelButton.titleLabel.font=[UIFont systemFontOfSize:25];
-    }
+    
+    UILabel *modelLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/12+SCREENWIDTH/10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16)];
+    modelLabel.text=@"Frequency";
+    modelButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    modelButton.tag = 1;//3;
+    modelButton.frame = CGRectMake(SCREENWIDTH-SCREENWIDTH*3.5/8, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16);
     if (modelIndex==0)
     {
-        [modelButton setTitle:@"Mode 1" forState:UIControlStateNormal];
+        [modelButton setTitle:@"0.5Hz" forState:UIControlStateNormal];
     }
     else if (modelIndex==1)
     {
-        [modelButton setTitle:@"Mode 2" forState:UIControlStateNormal];
+        [modelButton setTitle:@"1.5Hz" forState:UIControlStateNormal];
     }
     else if (modelIndex==2)
     {
-        [modelButton setTitle:@"Mode 3" forState:UIControlStateNormal];
+        [modelButton setTitle:@"100Hz" forState:UIControlStateNormal];
     }
     
     [modelButton addTarget:self action:@selector(chooseModel:) forControlEvents:UIControlEventTouchUpInside];
@@ -395,7 +315,78 @@
     [self.view addSubview:modelLabel];
     [self.view addSubview:modelButton];
     
+//    //Time
+//    UIImageView *timeView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/15, CES_SCREENH_HEIGHT/21)];
+//    [timeView setImage:[UIImage imageNamed:@"ces_freq"]];
+//    
+//    UILabel *timeLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/12+SCREENWIDTH/10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16)];
+//    timeLabel.text=@"Time";
+//    modelButton = [UIButton buttonWithType:UIButtonTypeSystem];
+////    modelButton.tag = 3;
+//    modelButton.frame = CGRectMake(SCREENWIDTH-SCREENWIDTH*3.5/8, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16);
+//    if (modelIndex==0)
+//    {
+//        [modelButton setTitle:@"0.5Hz" forState:UIControlStateNormal];
+//    }
+//    else if (modelIndex==1)
+//    {
+//        [modelButton setTitle:@"1.5Hz" forState:UIControlStateNormal];
+//    }
+//    else if (modelIndex==2)
+//    {
+//        [modelButton setTitle:@"100Hz" forState:UIControlStateNormal];
+//    }
+//    
+//    [modelButton addTarget:self action:@selector(chooseModel:) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    [self.view addSubview:modelView];
+//    [self.view addSubview:modelLabel];
+//    [self.view addSubview:modelButton];
 }
+
+//实现刺激模式选择
+-(void)chooseModel:(UIButton *)sender
+{
+    if (sender.tag == 1)
+    {
+        [self addAGrayView:120];
+    }
+    else if (sender.tag==2)
+    {
+        //提示刺激过程中不可被点击
+        alert = [[UIAlertView alloc] initWithTitle:nil message:@"Parameter can't be changed during stimulation.Please stop the stimulation first" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(performDismissAtCES:) userInfo:nil repeats:NO];
+        [alert show];
+    }
+    else if (sender.tag==3)
+    {
+        alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please connect to Cervella" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+        [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(performDismissAtCES:) userInfo:nil repeats:NO];
+        [alert show];
+    }
+}
+
+//添加一层半透明灰色的UIview
+-(void)addAGrayView:(CGFloat)tableviewHeight
+{
+    view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
+    view.backgroundColor=[UIColor colorWithWhite:0.1 alpha:0.5];
+    [self.view.window addSubview:view];
+    
+    [modelButtonArray removeAllObjects];
+    
+    tableView=[[UITableView alloc] initWithFrame:CGRectMake(SCREENWIDTH/10, SCREENHEIGHT*3/8, SCREENWIDTH*4/5, tableviewHeight+SCREENHEIGHT/20)];
+    [tableView.layer setCornerRadius:10.0];
+    tableView.backgroundColor=[UIColor whiteColor];
+    tableView.delegate=self;
+    tableView.dataSource=self;
+    
+    [view.window addSubview:tableView];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handletapPressGestures:)];
+    [view addGestureRecognizer:tapGesture];
+}
+
 /***************第四部分**************/
 -(void)addSectionFour
 {
@@ -580,26 +571,7 @@
     [progressLayer addAnimation:pathAnimation forKey:nil];
 }
 
-//添加一层半透明灰色的UIview
--(void)addAGrayView:(CGFloat)tableviewHeight
-{
-    view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
-    view.backgroundColor=[UIColor colorWithWhite:0.1 alpha:0.5];
-    [self.view.window addSubview:view];
-    
-    [modelButtonArray removeAllObjects];
-    
-    tableView=[[UITableView alloc] initWithFrame:CGRectMake(SCREENWIDTH/10, SCREENHEIGHT*3/8, SCREENWIDTH*4/5, tableviewHeight+SCREENHEIGHT/20)];
-    [tableView.layer setCornerRadius:10.0];
-    tableView.backgroundColor=[UIColor whiteColor];
-    tableView.delegate=self;
-    tableView.dataSource=self;
-    
-    [view.window addSubview:tableView];
-    
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handletapPressGestures:)];
-    [view addGestureRecognizer:tapGesture];
-}
+
 
 //点击弹出view之外的地方清楚弹出的view
 -(void)handletapPressGestures:(UITapGestureRecognizer*)sender
@@ -612,28 +584,7 @@
     }
 }
 
-//实现刺激模式选择
--(void)chooseModel:(UIButton *)sender
-{
-    if (sender.tag==1)
-    {
-        [self addAGrayView:120];
-    }
-    else if (sender.tag==2)
-    {
-        //提示刺激过程中不可被点击
-        alert = [[UIAlertView alloc] initWithTitle:nil message:@"Parameter can't be changed during stimulation.Please stop the stimulation first" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-        [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(performDismissAtCES:) userInfo:nil repeats:NO];
-        [alert show];
-    }
-    else if (sender.tag==3)
-    {
-        //提示刺激过程中不可被点击
-        alert = [[UIAlertView alloc] initWithTitle:nil message:@"Please connect to Cervella" delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
-        [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(performDismissAtCES:) userInfo:nil repeats:NO];
-        [alert show];
-    }
-}
+
 
 //圆形操作按钮点击事件（绑定疗疗、开始点刺激、停止等等）
 -(void)optionButtonClick:(UIButton *)sender
@@ -2107,15 +2058,15 @@
     
     if([[modelArray objectAtIndex:indexPath.row] isEqualToString:@"1"])
     {
-        cell.textLabel.text=@"Mode 1";
+        cell.textLabel.text=@"0.5Hz";
     }
     else if([[modelArray objectAtIndex:indexPath.row] isEqualToString:@"2"])
     {
-        cell.textLabel.text=@"Mode 2";
+        cell.textLabel.text=@"1.5Hz";
     }
     else if([[modelArray objectAtIndex:indexPath.row] isEqualToString:@"3"])
     {
-        cell.textLabel.text=@"Mode 3";
+        cell.textLabel.text=@"100Hz";
     }
     
     if (SCREENWIDTH==320)

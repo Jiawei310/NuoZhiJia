@@ -18,9 +18,8 @@
     UIView          *_line;                 // underscore show which item selected
     SCPopView       *_popView;              // when item menu, will show this view
     
-    NSMutableArray  *_items;                // SCNavTabBar pressed item
-    NSArray         *_itemsWidth;           // an array of items' width
-    BOOL            _showArrowButton;       // is showed arrow button
+    NSMutableArray  *_itemBtns;                // SCNavTabBar pressed item
+    NSArray         *_itemBtnsWidth;           // an array of items' width
     BOOL            _popItemMenu;           // is needed pop item menu
 }
 
@@ -28,13 +27,12 @@
 
 @implementation SCNavTabBar
 
-- (id)initWithFrame:(CGRect)frame showArrowButton:(BOOL)show
+- (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
     {
-        _showArrowButton = show;
-        [self initConfig];
+        
     }
     return self;
 }
@@ -44,7 +42,7 @@
 
 - (void)initConfig
 {
-    _items = [@[] mutableCopy];
+    _itemBtns = [@[] mutableCopy];
     _arrowImage = [UIImage imageNamed:SCNavTabbarSourceName(@"arrow.png")];
     
     [self viewConfig];
@@ -84,17 +82,27 @@
 - (CGFloat)contentWidthAndAddNavTabBarItemsWithButtonsWidth:(NSArray *)widths
 {
     CGFloat buttonX = DOT_COORDINATE;
-    for (NSInteger index = 0; index < [_itemTitles count]; index++)
+    for (NSInteger index = 0; index < self.itemCount; index++)
     {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue], NAV_TAB_BAR_HEIGHT);
-        [button setTitle:_itemTitles[index] forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont systemFontOfSize:23];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        if (self.isNavTabBarImage) {
+            [button setImage:[UIImage imageNamed:self.itemImages[index][normalImage]] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:self.itemImages[index][selectedImage]] forState:UIControlStateSelected];
+            [button setImageEdgeInsets:UIEdgeInsetsMake(5, 45, 5, 45)];//top left bottom right
+        } else {
+            [button setTitle:_itemTitles[index] forState:UIControlStateNormal];
+            button.titleLabel.font = [UIFont systemFontOfSize:23];
+            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        }
+        if (index == 0) {
+            button.selected = YES;
+        }
         [button addTarget:self action:@selector(itemPressed:) forControlEvents:UIControlEventTouchUpInside];
+        
         [_navgationTabBar addSubview:button];
         
-        [_items addObject:button];
+        [_itemBtns addObject:button];
         buttonX += [widths[index] floatValue];
     }
     
@@ -110,7 +118,14 @@
 
 - (void)itemPressed:(UIButton *)button
 {
-    NSInteger index = [_items indexOfObject:button];
+    for (UIButton *btn in _itemBtns) {
+        if (button == btn) {
+            btn.selected = YES;
+        } else {
+            btn.selected = NO;
+        }
+    }
+    NSInteger index = [_itemBtns indexOfObject:button];
     [_delegate itemDidSelectedWithIndex:index];
 }
 
@@ -120,19 +135,12 @@
     [_delegate shouldPopNavgationItemMenu:_popItemMenu height:[self popMenuHeight]];
 }
 
-- (NSArray *)getButtonsWidthWithTitles:(NSArray *)titles;
+- (NSArray *)getButtonsWidthWithTitles:(NSInteger )count;
 {
     NSMutableArray *widths = [@[] mutableCopy];
-    
-//    for (NSString *title in titles)
-//    {
-//        CGSize size = [title sizeWithFont:[UIFont systemFontOfSize:[UIFont systemFontSize]]];
-//        NSNumber *width = [NSNumber numberWithFloat:size.width + 40.0f];
-//        [widths addObject:width];
-//    }
-    for (int i = 0; i < titles.count; i++)
+    for (int i = 0; i < count; i++)
     {
-        NSNumber *width = [NSNumber numberWithFloat:SCREENWIDTH/titles.count];
+        NSNumber *width = [NSNumber numberWithFloat:SCREENWIDTH/count];
         [widths addObject:width];
     }
     
@@ -150,12 +158,12 @@
     CGFloat buttonX = DOT_COORDINATE;
     CGFloat buttonY = ITEM_HEIGHT;
     CGFloat maxHeight = SCREEN_HEIGHT - STATUS_BAR_HEIGHT - NAVIGATION_BAR_HEIGHT - NAV_TAB_BAR_HEIGHT;
-    for (NSInteger index = 0; index < [_itemsWidth count]; index++)
+    for (NSInteger index = 0; index < [_itemBtnsWidth count]; index++)
     {
-        buttonX += [_itemsWidth[index] floatValue];
+        buttonX += [_itemBtnsWidth[index] floatValue];
         
         @try {
-            if ((buttonX + [_itemsWidth[index + 1] floatValue]) >= SCREEN_WIDTH)
+            if ((buttonX + [_itemBtnsWidth[index + 1] floatValue]) >= SCREEN_WIDTH)
             {
                 buttonX = DOT_COORDINATE;
                 buttonY += ITEM_HEIGHT;
@@ -217,13 +225,14 @@
 - (void)setCurrentItemIndex:(NSInteger)currentItemIndex
 {
     _currentItemIndex = currentItemIndex;
-    UIButton *button = _items[currentItemIndex];
+    UIButton *button = _itemBtns[currentItemIndex];
     CGFloat flag = _showArrowButton ? (SCREEN_WIDTH - ARROW_BUTTON_WIDTH) : SCREEN_WIDTH;
     
     if (button.frame.origin.x + button.frame.size.width > flag)
     {
         CGFloat offsetX = button.frame.origin.x + button.frame.size.width - flag;
-        if (_currentItemIndex < [_itemTitles count] - 1)
+        
+        if (_currentItemIndex < self.itemCount - 1)
         {
             offsetX = offsetX + 40.0f;
         }
@@ -236,18 +245,19 @@
     }
     
     [UIView animateWithDuration:0.2f animations:^{
-        _line.frame = CGRectMake(button.frame.origin.x + 2.0f, _line.frame.origin.y, [_itemsWidth[currentItemIndex] floatValue] - 4.0f, _line.frame.size.height);
+        _line.frame = CGRectMake(button.frame.origin.x + 2.0f, _line.frame.origin.y, [_itemBtnsWidth[currentItemIndex] floatValue] - 4.0f, _line.frame.size.height);
     }];
 }
 
 - (void)updateData
 {
+    [self initConfig];
     _arrowButton.backgroundColor = self.backgroundColor;
     
-    _itemsWidth = [self getButtonsWidthWithTitles:_itemTitles];
-    if (_itemsWidth.count)
+    _itemBtnsWidth = [self getButtonsWidthWithTitles:self.itemCount];
+    if (_itemBtnsWidth.count)
     {
-        CGFloat contentWidth = [self contentWidthAndAddNavTabBarItemsWithButtonsWidth:_itemsWidth];
+        CGFloat contentWidth = [self contentWidthAndAddNavTabBarItemsWithButtonsWidth:_itemBtnsWidth];
         _navgationTabBar.contentSize = CGSizeMake(contentWidth, DOT_COORDINATE);
     }
 }
@@ -263,6 +273,14 @@
 {
     [self functionButtonPressed];
     [_delegate itemDidSelectedWithIndex:index];
+}
+
+- (NSInteger )itemCount {
+    NSInteger count = self.itemTitles.count;
+    if (self.isNavTabBarImage) {
+        count = self.itemImages.count;
+    }
+    return count;
 }
 
 @end

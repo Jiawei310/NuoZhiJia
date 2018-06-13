@@ -44,6 +44,12 @@
     
     //UIView
     self.title = @"Cervella";
+//    UILabel *titleLab = [[UILabel alloc] init];
+//    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
+//    titleLab.text = @"Cervella";
+//    titleLab.textColor = [UIColor whiteColor];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
+
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
@@ -83,14 +89,14 @@
     //判断账号密码，之后再加入NSUserDefault当中，便于之后直接进入
     if(_acountTextField.text.length == 0)
     {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Account number must be entered");
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"用户名错误，请核对后重新输入");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
     }
     else if(_passwordTextField.text.length == 0)
     {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Password must be entered");
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"密码输入错误，请重新输入");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -125,7 +131,7 @@
     //判断输入的账号在后台有没有，有的话再判断有没有绑定邮箱
     if (_acountTextField.text.length == 0)
     {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Account number must be entered");
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"用户名错误，请核对后重新输入");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -183,7 +189,7 @@
         }
         else
         {
-            [JXTAlertView showToastViewWithTitle:@"Kindly Reminder" message:@"Your email is empty" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
+            [JXTAlertView showToastViewWithTitle:@"Kindly Reminder" message:@"用户名错误，请核对后重新输入" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
                 NSLog(@"关闭");
             }];
         }
@@ -236,7 +242,7 @@
         
         _acountTextField = [[UITextField alloc] initWithFrame:CGRectMake(50, 5, 240, 40)];
         _acountTextField.font = [UIFont systemFontOfSize:18];
-        _acountTextField.placeholder = @"Acount";
+        _acountTextField.placeholder = @"Username";
         [cell.contentView addSubview:_acountTextField];
     }
     else

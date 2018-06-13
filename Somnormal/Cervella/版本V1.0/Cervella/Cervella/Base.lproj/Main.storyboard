@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ury-AT-mFY">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Ury-AT-mFY">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -120,14 +120,14 @@
                                     <constraint firstAttribute="height" constant="250" id="api-Qd-AO3"/>
                                 </constraints>
                             </tableView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z0Z-0w-dJF">
-                                <rect key="frame" x="10" y="364" width="300" height="40"/>
-                                <color key="backgroundColor" red="0.1450980392" green="0.4941176471" blue="0.83921568629999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z0Z-0w-dJF">
+                                <rect key="frame" x="10" y="508" width="300" height="40"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="bMz-SA-8ZN"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Register and Login">
+                                <state key="normal" title="I AGREE">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -142,10 +142,11 @@
                             <constraint firstItem="ffb-ET-ogC" firstAttribute="top" secondItem="s7q-Dv-joF" secondAttribute="bottom" id="Pz4-Im-ZzR"/>
                             <constraint firstAttribute="trailing" secondItem="Z0Z-0w-dJF" secondAttribute="trailing" constant="10" id="XD4-7K-Yr5"/>
                             <constraint firstItem="Z0Z-0w-dJF" firstAttribute="leading" secondItem="UhZ-5h-seV" secondAttribute="leading" constant="10" id="dfZ-mw-D5D"/>
-                            <constraint firstItem="Z0Z-0w-dJF" firstAttribute="top" secondItem="ffb-ET-ogC" secondAttribute="bottom" constant="50" id="gCf-Iq-t9x"/>
+                            <constraint firstItem="8Ge-iA-OdB" firstAttribute="top" secondItem="Z0Z-0w-dJF" secondAttribute="bottom" constant="20" id="vdK-tb-2lc"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="RegisterBtn" destination="Z0Z-0w-dJF" id="eo7-iR-ZCV"/>
                         <outlet property="registerTableView" destination="ffb-ET-ogC" id="DuE-r6-zoX"/>
                     </connections>
                 </viewController>
@@ -257,7 +258,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ury-AT-mFY" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="isj-Ee-rpg">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

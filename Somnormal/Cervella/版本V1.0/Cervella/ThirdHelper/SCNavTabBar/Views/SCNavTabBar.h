@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#define selectedImage @"selectedImage"
+#define normalImage   @"normalImage"
+
 @protocol SCNavTabBarDelegate <NSObject>
 
 @optional
@@ -31,22 +34,26 @@
 @interface SCNavTabBar : UIView
 
 @property (nonatomic, weak)     id          <SCNavTabBarDelegate>delegate;
+@property (nonatomic, assign)   BOOL        showArrowButton;            // Default value: YES
 
 @property (nonatomic, assign)   NSInteger   currentItemIndex;           // current selected item's index
 @property (nonatomic, strong)   NSArray     *itemTitles;                // all items' title
 
+@property (nonatomic, assign)   BOOL        isNavTabBarImage;            // Default value: NO
+@property (nonatomic, strong)   NSArray     *itemImages;                // all items' title
+
 @property (nonatomic, strong)   UIColor     *lineColor;                 // set the underscore color
 @property (nonatomic, strong)   UIImage     *arrowImage;                // set arrow button's image
+
 
 /**
  *  Initialize Methods
  *
  *  @param frame - SCNavTabBar frame
- *  @param show  - is show Arrow Button
  *
  *  @return Instance
  */
-- (id)initWithFrame:(CGRect)frame showArrowButton:(BOOL)show;
+- (id)initWithFrame:(CGRect)frame;
 
 /**
  *  Update Item Data

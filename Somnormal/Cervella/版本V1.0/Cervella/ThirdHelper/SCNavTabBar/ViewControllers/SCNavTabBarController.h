@@ -7,20 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@class SCNavTabBar;
+#import "SCNavTabBar.h"
 
 @interface SCNavTabBarController : UIViewController
 
-@property (nonatomic, assign)   BOOL        showArrowButton;            // Default value: YES
 @property (nonatomic, assign)   BOOL        scrollAnimation;            // Default value: NO
 @property (nonatomic, assign)   BOOL        mainViewBounces;            // Default value: NO
 
+
 @property (nonatomic, strong)   NSArray     *subViewControllers;        // An array of children view controllers
 
-@property (nonatomic, strong)   UIColor     *navTabBarColor;            // Could not set [UIColor clear], if you set, NavTabbar will show initialize color
-@property (nonatomic, strong)   UIColor     *navTabBarLineColor;
-@property (nonatomic, strong)   UIImage     *navTabBarArrowImage;
+@property (nonatomic, strong)   SCNavTabBar *navTabBar;
 
 /**
  *  Initialize Methods

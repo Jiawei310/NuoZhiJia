@@ -134,6 +134,8 @@
 		D07B34C11F13887D0077B2F9 /* SleepTipsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = D07B34BD1F13887D0077B2F9 /* SleepTipsList.plist */; };
 		D07B34C51F13B1830077B2F9 /* UIButton+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = D07B34C41F13B1830077B2F9 /* UIButton+Common.m */; };
 		D09E92541F14B257005D45C2 /* JustinMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D09E92531F14B257005D45C2 /* JustinMenu.m */; };
+		E905492D20D1078600F39334 /* ColorsSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492C20D1078600F39334 /* ColorsSliderView.m */; };
+		E905493020D11BFC00F39334 /* SelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492F20D11BFC00F39334 /* SelectView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -372,6 +374,10 @@
 		D07B34C41F13B1830077B2F9 /* UIButton+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Common.m"; sourceTree = "<group>"; };
 		D09E92521F14B257005D45C2 /* JustinMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JustinMenu.h; sourceTree = "<group>"; };
 		D09E92531F14B257005D45C2 /* JustinMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JustinMenu.m; sourceTree = "<group>"; };
+		E905492B20D1078600F39334 /* ColorsSliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorsSliderView.h; sourceTree = "<group>"; };
+		E905492C20D1078600F39334 /* ColorsSliderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorsSliderView.m; sourceTree = "<group>"; };
+		E905492E20D11BFC00F39334 /* SelectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectView.h; sourceTree = "<group>"; };
+		E905492F20D11BFC00F39334 /* SelectView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectView.m; sourceTree = "<group>"; };
 		E937B2C520C4DEEF00BDC5D8 /* Cervella-PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Cervella-PrefixHeader.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -716,6 +722,10 @@
 				D09E92531F14B257005D45C2 /* JustinMenu.m */,
 				D004AAA91F307E8100449E0E /* UIButton+NoRepeat.h */,
 				D004AAAA1F307E8100449E0E /* UIButton+NoRepeat.m */,
+				E905492B20D1078600F39334 /* ColorsSliderView.h */,
+				E905492C20D1078600F39334 /* ColorsSliderView.m */,
+				E905492E20D11BFC00F39334 /* SelectView.h */,
+				E905492F20D11BFC00F39334 /* SelectView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1192,6 +1202,7 @@
 				D04376EF1F0252060061F279 /* RegisterViewController.m in Sources */,
 				D07B34731F135A2A0077B2F9 /* AttentionDetailViewController.m in Sources */,
 				D04377881F026E370061F279 /* SDWebImageCompat.m in Sources */,
+				E905492D20D1078600F39334 /* ColorsSliderView.m in Sources */,
 				D04377A41F0344620061F279 /* SKPSMTPMessage.m in Sources */,
 				D04377B41F0386240061F279 /* DatePickerView.m in Sources */,
 				D07B34AA1F135B3E0077B2F9 /* CommonProViewController.m in Sources */,
@@ -1233,6 +1244,7 @@
 				D022E0DF1F0F3BD800D92F7C /* AssessDataViewController.m in Sources */,
 				D07B34651F13596B0077B2F9 /* MethodViewController.m in Sources */,
 				D07B346A1F135A040077B2F9 /* PrincipleViewController.m in Sources */,
+				E905493020D11BFC00F39334 /* SelectView.m in Sources */,
 				D06B8C591F0142EE00531D8E /* ViewController.m in Sources */,
 				D04377841F026E370061F279 /* JXTAlertView.m in Sources */,
 				D07B345B1F13591C0077B2F9 /* IntelligentHardwareViewController.m in Sources */,
