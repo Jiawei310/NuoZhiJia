@@ -8,7 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+//@protocol ImageTitleDetialViewDelegate <NSObject>
+//- (void)selectIndex:(NSInteger)index;
+//@end
+
 @interface ImageTitleDetialView : UIView
+
 @property (nonatomic, strong) NSArray *items;
+@property (nonatomic, assign) NSInteger selector;
+
+//@property (nonatomic, weak) id<ImageTitleDetialViewDelegate>delegate;
+
+@property (copy) void (^imageTitleDetailViewBlock)(NSInteger);
 
 @end

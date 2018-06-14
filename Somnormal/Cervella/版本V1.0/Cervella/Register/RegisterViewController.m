@@ -89,18 +89,23 @@
     _provisionBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
     _provisionBtn1.frame = CGRectMake(10, 99, 14, 14);
     _provisionBtn1.backgroundColor = [UIColor blueColor];
+    [_provisionBtn1 setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
+    [_provisionBtn1 setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
     [_provisionBtn1 addTarget:self action:@selector(provisionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [textView addSubview:_provisionBtn1];
     
     _provisionBtn2 = [UIButton buttonWithType:UIButtonTypeCustom];
     _provisionBtn2.frame = CGRectMake(10, 127, 14, 14);
-    _provisionBtn2.backgroundColor = [UIColor blueColor];
+    [_provisionBtn2 setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
+    [_provisionBtn2 setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
     [_provisionBtn2 addTarget:self action:@selector(provisionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [textView addSubview:_provisionBtn2];
     
     _provisionBtn3 = [UIButton buttonWithType:UIButtonTypeCustom];
     _provisionBtn3.frame = CGRectMake(10, 217, 14, 14);
     _provisionBtn3.backgroundColor = [UIColor blueColor];
+    [_provisionBtn3 setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
+    [_provisionBtn3 setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
     [_provisionBtn3 addTarget:self action:@selector(provisionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [textView addSubview:_provisionBtn3];
     

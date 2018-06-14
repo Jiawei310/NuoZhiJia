@@ -12,7 +12,10 @@
 #import "AutoSlider.h"
 
 #import "BindViewController.h"
+
 #import "ColorsSliderView.h"
+#import "ImageTitleDetialView.h"
+#import "BluetoothStatusView.h"
 
 @interface StartsViewController ()<UITableViewDelegate,UITableViewDataSource,NSXMLParserDelegate,NSURLConnectionDelegate, ColorsSliderViewDelegate>
 
@@ -126,14 +129,6 @@
     
     //1.创建CBCentralManager
     self.centralMgr=[[CBCentralManager alloc] initWithDelegate:self queue:nil];
-    
-    //将CES界面分成四个部分
-    UIView *lineOne=[[UIView alloc] initWithFrame:CGRectMake(20, CES_SCREENH_HEIGHT/4+CES_SCREENH_HEIGHT/30, SCREENWIDTH-40, 0.5)];
-    lineOne.backgroundColor=[UIColor blackColor];
-    UIView *lineThree=[[UIView alloc] initWithFrame:CGRectMake(20, CES_SCREENH_HEIGHT/2, SCREENWIDTH-40, 0.5)];
-    lineThree.backgroundColor=[UIColor blackColor];
-    [self.view addSubview:lineOne];
-    [self.view addSubview:lineThree];
     
     modelArray=[NSArray arrayWithObjects:@"1",@"2",@"3", nil];
     
@@ -287,42 +282,26 @@
 /***************第二、三部分合并**************/
 -(void)addSectionTwoAndThree
 {
+    
+    NSArray *dataArr = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":@"0.5Hz"},
+                         @{@"image":@"time",@"title":@"Time",@"detail":@"10min"}
+                         ];
     //Frequency
-    UIImageView *modelView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/15, CES_SCREENH_HEIGHT/21)];
-    [modelView setImage:[UIImage imageNamed:@"ces_freq"]];
+    ImageTitleDetialView *frequencyView = [[ImageTitleDetialView alloc] init];
+    frequencyView.frame = CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH - 60, dataArr.count * 50.0f);
+    frequencyView.items = dataArr;
+    [self.view addSubview:frequencyView];
     
-    UILabel *modelLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/12+SCREENWIDTH/10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16)];
-    modelLabel.text=@"Frequency";
-    modelButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    modelButton.tag = 1;//3;
-    modelButton.frame = CGRectMake(SCREENWIDTH-SCREENWIDTH*3.5/8, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16);
-    if (modelIndex==0)
-    {
-        [modelButton setTitle:@"0.5Hz" forState:UIControlStateNormal];
-    }
-    else if (modelIndex==1)
-    {
-        [modelButton setTitle:@"1.5Hz" forState:UIControlStateNormal];
-    }
-    else if (modelIndex==2)
-    {
-        [modelButton setTitle:@"100Hz" forState:UIControlStateNormal];
-    }
     
-    [modelButton addTarget:self action:@selector(chooseModel:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:modelView];
-    [self.view addSubview:modelLabel];
-    [self.view addSubview:modelButton];
-    
-//    //Time
-//    UIImageView *timeView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/15, CES_SCREENH_HEIGHT/21)];
-//    [timeView setImage:[UIImage imageNamed:@"ces_freq"]];
-//    
-//    UILabel *timeLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/12+SCREENWIDTH/10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16)];
-//    timeLabel.text=@"Time";
+//    //Frequency
+//    UIImageView *modelView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/15, CES_SCREENH_HEIGHT/21)];
+//    [modelView setImage:[UIImage imageNamed:@"ces_freq"]];
+//
+//    UILabel *modelLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/12+SCREENWIDTH/10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16)];
+//    modelLabel.text=@"Frequency";
 //    modelButton = [UIButton buttonWithType:UIButtonTypeSystem];
-////    modelButton.tag = 3;
+//    modelButton.tag = 1;//3;
 //    modelButton.frame = CGRectMake(SCREENWIDTH-SCREENWIDTH*3.5/8, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16);
 //    if (modelIndex==0)
 //    {
@@ -336,9 +315,9 @@
 //    {
 //        [modelButton setTitle:@"100Hz" forState:UIControlStateNormal];
 //    }
-//    
+//
 //    [modelButton addTarget:self action:@selector(chooseModel:) forControlEvents:UIControlEventTouchUpInside];
-//    
+    
 //    [self.view addSubview:modelView];
 //    [self.view addSubview:modelLabel];
 //    [self.view addSubview:modelButton];
@@ -390,6 +369,15 @@
 /***************第四部分**************/
 -(void)addSectionFour
 {
+    BluetoothStatusView *bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 150)/2.0, SCREENHEIGHT - 300.0f, 120, 120)];
+    bluetoothStatusView.statusType = StatusTypeStart;
+    
+    [self.view addSubview:bluetoothStatusView];
+    
+    
+    
+    
+    
     myLayer=[[CAShapeLayer alloc] init];
     
     if (SCREENWIDTH==320 && SCREENHEIGHT==568)
@@ -414,7 +402,7 @@
     myLayer.lineWidth = 10;
     
     [self setupLayer];
-    [self.view.layer addSublayer:myLayer];
+//    [self.view.layer addSublayer:myLayer];
     
     _timeLimit=time;
     _elapsedTime=0;
@@ -481,8 +469,8 @@
     anotherOptionButton.tag=0;
     [optionButton addTarget:self action:@selector(optionButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [anotherOptionButton addTarget:self action:@selector(anotherOptionButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:optionButton];
-    [self.view addSubview:anotherOptionButton];
+//    [self.view addSubview:optionButton];
+//    [self.view addSubview:anotherOptionButton];
 }
 
 #pragma mark - Timer

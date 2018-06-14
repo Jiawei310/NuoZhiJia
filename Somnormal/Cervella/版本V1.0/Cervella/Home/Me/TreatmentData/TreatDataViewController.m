@@ -59,27 +59,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.title = @"Treatment Data";
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    self.navigationController.navigationBar.translucent=YES;
-    //添加返回按钮
-    UIButton *backLogin = [UIButton buttonWithType:UIButtonTypeSystem];
-    backLogin.frame = CGRectMake(12, 30, 23, 23);
-    [backLogin setImage:[UIImage imageNamed:@"btn_back"] forState:UIControlStateNormal];
-    [backLogin addTarget:self action:@selector(backLoginClick:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backLoginItem = [[UIBarButtonItem alloc] initWithCustomView:backLogin];
-    //添加fixedButton是为了让backLoginItem往左边靠拢
-    UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixedButton.width = -10;
-    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
-    
-    UILabel *dateOne_Label=[[UILabel alloc] initWithFrame:CGRectMake(0, 65, SCREENWIDTH*2/7, SCREENHEIGHT/20)];
+    UILabel *dateOne_Label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH*2/7, SCREENHEIGHT/20)];
     dateOne_Label.text=@"Date：";
     dateOne_Label.textAlignment=NSTextAlignmentCenter;
+    
     dateOne_Button=[UIButton buttonWithType:UIButtonTypeSystem];
     dateOne_Button.tag=1;
-    dateOne_Button.frame=CGRectMake(SCREENWIDTH*2/7, 65, SCREENWIDTH*2/7, SCREENHEIGHT/20);
+    dateOne_Button.frame=CGRectMake(SCREENWIDTH*2/7, 0, SCREENWIDTH*2/7, SCREENHEIGHT/20);
     EndDate=[NSDate date];
     BegainDate=[EndDate initWithTimeIntervalSinceNow:-6*24*60*60];
     NSLog(@"%@",BegainDate);
@@ -91,12 +77,12 @@
     dayBegainIndex=[[BegainTime substringWithRange:NSMakeRange(8, 2)] integerValue]-1;
     [dateOne_Button setTitle:BegainTime forState:UIControlStateNormal];
     [dateOne_Button addTarget:self action:@selector(chooseDateClick:) forControlEvents:UIControlEventTouchUpInside];
-    UILabel *dateTwo_Label=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*4/7, 65, SCREENWIDTH/7, SCREENHEIGHT/20)];
+    UILabel *dateTwo_Label=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*4/7, 0, SCREENWIDTH/7, SCREENHEIGHT/20)];
     dateTwo_Label.text=@"To";
     dateTwo_Label.textAlignment=NSTextAlignmentCenter;
     dateTwo_Button=[UIButton buttonWithType:UIButtonTypeSystem];
     dateTwo_Button.tag=2;
-    dateTwo_Button.frame=CGRectMake(SCREENWIDTH*5/7, 65, SCREENWIDTH*2/7, SCREENHEIGHT/20);
+    dateTwo_Button.frame=CGRectMake(SCREENWIDTH*5/7, 0, SCREENWIDTH*2/7, SCREENHEIGHT/20);
     EndTime=[dateFormatter stringFromDate:EndDate];
     yearEndIndex=[[EndTime substringWithRange:NSMakeRange(0, 4)] integerValue]-1900;
     monthEndIndex=[[EndTime substringWithRange:NSMakeRange(5, 2)] integerValue]-1;
@@ -120,24 +106,24 @@
     [self.view addSubview:dateTwo_Button];
     
     //添加显示的菜单
-    UIView *viewOne=[[UIView alloc] initWithFrame:CGRectMake(0, 65+SCREENHEIGHT/20, SCREENWIDTH, 1)];
+    UIView *viewOne=[[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/20, SCREENWIDTH, 1)];
     viewOne.backgroundColor=[UIColor blackColor];
-    UILabel *label_date=[[UILabel alloc] initWithFrame:CGRectMake(0, 65+SCREENHEIGHT/20, SCREENWIDTH/4, SCREENHEIGHT/20)];
+    UILabel *label_date=[[UILabel alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/20, SCREENWIDTH/4, SCREENHEIGHT/20)];
     label_date.text=@"Date";
     label_date.textAlignment=NSTextAlignmentCenter;
-    UILabel *label_frequency=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/4, 65+SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
-    label_frequency.text=@"Mode";
+    UILabel *label_frequency=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/4, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
+    label_frequency.text=@"Level";
     label_frequency.textAlignment=NSTextAlignmentCenter;
-    UILabel *label_strength=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*2/5, 65+SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
-    label_strength.text=@"Level";
+    UILabel *label_strength=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*2/5, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
+    label_strength.text=@"Freq.";
     label_strength.textAlignment=NSTextAlignmentCenter;
-    UILabel *label_startTime=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5, 65+SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
+    UILabel *label_startTime=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
     label_startTime.text=@"Start";
     label_startTime.textAlignment=NSTextAlignmentCenter;
-    UILabel *label_cureTime=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*4/5, 65+SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
-    label_cureTime.text=@"Period";
+    UILabel *label_cureTime=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*4/5, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
+    label_cureTime.text=@"Duration";
     label_cureTime.textAlignment=NSTextAlignmentCenter;
-    UIView *viewTwo=[[UIView alloc] initWithFrame:CGRectMake(0, 65+SCREENHEIGHT/10, SCREENWIDTH, 1)];
+    UIView *viewTwo=[[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/10, SCREENWIDTH, 1)];
     viewTwo.backgroundColor=[UIColor blackColor];
     if (SCREENWIDTH==320)
     {
@@ -329,35 +315,40 @@
     
     UILabel *dateLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH/4, 30)];
     dateLabel.textAlignment=NSTextAlignmentCenter;
-    UILabel *frequencyLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/4, 0, SCREENWIDTH/5, 30)];
-    frequencyLabel.textAlignment=NSTextAlignmentCenter;
-    UILabel *strengthLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*2/5, 0, SCREENWIDTH/5, 30)];
+    
+    UILabel *strengthLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/4, 0, SCREENWIDTH/5, 30)];
     strengthLabel.textAlignment=NSTextAlignmentCenter;
+    
+    UILabel *frequencyLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*2/5, 0, SCREENWIDTH/5, 30)];
+    frequencyLabel.textAlignment=NSTextAlignmentCenter;
+    
     UILabel *startTimeLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5, 0, SCREENWIDTH/5, 30)];
     startTimeLabel.textAlignment=NSTextAlignmentCenter;
+    
     UILabel *cureTimeLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*4/5, 0, SCREENWIDTH/5, 30)];
     cureTimeLabel.textAlignment=NSTextAlignmentCenter;
+    
     if (SCREENWIDTH==320)
     {
         dateLabel.font=[UIFont systemFontOfSize:14];
-        frequencyLabel.font=[UIFont systemFontOfSize:14];
         strengthLabel.font=[UIFont systemFontOfSize:14];
+        frequencyLabel.font=[UIFont systemFontOfSize:14];
         startTimeLabel.font=[UIFont systemFontOfSize:14];
         cureTimeLabel.font=[UIFont systemFontOfSize:14];
     }
     else
     {
         dateLabel.font=[UIFont systemFontOfSize:15];
-        frequencyLabel.font=[UIFont systemFontOfSize:15];
         strengthLabel.font=[UIFont systemFontOfSize:15];
+        frequencyLabel.font=[UIFont systemFontOfSize:15];
         startTimeLabel.font=[UIFont systemFontOfSize:15];
         cureTimeLabel.font=[UIFont systemFontOfSize:15];
     }
     
     TreatInfo *tmp=[treatInfoAtPatientID objectAtIndex:indexPath.row];
     dateLabel.text=[tmp.BeginTime substringWithRange:NSMakeRange(0, 10)];
-    frequencyLabel.text=tmp.Frequency;
     strengthLabel.text=tmp.Strength;
+    frequencyLabel.text=tmp.Frequency;
     startTimeLabel.text=[tmp.BeginTime substringWithRange:NSMakeRange(11, 5)];
     cureTimeLabel.text=tmp.CureTime;
     

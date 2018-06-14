@@ -24,9 +24,7 @@
 @property (strong, nonatomic) UITextField *nameTextField;
 @property (strong, nonatomic)     UILabel *sexLabel;
 @property (strong, nonatomic)     UILabel *birthLabel;
-@property (strong, nonatomic) UITextField *contactTextField;
 @property (strong, nonatomic) UITextField *emailTextField;
-@property (strong, nonatomic)  UITextView *addressTextView;
 
 @property (nonatomic, strong) DatePickerView *datePicker;// 日期选择器
 @property (nonatomic, strong)  SexPickerView *sexPicker; // 性别选择器
@@ -46,16 +44,6 @@
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent=NO;
-    //添加返回按钮
-    UIButton *backLogin = [UIButton buttonWithType:UIButtonTypeSystem];
-    backLogin.frame = CGRectMake(12, 30, 23, 23);
-    [backLogin setImage:[UIImage imageNamed:@"btn_back"] forState:UIControlStateNormal];
-    [backLogin addTarget:self action:@selector(backLoginClick:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backLoginItem = [[UIBarButtonItem alloc] initWithCustomView:backLogin];
-    //添加fixedButton是为了让backLoginItem往左边靠拢
-    UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixedButton.width = -10;
-    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
     interfaceModel = [[InterfaceModel alloc] init];
     interfaceModel.delegate = self;
@@ -68,23 +56,16 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doHideKeyBoard)];
     tap.numberOfTapsRequired = 1;
     [_InfoTableView.backgroundView addGestureRecognizer:tap];
+    
     [self.view addGestureRecognizer:tap];
     [tap setCancelsTouchesInView:NO];
-}
-
-//返回按钮点击事件
-- (void)backLoginClick:(UIButton *)sender
-{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 /*点击编辑区域外的view收起键盘*/
 -(void)doHideKeyBoard
 {
     [_nameTextField resignFirstResponder];
-    [_contactTextField resignFirstResponder];
     [_emailTextField resignFirstResponder];
-    [_addressTextView resignFirstResponder];
 }
 
 #pragma loginTableView -- delegate
@@ -96,7 +77,7 @@
 #pragma loginTableView -- dataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 7;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -111,17 +92,6 @@
     
     if (indexPath.row == 0)
     {
-        textLabel.text = @"Account";
-        
-        UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(100*Rate_NAV_W, 0, 240*Rate_NAV_W, 50)];
-        detailLabel.textColor = [UIColor colorWithRed:0x64/255.0 green:0x69/255.0 blue:0x6A/255.0 alpha:1];
-        detailLabel.font = [UIFont systemFontOfSize:16*Rate_NAV_H];
-        detailLabel.textAlignment = NSTextAlignmentRight;
-        detailLabel.text = _patientInfo.PatientID;
-        [cell.contentView addSubview:detailLabel];
-    }
-    else if (indexPath.row == 1)
-    {
         textLabel.text = @"Name";
         
         _nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(100*Rate_NAV_W, 0, 240*Rate_NAV_W, 50)];
@@ -134,10 +104,9 @@
         
         [cell.contentView addSubview:_nameTextField];
     }
-    else if (indexPath.row == 2)
+    else if (indexPath.row == 1)
     {
         textLabel.text = @"Sex";
-        
         _sexLabel = [[UILabel alloc] initWithFrame:CGRectMake(313*Rate_NAV_W, 0, 27*Rate_NAV_W, 50)];
         _sexLabel.userInteractionEnabled = YES;
         _sexLabel.textAlignment = NSTextAlignmentRight;
@@ -151,10 +120,9 @@
         [cell.contentView addSubview:_sexLabel];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    else if (indexPath.row == 3)
+    else if (indexPath.row == 2)
     {
         textLabel.text = @"Birthday";
-        
         _birthLabel = [[UILabel alloc] initWithFrame:CGRectMake(100*Rate_NAV_W, 0, 240*Rate_NAV_W, 50)];
         _birthLabel.textAlignment = NSTextAlignmentRight;
         _birthLabel.font=[UIFont systemFontOfSize:16*Rate_NAV_H];
@@ -167,23 +135,7 @@
         [cell.contentView addSubview:_birthLabel];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
-    else if (indexPath.row == 4)
-    {
-        textLabel.text = @"Contact";
-        
-        _contactTextField = [[UITextField alloc] initWithFrame:CGRectMake(100*Rate_NAV_W, 0, 240*Rate_NAV_W, 50)];
-        _contactTextField.textAlignment=NSTextAlignmentRight;
-        _contactTextField.font=[UIFont systemFontOfSize:16*Rate_NAV_H];
-        _contactTextField.textColor = [UIColor colorWithRed:0x64/255.0 green:0x69/255.0 blue:0x6A/255.0 alpha:1];
-        if (_patientInfo.CellPhone.length>0)
-        {
-            _contactTextField.text = _patientInfo.CellPhone;
-        }
-        [_contactTextField setEnabled:NO];
-        
-        [cell.contentView addSubview:_contactTextField];
-    }
-    else if (indexPath.row == 5)
+    else if (indexPath.row == 3)
     {
         textLabel.text = @"E-mail";
         
@@ -208,47 +160,17 @@
         
         [cell.contentView addSubview:_emailTextField];
     }
-    else if (indexPath.row == 6)
-    {
-        textLabel.text = @"Address";
-        
-        _addressTextView = [[UITextView alloc] initWithFrame:CGRectMake(100*Rate_NAV_W, 0, 240*Rate_NAV_W, 50)];
-        _addressTextView.backgroundColor = [UIColor colorWithRed:0xF4/255.0 green:0xF4/255.0 blue:0xF4/255.0 alpha:1.0];
-        _addressTextView.textAlignment = NSTextAlignmentRight;
-        _addressTextView.font = [UIFont systemFontOfSize:16*Rate_NAV_H];
-        _addressTextView.textColor = [UIColor colorWithRed:0x64/255.0 green:0x69/255.0 blue:0x6A/255.0 alpha:1];
-        if (_patientInfo.Address.length > 0 && ![_patientInfo.Address isEqualToString:@"(null)"])
-        {
-            _addressTextView.text = _patientInfo.Address;
-        }
-        else if ([_patientInfo.Address isEqualToString:@"(null)"])
-        {
-            _addressTextView.text = @"";
-        }
-        else
-        {
-            _addressTextView.text = @"";
-        }
-        _addressTextView.tag = 7;
-        _addressTextView.delegate = self;
-        
-        [cell.contentView addSubview:_addressTextView];
-    }
-    
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row==2)
-    {
+    if (indexPath.row==1) {
         //选择性别
         self.sexPicker = [[SexPickerView alloc] initWith:_sexLabel.text];
         [self showSexPicker];
     }
-    else if (indexPath.row==3)
-    {
+    else if (indexPath.row==2) {
         //调用选择生日按钮的点击事件方法
         NSInteger year = 0;
         NSInteger month = 0;
@@ -313,23 +235,6 @@
     };
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    if (textField.tag==5 || textField.tag==6 || textField.tag==7 || textField.tag==8)
-    {
-        //键盘高度216
-        
-        //滑动效果（动画）
-        NSTimeInterval animationDuration = 0.30f;
-        [UIView beginAnimations:@"ResizeForKeyboard"  context:nil];
-        [UIView setAnimationDuration:animationDuration];
-        
-        //将视图的Y坐标向上移动，以使下面腾出地方用于软键盘的显示
-        self.view.frame = CGRectMake(0.0f, -100.0f, self.view.frame.size.width, self.view.frame.size.height); //64-216
-        
-        [UIView commitAnimations];
-    }
-}
 
 - (void)textFiledEditChanged:(NSNotification*)obj
 {
@@ -352,15 +257,6 @@
             [interfaceModel sendJsonSaveInfoToServer:_patientInfo isPhotoAlter:NO];
         }
     }
-    else if (textField.tag == 5)
-    {
-        //修改家庭号码
-        if (_patientInfo!=nil)
-        {
-            _patientInfo.FamilyPhone=textField.text;
-            [interfaceModel sendJsonSaveInfoToServer:_patientInfo isPhotoAlter:NO];
-        }
-    }
     else if (textField.tag == 6)
     {
         //修改电子邮件
@@ -373,42 +269,13 @@
             }
             else
             {
+                _emailTextField.text = nil;
                 [JXTAlertView showToastViewWithTitle:@"温馨提示" message:@"请检查邮箱输入是否正确" duration:2.0 dismissCompletion:^(NSInteger buttonIndex) {
                     NSLog(@"关闭!");
                 }];
             }
         }
     }
-    //滑动效果
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@ "ResizeForKeyboard"  context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    
-    //恢复屏幕
-    self.view.frame = CGRectMake(0.0f, 64.0f, self.view.frame.size.width, self.view.frame.size.height); //64-216
-    
-    [UIView commitAnimations];
-}
-
-- (BOOL)isValidateEmail:(NSString *)email
-{
-    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES%@",emailRegex];
-    
-    return [emailTest evaluateWithObject:email];
-}
-
-- (void)textViewDidBeginEditing:(UITextView *)textView
-{
-    //滑动效果（动画）
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@"ResizeForKeyboard"  context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    
-    //将视图的Y坐标向上移动，以使下面腾出地方用于软键盘的显示
-    self.view.frame = CGRectMake(0.0f, -100.0f, self.view.frame.size.width, self.view.frame.size.height); //64-216
-    
-    [UIView commitAnimations];
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -419,16 +286,6 @@
         _patientInfo.Address=textView.text;
         [interfaceModel sendJsonSaveInfoToServer:_patientInfo isPhotoAlter:NO];
     }
-    
-    //滑动效果
-    NSTimeInterval animationDuration = 0.30f;
-    [UIView beginAnimations:@ "ResizeForKeyboard"  context:nil];
-    [UIView setAnimationDuration:animationDuration];
-    
-    //恢复屏幕
-    self.view.frame = CGRectMake(0.0f, 64.0f, self.view.frame.size.width, self.view.frame.size.height); //64-216
-    
-    [UIView commitAnimations];
 }
 
 - (void)sendValueBackToController:(id)value type:(InterfaceModelBackType)interfaceModelBackType
@@ -484,6 +341,15 @@
         
     }];
 }
+
+- (BOOL)isValidateEmail:(NSString *)email
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES%@",emailRegex];
+    
+    return [emailTest evaluateWithObject:email];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

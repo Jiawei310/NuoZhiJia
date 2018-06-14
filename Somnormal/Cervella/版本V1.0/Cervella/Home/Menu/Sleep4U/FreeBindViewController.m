@@ -18,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.title = @"Unbind Cervella";
+    self.title = @"Unpair Cervella";
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent=YES;
@@ -59,10 +59,10 @@
         _Label_Two.font = [UIFont systemFontOfSize:12];
     }
     _Label_One.textAlignment = NSTextAlignmentCenter;
-    _Label_One.text = @"Unbind after, Cervella will not work properly";
+    _Label_One.text = @"Unpair after, Cervella will not work properly";
     _Label_One.adjustsFontSizeToFitWidth = YES;
     _Label_Two.textAlignment = NSTextAlignmentCenter;
-    _Label_Two.text=@"Unbind after, Cervella can be connected using other mobile phone or replace it";
+    _Label_Two.text=@"Unpair after, Cervella can be connected using other mobile phone or replace it";
     _Label_Two.numberOfLines = 0;
     if (SCREENHEIGHT == 667)
     {
@@ -76,7 +76,7 @@
     }
     
     [_FreeBindButton setBackgroundColor:[UIColor colorWithRed:0x25/255.0 green:0x7e/255.0 blue:0xd6/255.0 alpha:1]];
-    [_FreeBindButton setTitle:@"Unbind Cervella" forState:UIControlStateNormal];
+    [_FreeBindButton setTitle:@"Unpair Cervella" forState:UIControlStateNormal];
     if (SCREENHEIGHT == 667)
     {
         _FreeBindButton.titleLabel.font = [UIFont systemFontOfSize:20];

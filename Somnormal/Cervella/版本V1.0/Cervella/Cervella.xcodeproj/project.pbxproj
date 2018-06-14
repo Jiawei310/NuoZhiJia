@@ -137,6 +137,7 @@
 		E905492D20D1078600F39334 /* ColorsSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492C20D1078600F39334 /* ColorsSliderView.m */; };
 		E905493020D11BFC00F39334 /* SelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492F20D11BFC00F39334 /* SelectView.m */; };
 		E905493320D125E200F39334 /* ImageTitleDetialView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905493220D125E200F39334 /* ImageTitleDetialView.m */; };
+		E9F6E9A220D2130A008DBB72 /* BluetoothStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F6E9A120D2130A008DBB72 /* BluetoothStatusView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -382,6 +383,8 @@
 		E905493120D125E200F39334 /* ImageTitleDetialView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageTitleDetialView.h; sourceTree = "<group>"; };
 		E905493220D125E200F39334 /* ImageTitleDetialView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageTitleDetialView.m; sourceTree = "<group>"; };
 		E937B2C520C4DEEF00BDC5D8 /* Cervella-PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Cervella-PrefixHeader.pch"; sourceTree = "<group>"; };
+		E9F6E9A020D2130A008DBB72 /* BluetoothStatusView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluetoothStatusView.h; sourceTree = "<group>"; };
+		E9F6E9A120D2130A008DBB72 /* BluetoothStatusView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluetoothStatusView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -731,6 +734,8 @@
 				E905492F20D11BFC00F39334 /* SelectView.m */,
 				E905493120D125E200F39334 /* ImageTitleDetialView.h */,
 				E905493220D125E200F39334 /* ImageTitleDetialView.m */,
+				E9F6E9A020D2130A008DBB72 /* BluetoothStatusView.h */,
+				E9F6E9A120D2130A008DBB72 /* BluetoothStatusView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -844,7 +849,6 @@
 			isa = PBXGroup;
 			children = (
 				D07B344D1F1358EA0077B2F9 /* Sleep4U */,
-				D07B34421F1358EA0077B2F9 /* About */,
 				D07B34471F1358EA0077B2F9 /* Help */,
 			);
 			path = Menu;
@@ -920,6 +924,7 @@
 				D07B344B1F1358EA0077B2F9 /* Soft Opration */,
 				D07B34491F1358EA0077B2F9 /* FAQ */,
 				D07B344C1F1358EA0077B2F9 /* Supplies */,
+				D07B34421F1358EA0077B2F9 /* About */,
 			);
 			path = Help;
 			sourceTree = "<group>";
@@ -1247,6 +1252,7 @@
 				D022E0DA1F0F3BC600D92F7C /* TreatDataViewController.m in Sources */,
 				D07B34B41F135B480077B2F9 /* RelatedConsumViewController.m in Sources */,
 				D043778D1F026E370061F279 /* SDWebImagePrefetcher.m in Sources */,
+				E9F6E9A220D2130A008DBB72 /* BluetoothStatusView.m in Sources */,
 				D022E0DF1F0F3BD800D92F7C /* AssessDataViewController.m in Sources */,
 				D07B34651F13596B0077B2F9 /* MethodViewController.m in Sources */,
 				D07B346A1F135A040077B2F9 /* PrincipleViewController.m in Sources */,

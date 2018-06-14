@@ -12,6 +12,10 @@
 #import "SoftwareOptionViewController.h"
 #import "CommonProViewController.h"
 #import "RelatedConsumViewController.h"
+#import "MethodViewController.h"
+#import "PrincipleViewController.h"
+#import "AttentionViewController.h"
+#import "ProductInfoViewController.h"
 
 @interface HelpViewController ()
 
@@ -20,7 +24,7 @@
 @implementation HelpViewController
 {
     NSArray *helpArray;
-    
+
     NSArray *configRequireArray;
     NSArray *clinicalUseArray;
     NSArray *softwareOptionArray;
@@ -47,12 +51,16 @@
     fixedButton.width = -10;
     self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
-    _helpTableView.contentInset=UIEdgeInsetsMake(-64, 0, 0, 0);
     _helpTableView.delegate=self;
     _helpTableView.dataSource=self;
-    
-    helpArray=@[@"Configuration requirements",@"Clinical use",@"Software opration",@"FAQ",@"Related consumables"];
-    
+    //Use Instructions -> Owner’s Manual
+    //Configuration Requirements -> Quick Start Guide
+    //Precautions
+    //FAQs
+    //Consumables and Accessories Ordering webview
+    //Product Information -> About Cervella
+    helpArray = @[@"Owner’s Manual",@"Quick Start Guide",@"Precautions",@"FAQs",@"Consumables and Accessories Ordering",@"About Cervella"];
+
     NSString *plistPath=[[NSBundle mainBundle] pathForResource:@"HelpInfo" ofType:@"plist"];
     NSDictionary *helpInfoDic=[[NSDictionary alloc] initWithContentsOfFile:plistPath];
     configRequireArray=[helpInfoDic objectForKey:@"配置要求"];
@@ -85,13 +93,20 @@
     UITableViewCell *cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = [helpArray objectAtIndex:indexPath.row];
-    
+
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0)
+    if (indexPath.row==0)
+    {
+        //跳转使用方法界面
+        MethodViewController *method=[[MethodViewController alloc] init];
+        
+        [self.navigationController pushViewController:method animated:YES];
+    }
+    if (indexPath.row == 1)
     {
         //跳转到配置要求问题界面
         ConfigRequireViewController *configRequire=[[ConfigRequireViewController alloc] init];
@@ -99,21 +114,12 @@
         configRequire.configRequireArray=configRequireArray;
         [self.navigationController pushViewController:configRequire animated:YES];
     }
-    else if (indexPath.row == 1)
-    {
-        //跳转到临床使用问题界面
-        ClinicalUseViewController *clinicalUse=[[ClinicalUseViewController alloc] init];
-        
-        clinicalUse.clinicalUseArray=clinicalUseArray;
-        [self.navigationController pushViewController:clinicalUse animated:YES];
-    }
     else if (indexPath.row==2)
     {
-        //跳转到软件操作问题界面
-        SoftwareOptionViewController *softwareOption=[[SoftwareOptionViewController alloc] init];
+        //跳转注意事项界面
+        AttentionViewController *attention=[[AttentionViewController alloc] init];
         
-        softwareOption.softwareOptionArray=softwareOptionArray;
-        [self.navigationController pushViewController:softwareOption animated:YES];
+        [self.navigationController pushViewController:attention animated:YES];
     }
     else if (indexPath.row==3)
     {
@@ -125,12 +131,52 @@
     }
     else if (indexPath.row==4)
     {
-        //跳转到相关耗材问题界面
-        RelatedConsumViewController *relatedConsum=[[RelatedConsumViewController alloc] init];
         
-        relatedConsum.relatedConsumArray=relatedConsumArray;
-        [self.navigationController pushViewController:relatedConsum animated:YES];
     }
+    else if (indexPath.row==5)
+    {
+        //跳转产品信息界面
+        ProductInfoViewController *productInfo=[[ProductInfoViewController alloc] init];
+        
+        [self.navigationController pushViewController:productInfo animated:YES];
+    }
+    
+    
+    
+//    else if (indexPath.row == 1)
+//    {
+//        //跳转到临床使用问题界面
+//        ClinicalUseViewController *clinicalUse=[[ClinicalUseViewController alloc] init];
+//
+//        clinicalUse.clinicalUseArray=clinicalUseArray;
+//        [self.navigationController pushViewController:clinicalUse animated:YES];
+//    }
+//    else if (indexPath.row==2)
+//    {
+//        //跳转到软件操作问题界面
+//        SoftwareOptionViewController *softwareOption=[[SoftwareOptionViewController alloc] init];
+//
+//        softwareOption.softwareOptionArray=softwareOptionArray;
+//        [self.navigationController pushViewController:softwareOption animated:YES];
+//    }
+//
+//    else if (indexPath.row==4)
+//    {
+//        //跳转到相关耗材问题界面
+//        RelatedConsumViewController *relatedConsum=[[RelatedConsumViewController alloc] init];
+//
+//        relatedConsum.relatedConsumArray=relatedConsumArray;
+//        [self.navigationController pushViewController:relatedConsum animated:YES];
+//    }
+//
+//
+//    else if (indexPath.row==6)
+//    {
+//        //跳转治疗原理界面
+//        PrincipleViewController *principle=[[PrincipleViewController alloc] init];
+//
+//        [self.navigationController pushViewController:principle animated:YES];
+//    }
 }
 
 - (void)didReceiveMemoryWarning {

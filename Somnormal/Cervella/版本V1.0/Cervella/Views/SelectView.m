@@ -19,19 +19,26 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.frame = CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT);
-        [self addSubview:self.backView];
         [self addSubview:self.tableView];
     }
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.tableView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+}
+
 - (void)showViewInView:(UIView *)view {
+    [view addSubview:self.backView];
     [view addSubview:self];
+
+
     [self.tableView reloadData];
 }
 
 - (void)hideView {
+    [self.backView removeFromSuperview];
     [self removeFromSuperview];
     
 }
@@ -66,7 +73,7 @@
 }
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return SCREENHEIGHT/20;
+    return 30;
 }
 
 //tabeview的代理方法 （如果此方法返回值为0，则后面两个代理方法不执行）
@@ -85,21 +92,11 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Identifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//        UIButton *selectBtn = [[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5, 0, 30,40)];
-//        [selectBtn addTarget:self action:@selector(selectBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-//        selectBtn.tag = indexPath.row + 10;
-//        [cell.contentView addSubview:selectBtn];
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5, 0, 30,40)];
+
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(tableView.frame.size.width - 30, 12.5, 15,15)];
         imageView.tag = 10;
         [cell.contentView addSubview:imageView];
     }
-//    UIButton *selectBtn = [cell.contentView viewWithTag:indexPath.row + 10];
-//    if (indexPath.row == self.selector)
-//    {
-//        [selectBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateNormal];
-//    } else {
-//        [selectBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
-//    }
     UIImageView *imageView = [cell.contentView viewWithTag:10];
     if (self.selector == indexPath.row) {
         imageView.image = [UIImage imageNamed:@"selected"];
@@ -114,6 +111,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selector = indexPath.row;
     [self.tableView reloadData];
+    
+    if (self.selectViewBlock) {
+        self.selectViewBlock(indexPath.row);
+    }
+    
+    
+    //    if ([self.delegate respondsToSelector:@selector(selectIndex:)]) {
+    //        [self.delegate selectIndex:self.selector];
+    //    }
 }
 
 #pragma mark - get
@@ -129,9 +135,8 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREENWIDTH/10, SCREENHEIGHT*3/8, SCREENWIDTH*4/5, (self.items.count)*40 +SCREENHEIGHT/20)];
+        _tableView = [[UITableView alloc] init];
         [_tableView.layer setCornerRadius:10.0];
-        _tableView.backgroundColor=[UIColor whiteColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
     }

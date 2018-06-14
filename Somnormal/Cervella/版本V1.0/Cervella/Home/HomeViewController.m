@@ -14,11 +14,14 @@
 
 #import "StartsViewController.h"
 #import "AssessViewController.h"
-#import "MeViewController.h"
 
 #import "IntelligentHardwareViewController.h"
 #import "AboutViewController.h"
 #import "HelpViewController.h"
+
+#import "TreatDataViewController.h"
+#import "MyInfoViewController.h"
+
 
 @interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,sendElectricQuality>
 
@@ -69,19 +72,17 @@
     startsVC.bluetoothInfo = _bluetoothInfo;
     startsVC.delegate = self;
     
-    AssessViewController *assessVC = [[AssessViewController alloc] init];
+    TreatDataViewController *assessVC = [[TreatDataViewController alloc] init];
     NSDictionary *assessImageDict = @{selectedImage:@"assessSelectedImage", normalImage:@"assessNormalImage"};
 
     assessVC.patientInfo = _patientInfo;
     
-    MeViewController *meVC = [[MeViewController alloc] init];
+    MyInfoViewController *meVC = [[MyInfoViewController alloc] init];
     NSDictionary *meImageDict = @{selectedImage:@"meSelectedImage", normalImage:@"meNormalIamge"};
-
     meVC.patientInfo = _patientInfo;
     
     SCNavTabBarController *navTabBarController = [[SCNavTabBarController alloc] init];
     navTabBarController.subViewControllers = @[startsVC, assessVC, meVC];
-    navTabBarController.navTabBar.itemTitles = @[@"Start", @"Assess", @"Me"];
 
     navTabBarController.navTabBar.isNavTabBarImage = YES;
     navTabBarController.navTabBar.itemImages = @[homeImageDict, assessImageDict, meImageDict];
@@ -147,16 +148,16 @@
     view.backgroundColor=[UIColor colorWithWhite:0.1 alpha:0.5];
     [self.view.window addSubview:view];
     
-    _menuTableView=[[UITableView alloc] initWithFrame:CGRectMake(SCREENWIDTH*25/40, 64+SCREENHEIGHT/60, SCREENWIDTH*14.5/40, SCREENWIDTH*4.5/10)];
+    _menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(SCREENWIDTH*25/40, 64+SCREENHEIGHT/60, SCREENWIDTH*14.5/40, 120)];
     [_menuTableView.layer setCornerRadius:10.0];
     _menuTableView.backgroundColor=[UIColor clearColor];
     
-    UIView *bgView=[[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH*25/40, 64+SCREENHEIGHT/60, SCREENWIDTH*14.5/40, SCREENWIDTH*4.5/10)];
+    UIView *bgView=[[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH*25/40, 64+SCREENHEIGHT/60, SCREENWIDTH*14.5/40, 120)];
     [bgView.layer setCornerRadius:10.0];
     bgView.backgroundColor=[UIColor colorWithRed:0x25/255.0 green:0x7e/255.0 blue:0xd6/255.0 alpha:1];
     
     _menuTableView.scrollEnabled=NO;
-    menuArray=@[@"Binding",@"About",@"Help"];
+    menuArray=@[@"Pairing",@"Help"];
     if ([_menuTableView respondsToSelector:@selector(setSeparatorInset:)])
     {
         [_menuTableView setSeparatorInset:UIEdgeInsetsZero];
@@ -193,7 +194,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return SCREENWIDTH*1.5/10+0.5;
+    return 60;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -202,23 +203,19 @@
     
     UITableViewCell *cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Identifier];
     
-    menuImageView=[[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/40, SCREENWIDTH/30, SCREENWIDTH/15, SCREENWIDTH*4/50)];
+    menuImageView=[[UIImageView alloc] init];
     if (indexPath.row==0)
     {
         [menuImageView setImage:[UIImage imageNamed:@"menu_device"]];
-        menuImageView.frame=CGRectMake(SCREENWIDTH/80, SCREENWIDTH/25, SCREENWIDTH/13, SCREENWIDTH*3/50);
+        menuImageView.frame=CGRectMake(5, 15, 30,30);
     }
     else if (indexPath.row==1)
     {
-        [menuImageView setImage:[UIImage imageNamed:@"menu_company"]];
-        menuImageView.frame=CGRectMake(SCREENWIDTH/80, SCREENWIDTH/25, SCREENWIDTH/13, SCREENWIDTH*4/50);
-    }
-    else if (indexPath.row==2)
-    {
         [menuImageView setImage:[UIImage imageNamed:@"help"]];
-        menuImageView.frame=CGRectMake(SCREENWIDTH/40, SCREENWIDTH/40, SCREENWIDTH/18, SCREENWIDTH*5/50);
+        menuImageView.frame=CGRectMake(5, 15, 30, 30);
     }
-    
+   
+
     UILabel *listLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/10, 0, SCREENWIDTH*11/40, SCREENWIDTH*1.5/10)];
     listLabel.textColor=[UIColor whiteColor];
     listLabel.font=[UIFont systemFontOfSize:16];
@@ -250,13 +247,6 @@
         [self.navigationController pushViewController:IHViewController animated:YES];
     }
     else if (indexPath.row==1)
-    {
-        //帮助(跳转到帮助界面)
-        AboutViewController *aboutViewController=[[AboutViewController alloc] initWithNibName:@"AboutViewController" bundle:nil];
-        
-        [self.navigationController pushViewController:aboutViewController animated:YES];
-    }
-    else if (indexPath.row==2)
     {
         //帮助(跳转到帮助界面)
         HelpViewController *helpViewController=[[HelpViewController alloc] initWithNibName:@"HelpViewController" bundle:nil];
