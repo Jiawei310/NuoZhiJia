@@ -50,21 +50,6 @@
     self.centralMgr = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.arrayBLE = [[NSMutableArray alloc] init];
     
-    if (SCREENHEIGHT == 480)
-    {
-        self.alertLabel.font = [UIFont systemFontOfSize:12];
-    }
-    else if (SCREENHEIGHT == 667)
-    {
-        self.alertLabel.font = [UIFont systemFontOfSize:20];
-    }
-    else if (SCREENWIDTH == 736)
-    {
-        self.alertLabel.font = [UIFont systemFontOfSize:22.5];
-    }
-    
-    self.alertLabel.text = @"Please ensure Sleep4U Bluetooth is visible and battery power is sufficient, and is near to your cell-phone";
-    self.alertLabel.numberOfLines = 0;
     
     [_scanButton setBackgroundColor:[UIColor colorWithRed:0x25/255.0 green:0x7e/255.0 blue:0xd6/255.0 alpha:1]];
     [self.scanButton setTitle:@"Search Again" forState:UIControlStateNormal];

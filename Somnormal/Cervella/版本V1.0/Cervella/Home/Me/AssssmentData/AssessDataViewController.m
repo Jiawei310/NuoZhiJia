@@ -480,7 +480,6 @@
             dateLabel.text=tmp.Date;
             timeLabel.text=[tmp.Time substringWithRange:NSMakeRange(0, 5)];
             numLabel.text=tmp.Score;
-//            qualityLabel.text=[tmp.Quality substringWithRange:NSMakeRange(0, 2)];
             if ([tmp.Quality containsString:@"没有"] || [tmp.Quality isEqualToString:@"No depression"])
             {
                 qualityLabel.text=@"No";
@@ -504,7 +503,6 @@
             dateLabel.text=tmp.Date;
             timeLabel.text=[tmp.Time substringWithRange:NSMakeRange(0, 5)];
             numLabel.text=tmp.Score;
-//            qualityLabel.text=[tmp.Quality substringWithRange:NSMakeRange(0, 2)];
             if ([tmp.Quality containsString:@"没有"] || [tmp.Quality isEqualToString:@"No anxiety"])
             {
                 qualityLabel.text=@"No";

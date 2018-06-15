@@ -137,6 +137,9 @@
 		E905492D20D1078600F39334 /* ColorsSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492C20D1078600F39334 /* ColorsSliderView.m */; };
 		E905493020D11BFC00F39334 /* SelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492F20D11BFC00F39334 /* SelectView.m */; };
 		E905493320D125E200F39334 /* ImageTitleDetialView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905493220D125E200F39334 /* ImageTitleDetialView.m */; };
+		E92D49A320D35B4B00C3026A /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92D49A220D35B4B00C3026A /* WebViewController.m */; };
+		E92D49A520D36FAB00C3026A /* Quick Start Guide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = E92D49A420D36FAB00C3026A /* Quick Start Guide.pdf */; };
+		E92D49A820D384B400C3026A /* AboutCervellaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92D49A720D384B400C3026A /* AboutCervellaViewController.m */; };
 		E9F6E9A220D2130A008DBB72 /* BluetoothStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F6E9A120D2130A008DBB72 /* BluetoothStatusView.m */; };
 /* End PBXBuildFile section */
 
@@ -382,6 +385,11 @@
 		E905492F20D11BFC00F39334 /* SelectView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectView.m; sourceTree = "<group>"; };
 		E905493120D125E200F39334 /* ImageTitleDetialView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageTitleDetialView.h; sourceTree = "<group>"; };
 		E905493220D125E200F39334 /* ImageTitleDetialView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageTitleDetialView.m; sourceTree = "<group>"; };
+		E92D49A120D35B4B00C3026A /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		E92D49A220D35B4B00C3026A /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		E92D49A420D36FAB00C3026A /* Quick Start Guide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Quick Start Guide.pdf"; sourceTree = "<group>"; };
+		E92D49A620D384B400C3026A /* AboutCervellaViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutCervellaViewController.h; sourceTree = "<group>"; };
+		E92D49A720D384B400C3026A /* AboutCervellaViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutCervellaViewController.m; sourceTree = "<group>"; };
 		E937B2C520C4DEEF00BDC5D8 /* Cervella-PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Cervella-PrefixHeader.pch"; sourceTree = "<group>"; };
 		E9F6E9A020D2130A008DBB72 /* BluetoothStatusView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluetoothStatusView.h; sourceTree = "<group>"; };
 		E9F6E9A120D2130A008DBB72 /* BluetoothStatusView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluetoothStatusView.m; sourceTree = "<group>"; };
@@ -465,6 +473,8 @@
 			children = (
 				D04377B61F03A1250061F279 /* HomeViewController.h */,
 				D04377B71F03A1250061F279 /* HomeViewController.m */,
+				E92D49A120D35B4B00C3026A /* WebViewController.h */,
+				E92D49A220D35B4B00C3026A /* WebViewController.m */,
 				D07B34411F1358EA0077B2F9 /* Menu */,
 				D04376E71F0251B60061F279 /* Starts */,
 				D04376E51F0251B60061F279 /* Assess */,
@@ -476,6 +486,7 @@
 		D04376E51F0251B60061F279 /* Assess */ = {
 			isa = PBXGroup;
 			children = (
+				D022E0CC1F0F385E00D92F7C /* TreatmentData */,
 				D07B34B91F13887D0077B2F9 /* AnswerList.plist */,
 				D07B34BD1F13887D0077B2F9 /* SleepTipsList.plist */,
 				D04377D21F04CA3E0061F279 /* AssessViewController.h */,
@@ -491,12 +502,11 @@
 		D04376E61F0251B60061F279 /* Me */ = {
 			isa = PBXGroup;
 			children = (
+				D022E0CB1F0F385E00D92F7C /* MyInfomation */,
 				D04377D71F04CA500061F279 /* MeViewController.h */,
 				D04377D81F04CA500061F279 /* MeViewController.m */,
 				D04377D91F04CA500061F279 /* MeViewController.xib */,
 				D022E0CA1F0F385E00D92F7C /* AssssmentData */,
-				D022E0CC1F0F385E00D92F7C /* TreatmentData */,
-				D022E0CB1F0F385E00D92F7C /* MyInfomation */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -860,9 +870,9 @@
 				D07B345D1F1359440077B2F9 /* AboutViewController.h */,
 				D07B345E1F1359440077B2F9 /* AboutViewController.m */,
 				D07B345F1F1359440077B2F9 /* AboutViewController.xib */,
+				D07B34441F1358EA0077B2F9 /* Note */,
 				D07B34431F1358EA0077B2F9 /* Method */,
 				D07B34461F1358EA0077B2F9 /* Theory */,
-				D07B34441F1358EA0077B2F9 /* Note */,
 				D07B34451F1358EA0077B2F9 /* ProductInfo */,
 			);
 			path = About;
@@ -881,7 +891,6 @@
 		D07B34441F1358EA0077B2F9 /* Note */ = {
 			isa = PBXGroup;
 			children = (
-				D07B346F1F135A2A0077B2F9 /* AttentionList.plist */,
 				D07B34701F135A2A0077B2F9 /* AttentionViewController.h */,
 				D07B34711F135A2A0077B2F9 /* AttentionViewController.m */,
 				D07B34721F135A2A0077B2F9 /* AttentionViewController.xib */,
@@ -915,14 +924,18 @@
 		D07B34471F1358EA0077B2F9 /* Help */ = {
 			isa = PBXGroup;
 			children = (
+				E92D49A420D36FAB00C3026A /* Quick Start Guide.pdf */,
+				D07B346F1F135A2A0077B2F9 /* AttentionList.plist */,
 				D07B347D1F135A930077B2F9 /* HelpInfo.plist */,
 				D07B347E1F135A930077B2F9 /* HelpViewController.h */,
 				D07B347F1F135A930077B2F9 /* HelpViewController.m */,
 				D07B34801F135A930077B2F9 /* HelpViewController.xib */,
+				D07B34491F1358EA0077B2F9 /* CommonProView */,
+				E92D49A620D384B400C3026A /* AboutCervellaViewController.h */,
+				E92D49A720D384B400C3026A /* AboutCervellaViewController.m */,
 				D07B344A1F1358EA0077B2F9 /* Requirements */,
 				D07B34481F1358EA0077B2F9 /* Clinical */,
 				D07B344B1F1358EA0077B2F9 /* Soft Opration */,
-				D07B34491F1358EA0077B2F9 /* FAQ */,
 				D07B344C1F1358EA0077B2F9 /* Supplies */,
 				D07B34421F1358EA0077B2F9 /* About */,
 			);
@@ -942,7 +955,7 @@
 			path = Clinical;
 			sourceTree = "<group>";
 		};
-		D07B34491F1358EA0077B2F9 /* FAQ */ = {
+		D07B34491F1358EA0077B2F9 /* CommonProView */ = {
 			isa = PBXGroup;
 			children = (
 				D07B34A51F135B3E0077B2F9 /* CommonProViewController.h */,
@@ -952,7 +965,7 @@
 				D07B34A31F135B3E0077B2F9 /* CommonAnswerViewController.m */,
 				D07B34A41F135B3E0077B2F9 /* CommonAnswerViewController.xib */,
 			);
-			path = FAQ;
+			path = CommonProView;
 			sourceTree = "<group>";
 		};
 		D07B344A1F1358EA0077B2F9 /* Requirements */ = {
@@ -1133,6 +1146,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E92D49A520D36FAB00C3026A /* Quick Start Guide.pdf in Resources */,
 				D07B34B31F135B480077B2F9 /* RelatedAnswerViewController.xib in Resources */,
 				D07B348B1F135ACA0077B2F9 /* ConfigAnswerViewController.xib in Resources */,
 				D022E0D61F0F38A300D92F7C /* MyInfoViewController.xib in Resources */,
@@ -1240,6 +1254,7 @@
 				D043778F1F026E370061F279 /* UIImage+GIF.m in Sources */,
 				D07B34591F13591C0077B2F9 /* FreeBindViewController.m in Sources */,
 				D04377A21F0344620061F279 /* NSData+Base64Additions.m in Sources */,
+				E92D49A820D384B400C3026A /* AboutCervellaViewController.m in Sources */,
 				D07B347B1F135A600077B2F9 /* ProductInfoViewController.m in Sources */,
 				D07B34941F135AE80077B2F9 /* ClinicalAnswerViewController.m in Sources */,
 				D07B34821F135A930077B2F9 /* HelpViewController.m in Sources */,
@@ -1276,6 +1291,7 @@
 				D04377B81F03A1250061F279 /* HomeViewController.m in Sources */,
 				D043771C1F02688B0061F279 /* DataBaseOpration.m in Sources */,
 				D07B348C1F135ACA0077B2F9 /* ConfigRequireViewController.m in Sources */,
+				E92D49A320D35B4B00C3026A /* WebViewController.m in Sources */,
 				D04377D01F04CA2B0061F279 /* StartsViewController.m in Sources */,
 				D06B8C561F0142EE00531D8E /* AppDelegate.m in Sources */,
 				D04377871F026E370061F279 /* SDImageCache.m in Sources */,

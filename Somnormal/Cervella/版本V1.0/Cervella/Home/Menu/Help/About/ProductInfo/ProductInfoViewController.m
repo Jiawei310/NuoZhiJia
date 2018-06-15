@@ -35,6 +35,8 @@
     fixedButton.width = -10;
     self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
+    
+    
     UIImageView *productInfoImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 64, SCREENWIDTH, SCREENHEIGHT-64)];
     [productInfoImageView setImage:[UIImage imageNamed:@"product_info_bg.png"]];
     [self.view addSubview:productInfoImageView];

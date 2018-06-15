@@ -61,6 +61,10 @@
     [tap setCancelsTouchesInView:NO];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:YES];
+    [self doHideKeyBoard];
+}
 /*点击编辑区域外的view收起键盘*/
 -(void)doHideKeyBoard
 {
@@ -83,10 +87,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [[UITableViewCell alloc] init];
-    cell.backgroundColor = [UIColor colorWithRed:0xF4/255.0 green:0xF4/255.0 blue:0xF4/255.0 alpha:1.0];
     
     UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(15*Rate_NAV_H, 0, 80*Rate_NAV_W, 50)];
-    textLabel.textColor = [UIColor colorWithRed:0x9E/255.0 green:0xA2/255.0 blue:0xA3/255.0 alpha:1];
     textLabel.font = [UIFont systemFontOfSize:16*Rate_NAV_H];
     [cell.contentView addSubview:textLabel];
     
@@ -98,7 +100,6 @@
         _nameTextField.font = [UIFont systemFontOfSize:16*Rate_NAV_H];
         _nameTextField.textAlignment = NSTextAlignmentRight;
         _nameTextField.text = _patientInfo.PatientName;
-        _nameTextField.textColor = [UIColor colorWithRed:0x64/255.0 green:0x69/255.0 blue:0x6A/255.0 alpha:1];
         _nameTextField.tag = 1;
         _nameTextField.delegate = self;
         
@@ -111,7 +112,6 @@
         _sexLabel.userInteractionEnabled = YES;
         _sexLabel.textAlignment = NSTextAlignmentRight;
         _sexLabel.font=[UIFont systemFontOfSize:16*Rate_NAV_H];
-        _sexLabel.textColor = [UIColor colorWithRed:0x64/255.0 green:0x69/255.0 blue:0x6A/255.0 alpha:1];
         if (_patientInfo.PatientSex.length>0)
         {
             _sexLabel.text=_patientInfo.PatientSex;
@@ -126,7 +126,6 @@
         _birthLabel = [[UILabel alloc] initWithFrame:CGRectMake(100*Rate_NAV_W, 0, 240*Rate_NAV_W, 50)];
         _birthLabel.textAlignment = NSTextAlignmentRight;
         _birthLabel.font=[UIFont systemFontOfSize:16*Rate_NAV_H];
-        _birthLabel.textColor = [UIColor colorWithRed:0x64/255.0 green:0x69/255.0 blue:0x6A/255.0 alpha:1];
         if (_patientInfo.Birthday.length > 0)
         {
             _birthLabel.text = _patientInfo.Birthday;
@@ -142,18 +141,17 @@
         _emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(100*Rate_NAV_W, 0, 240*Rate_NAV_W, 50)];
         _emailTextField.textAlignment=NSTextAlignmentRight;
         _emailTextField.font=[UIFont systemFontOfSize:16*Rate_NAV_H];
-        _emailTextField.textColor = [UIColor colorWithRed:0x64/255.0 green:0x69/255.0 blue:0x6A/255.0 alpha:1];
         if (_patientInfo.Email.length > 0 && ![_patientInfo.Email isEqualToString:@"(null)"])
         {
             _emailTextField.text=_patientInfo.Email;
         }
         else if ([_patientInfo.Email isEqualToString:@"(null)"])
         {
-            _emailTextField.placeholder=@"未填写";
+            _emailTextField.placeholder=@"Not filled";
         }
         else
         {
-            _emailTextField.placeholder=@"未填写";
+            _emailTextField.placeholder=@"Not filled";
         }
         _emailTextField.tag = 6;
         _emailTextField.delegate = self;

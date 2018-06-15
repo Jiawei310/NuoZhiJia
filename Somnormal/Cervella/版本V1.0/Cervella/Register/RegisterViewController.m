@@ -7,7 +7,7 @@
 //
 
 #import "RegisterViewController.h"
-
+#import "WebViewController.h"
 #import "DatePickerView.h"
 
 @interface RegisterViewController ()<UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
@@ -131,14 +131,10 @@
 
 #pragma mark - UITextViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
-    if ([[URL scheme] isEqualToString:@"url1"]) {
-        NSString * url = [URL host];
-        
-        NSLog(@"%@",url);
-        
-        // 在这里利用url做点什么事情......
-        
-        return NO;
+    if (URL) {
+        WebViewController *webVC = [[WebViewController alloc] init];
+        webVC.url = URL;
+        [self.navigationController pushViewController:webVC animated:YES];
     }
     return YES;
 }

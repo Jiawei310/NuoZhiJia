@@ -80,7 +80,7 @@
         _backLayer = [CAShapeLayer layer];
         CGRect rect = CGRectMake(2.5, 2.5, self.frame.size.width - 5, self.frame.size.height - 5);
         UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:rect];
-        _backLayer.strokeColor = [UIColor blueColor].CGColor;
+        _backLayer.strokeColor = [UIColor colorWithRed:69/255.0 green:137/255.0 blue:211/255.0 alpha:1].CGColor;
         _backLayer.lineWidth = 1;
         _backLayer.fillColor = [UIColor clearColor].CGColor;
         _backLayer.lineCap = kCALineCapRound;

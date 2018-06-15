@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Question</key>
+		<string>Q: Who should not use Cervella?</string>
+		<key>Answer</key>
+		<string>A: Cervella should not be used by children without supervision. Cervella may affect the operation of implanted devices (e.g. cardiac pacemakers or defibrillators). Safety of stimulation has not been established for women who are pregnant. Always consult your healthcare provider before using Cervella.</string>
+	</dict>
+	<dict>
+		<key>Question</key>
+		<string>Q: When should I not use Cervella?</string>
+		<key>Answer</key>
+		<string>A: Do not operate vehicles or dangerous equipment during treatment and within several hours post-treatment. Treatment prior to bedtime may cause difficulty falling asleep.</string>
+	</dict>
+	<dict>
+		<key>Question</key>
+		<string>Q: What should I do if I experience headache, dizziness, nausea, or other adverse effects?</string>
+		<key>Answer</key>
+		<string>A: First, reduce the intensity level during treatment. Treatment sessions at current intensity levels higher than necessary may cause dizziness and nausea that can last several hours to a few days. If you continue experiencing adverse effects or if you experience paradoxical reactions such as increased anxiety or continued insomnia, consult your healthcare provider immediately.</string>
+	</dict>
+	<dict>
+		<key>Question</key>
+		<string>Q: What should I do if I experience stinging in the area of contact between the headset ear cushions and my skin?</string>
+		<key>Answer</key>
+		<string>A: Ensure that you are using conductive gel (best) or water to wet the contact patch area. Also, make sure that both ear cushions are in tight contact with your skin and the skin is clean of oil and make-up.  Remove any earrings, piercings or jewelry before starting treatment.  Lastly, reduce treatment intensity until the stinging sensation is slightly noticeable but never uncomfortable. Using Cervella at high current levels and without conductive gel or water at the contact patch interface may cause skin irritation.</string>
+	</dict>
+</array>
+</plist>

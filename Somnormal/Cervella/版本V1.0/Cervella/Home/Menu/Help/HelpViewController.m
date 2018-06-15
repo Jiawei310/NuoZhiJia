@@ -17,12 +17,16 @@
 #import "AttentionViewController.h"
 #import "ProductInfoViewController.h"
 
-@interface HelpViewController ()
+#import "WebViewController.h"
+#import "AboutCervellaViewController.h"
 
+@interface HelpViewController ()
+@property (nonatomic, strong) UILabel *deviceLab;
 @end
 
 @implementation HelpViewController
 {
+    
     NSArray *helpArray;
 
     NSArray *configRequireArray;
@@ -51,15 +55,12 @@
     fixedButton.width = -10;
     self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
+    [self.view addSubview:self.deviceLab];
+    
     _helpTableView.delegate=self;
     _helpTableView.dataSource=self;
-    //Use Instructions -> Owner’s Manual
-    //Configuration Requirements -> Quick Start Guide
-    //Precautions
-    //FAQs
-    //Consumables and Accessories Ordering webview
-    //Product Information -> About Cervella
-    helpArray = @[@"Owner’s Manual",@"Quick Start Guide",@"Precautions",@"FAQs",@"Consumables and Accessories Ordering",@"About Cervella"];
+    
+    helpArray = @[@"Owner’s Manual",@"Quick Start Guide",@"Precautions",@"FAQs",@"Operation",@"Consumables and Accessories Ordering",@"About Cervella"];
 
     NSString *plistPath=[[NSBundle mainBundle] pathForResource:@"HelpInfo" ofType:@"plist"];
     NSDictionary *helpInfoDic=[[NSDictionary alloc] initWithContentsOfFile:plistPath];
@@ -101,82 +102,67 @@
 {
     if (indexPath.row==0)
     {
-        //跳转使用方法界面
-        MethodViewController *method=[[MethodViewController alloc] init];
-        
-        [self.navigationController pushViewController:method animated:YES];
+        WebViewController *webVC = [[WebViewController alloc] init];
+        webVC.title = helpArray[indexPath.row];
+        webVC.url = [NSURL URLWithString:@"https://cervella.us/manual"];
+        [self.navigationController pushViewController:webVC animated:YES];
     }
     if (indexPath.row == 1)
     {
-        //跳转到配置要求问题界面
-        ConfigRequireViewController *configRequire=[[ConfigRequireViewController alloc] init];
-        
-        configRequire.configRequireArray=configRequireArray;
-        [self.navigationController pushViewController:configRequire animated:YES];
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"Quick Start Guide" ofType:@"pdf"];
+        WebViewController *webVC = [[WebViewController alloc] init];
+        webVC.title = helpArray[indexPath.row];
+        webVC.url = [NSURL fileURLWithPath:path];
+        [self.navigationController pushViewController:webVC animated:YES];
     }
     else if (indexPath.row==2)
     {
-        //跳转注意事项界面
-        AttentionViewController *attention=[[AttentionViewController alloc] init];
-        
-        [self.navigationController pushViewController:attention animated:YES];
+        CommonProViewController *commonPro=[[CommonProViewController alloc] init];
+        commonPro.title = helpArray[indexPath.row];
+        NSString *plistPath=[[NSBundle mainBundle] pathForResource:@"AttentionList" ofType:@"plist"];
+        commonPro.commonProArray=[NSArray arrayWithContentsOfFile:plistPath];
+        [self.navigationController pushViewController:commonPro animated:YES];
     }
     else if (indexPath.row==3)
     {
-        //跳转到常见问题问题界面
         CommonProViewController *commonPro=[[CommonProViewController alloc] init];
-        
-        commonPro.commonProArray=commonProArray;
+        commonPro.title = helpArray[indexPath.row];
+        commonPro.commonProArray=softwareOptionArray;
         [self.navigationController pushViewController:commonPro animated:YES];
     }
     else if (indexPath.row==4)
     {
-        
+        CommonProViewController *commonPro=[[CommonProViewController alloc] init];
+        commonPro.title = helpArray[indexPath.row];
+        commonPro.commonProArray=commonProArray;
+        [self.navigationController pushViewController:commonPro animated:YES];
     }
     else if (indexPath.row==5)
     {
-        //跳转产品信息界面
-        ProductInfoViewController *productInfo=[[ProductInfoViewController alloc] init];
-        
-        [self.navigationController pushViewController:productInfo animated:YES];
+        WebViewController *webVC = [[WebViewController alloc] init];
+        webVC.title = helpArray[indexPath.row];
+        webVC.url = [NSURL URLWithString:@"https://cervella.us/shop"];
+        [self.navigationController pushViewController:webVC animated:YES];
     }
-    
-    
-    
-//    else if (indexPath.row == 1)
-//    {
-//        //跳转到临床使用问题界面
-//        ClinicalUseViewController *clinicalUse=[[ClinicalUseViewController alloc] init];
-//
-//        clinicalUse.clinicalUseArray=clinicalUseArray;
-//        [self.navigationController pushViewController:clinicalUse animated:YES];
-//    }
-//    else if (indexPath.row==2)
-//    {
-//        //跳转到软件操作问题界面
-//        SoftwareOptionViewController *softwareOption=[[SoftwareOptionViewController alloc] init];
-//
-//        softwareOption.softwareOptionArray=softwareOptionArray;
-//        [self.navigationController pushViewController:softwareOption animated:YES];
-//    }
-//
-//    else if (indexPath.row==4)
-//    {
-//        //跳转到相关耗材问题界面
-//        RelatedConsumViewController *relatedConsum=[[RelatedConsumViewController alloc] init];
-//
-//        relatedConsum.relatedConsumArray=relatedConsumArray;
-//        [self.navigationController pushViewController:relatedConsum animated:YES];
-//    }
-//
-//
-//    else if (indexPath.row==6)
-//    {
-//        //跳转治疗原理界面
-//        PrincipleViewController *principle=[[PrincipleViewController alloc] init];
-//
-//        [self.navigationController pushViewController:principle animated:YES];
-//    }
+    else if (indexPath.row==6)
+    {
+        AboutCervellaViewController *vc = [[AboutCervellaViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
+- (UILabel *)deviceLab {
+    if (!_deviceLab) {
+        _deviceLab = [[UILabel alloc] init];
+        _deviceLab.frame = CGRectMake(0,
+                                      self.view.frame.size.height - 40,
+                                      SCREENWIDTH,
+                                      30);
+        _deviceLab.textAlignment = NSTextAlignmentCenter;
+        _deviceLab.textColor = [UIColor grayColor];
+        _deviceLab.text = @"Cervella Serial Number:168000001506";
+    }
+    return _deviceLab;
 }
 
 - (void)didReceiveMemoryWarning {

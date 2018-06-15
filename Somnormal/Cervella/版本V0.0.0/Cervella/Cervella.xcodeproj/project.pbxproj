@@ -829,8 +829,8 @@
 			isa = PBXGroup;
 			children = (
 				D07B344D1F1358EA0077B2F9 /* Sleep4U */,
-				D07B34421F1358EA0077B2F9 /* About */,
 				D07B34471F1358EA0077B2F9 /* Help */,
+				D07B34421F1358EA0077B2F9 /* About */,
 			);
 			path = Menu;
 			sourceTree = "<group>";

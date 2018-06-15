@@ -24,6 +24,9 @@
     NSString *numberStr_Two;
     
     NSArray *IntelligentHardwareArray;
+    
+    
+    UILabel *batteryLab;//todo:
 }
 
 - (void)viewDidLoad {
@@ -74,6 +77,13 @@
     lineOne.backgroundColor=[UIColor grayColor];
     [self.view addSubview:lineOne];
     
+    //battery level
+    batteryLab = [[UILabel alloc] init];
+    batteryLab.frame = CGRectMake(30, _IntelligentHardwareTableView.frame.origin.y - 40, SCREENWIDTH - 60, 30);
+    batteryLab.textAlignment = NSTextAlignmentCenter;
+    batteryLab.text = @"Cervella Battery Level";
+    [self.view addSubview:batteryLab];
+    
     
     //tableView
     _IntelligentHardwareTableView.contentInset=UIEdgeInsetsMake(-64, 0, 0, 0);
@@ -88,7 +98,7 @@
         IntelligentHardwareArray=@[@"Unbind Cervella"];
         if (_electricQuality!=nil)
         {
-            if ([_electricQuality isEqualToString:@"Unconnected"])
+            if ([_electricQuality isEqualToString:@"Not Connected"])
             {
                 percentLabel.text=_electricQuality;
             }
@@ -106,14 +116,14 @@
         }
         else
         {
-            percentLabel.text=@"Unconnected";
+            percentLabel.text=@"Not Connected";
         }
     }
     else if ([_identify isEqualToString:@"未绑定"])
     {
-        IntelligentHardwareArray=@[@"Search Cervella"];
+        IntelligentHardwareArray=@[@"Search for Cervella"];
         percentLabel.textAlignment=NSTextAlignmentCenter;
-        percentLabel.text=@"Unconnected";
+        percentLabel.text=@"Not Connected";
     }
 
     if (SCREENWIDTH==320)
@@ -145,29 +155,29 @@
     [btn addTarget:self action:@selector(btnTestAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
-//    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [btn2 setTitle:@"test" forState:UIControlStateNormal];
-//    btn2.frame = CGRectMake(0, 200, 60, 60);
-//    btn2.backgroundColor = [UIColor blueColor];
-//    btn2.tag = 11;
-//    [btn2 addTarget:self action:@selector(btnTestAction:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:btn2];
+    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn2 setTitle:@"test" forState:UIControlStateNormal];
+    btn2.frame = CGRectMake(0, 200, 60, 60);
+    btn2.backgroundColor = [UIColor blueColor];
+    btn2.tag = 11;
+    [btn2 addTarget:self action:@selector(btnTestAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn2];
     
 }
 
-//- (void)btnTestAction:(UIButton *)btn {
-//    if (btn.tag == 10) {
-//        FreeBindViewController *freeBindViewController=[[FreeBindViewController alloc] initWithNibName:@"FreeBindViewController" bundle:nil];
-//        
-//        [self.navigationController pushViewController:freeBindViewController animated:YES];
-//    }
-//    else if (btn.tag == 11) {
-//        BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
-//        bindViewController.bindFlag=@"2";
-//
-//        [self.navigationController pushViewController:bindViewController animated:YES];
-//    }
-//}
+- (void)btnTestAction:(UIButton *)btn {
+    if (btn.tag == 10) {
+        FreeBindViewController *freeBindViewController=[[FreeBindViewController alloc] initWithNibName:@"FreeBindViewController" bundle:nil];
+        
+        [self.navigationController pushViewController:freeBindViewController animated:YES];
+    }
+    else if (btn.tag == 11) {
+        BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
+        bindViewController.bindFlag=@"2";
+
+        [self.navigationController pushViewController:bindViewController animated:YES];
+    }
+}
 
 //返回按钮点击事件
 - (void)backLoginClick:(UIButton *)sender

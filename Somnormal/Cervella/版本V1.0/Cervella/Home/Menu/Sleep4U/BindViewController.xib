@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -22,8 +23,8 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2VK-LN-dgb">
-                    <rect key="frame" x="56" y="416" width="263" height="34"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2VK-LN-dgb">
+                    <rect key="frame" x="56" y="420" width="264" height="30"/>
                     <color key="backgroundColor" red="0.065292198460000006" green="0.52483437430000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -41,8 +42,12 @@
                     </constraints>
                     <color key="sectionIndexBackgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </tableView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdC-VF-baW">
-                    <rect key="frame" x="25" y="352" width="324" height="56"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdC-VF-baW">
+                    <rect key="frame" x="16" y="293" width="343" height="109"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="109" id="EiG-qe-Uz9"/>
+                    </constraints>
+                    <string key="text">Ensure that your Cervella device is charged and placed nearby and verify that the Bluetooth function is enabled on your smart device. To pair, simply select your Cervella device from the list below.</string>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -50,15 +55,15 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="pdC-VF-baW" secondAttribute="trailing" constant="26" id="7NP-9E-NgB"/>
+                <constraint firstItem="2VK-LN-dgb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="56" id="0HF-lU-wwa"/>
                 <constraint firstItem="uEM-0A-265" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="IkN-XN-Byc"/>
-                <constraint firstAttribute="trailing" secondItem="2VK-LN-dgb" secondAttribute="trailing" constant="56" id="Ow5-KJ-AmW"/>
-                <constraint firstItem="pdC-VF-baW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="25" id="QTU-Lm-vjX"/>
+                <constraint firstItem="uEM-0A-265" firstAttribute="top" secondItem="2VK-LN-dgb" secondAttribute="bottom" constant="8" symbolic="YES" id="PXg-Jp-dKe"/>
+                <constraint firstItem="pdC-VF-baW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="293" id="RAi-mc-Hww"/>
                 <constraint firstAttribute="bottom" secondItem="uEM-0A-265" secondAttribute="bottom" id="Zqr-nW-gy3"/>
-                <constraint firstItem="2VK-LN-dgb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="56" id="bLE-nj-2lM"/>
                 <constraint firstAttribute="trailing" secondItem="uEM-0A-265" secondAttribute="trailing" id="cPB-Ct-OsK"/>
-                <constraint firstAttribute="bottom" secondItem="2VK-LN-dgb" secondAttribute="bottom" constant="217" id="gBy-Vl-s1J"/>
-                <constraint firstAttribute="bottom" secondItem="pdC-VF-baW" secondAttribute="bottom" constant="259" id="qYn-QQ-emW"/>
+                <constraint firstItem="2VK-LN-dgb" firstAttribute="centerX" secondItem="pdC-VF-baW" secondAttribute="centerX" id="o2f-dK-OBz"/>
+                <constraint firstItem="pdC-VF-baW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" id="p9K-el-Y4d"/>
+                <constraint firstItem="pdC-VF-baW" firstAttribute="centerX" secondItem="uEM-0A-265" secondAttribute="centerX" id="qSQ-Z2-3Fp"/>
             </constraints>
             <point key="canvasLocation" x="464.5" y="307.5"/>
         </view>

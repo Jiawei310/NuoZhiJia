@@ -2,6 +2,84 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>常见问题</key>
+	<array>
+		<dict>
+			<key>Question</key>
+			<string>Q: How soon will I start feeling better?</string>
+			<key>Answer</key>
+			<string>A: Most patients start feeling the positive effects of cranial electrotherapy stimulation within the first week. Note that results vary and are dependent on your condition. Always consult your healthcare provider before starting Cervella and follow the treatment plan as directed. Anxiety is often reduced after a single treatment but may reoccur so consistent treatment sessions is recommended. Many patients suffering from anxiety find it useful to use Cervella at the onset of anxiety or before a high stress situation. Patients with depression will often see improvements in a few weeks, but patients should continue to use Cervella as directed by their healthcare provider. Insomnia is often reduced after a single treatment but, like depression, consistent treatment sessions is recommended even when you are feeling better. When conditions improve, please use Cervella at reduced intervals or on an as-need basis as instructed by your healthcare provider.</string>
+		</dict>
+		<dict>
+			<key>Question</key>
+			<string>Q: What should be the optimal treatment intensity level?</string>
+			<key>Answer</key>
+			<string>A: The optimal treatment intensity level is when you feel a slight tingling around your ears, but the sensation is never uncomfortable or painful. It has been clinically demonstrated that higher current levels do not result in better or faster clinical outcomes so only use the current level that is comfortable.</string>
+		</dict>
+		<dict>
+			<key>Question</key>
+			<string>Q: Which is the best frequency to use?</string>
+			<key>Answer</key>
+			<string>A: The default and most widely used and studied frequency for cranial electrotherapy stimulation is 100Hz. If the default frequency is not effective, try 0.5Hz or 1.5Hz. </string>
+		</dict>
+		<dict>
+			<key>Question</key>
+			<string>Q: What is the optimal treatment duration and how often should I use the device?</string>
+			<key>Answer</key>
+			<string>A: The optimal and default treatment duration is 30 minutes. Treatments in excess of 1 hour are typically not necessary and treatments shorter than 20 minutes may not be effective.</string>
+		</dict>
+		<dict>
+			<key>Question</key>
+			<string>Q: What is the best time to use Cervella?</string>
+			<key>Answer</key>
+			<string>A: For treatment of insomnia, the best time to use Cervella is about 3 hours prior to bedtime. For anxiety and depression treatment, Cervella can be used anytime or immediately prior to a potentially stressful or anxiety-inducing event.  It is not recommended, however, that Cervella is used immediately prior to bedtime as it may cause difficulty in falling asleep.</string>
+		</dict>
+		<dict>
+			<key>Question</key>
+			<string>Q: Can I use Cervella together with medication?</string>
+			<key>Answer</key>
+			<string>A: Generally, yes, but always consult your healthcare professional for specific instructions based on your individual health condition.</string>
+		</dict>
+	</array>
+	<key>软件操作</key>
+	<array>
+		<dict>
+			<key>Question</key>
+			<string>Q: How does Cervella work?</string>
+			<key>Answer</key>
+			<string>A: Cervella works by sending micro pulses of electricity to your brain via electrodes integrated into the ear cushions of the headset. According to clinical and research studies, the micro current has several effects on the brain: it affects the Default Mode Network (DMN), endogenous brain oscillations, and change in neurotransmitter levels such as Serotonin. While the mechanisms of actions are complex and subject to continued research, the efficacy of cranial electrotherapy stimulation for treatment of anxiety, insomnia, and depression are well-demonstrated and documented.</string>
+		</dict>
+		<dict>
+			<key>Question</key>
+			<string>Q: Why should I wet the ear cushions with conductive gel or water?</string>
+			<key>Answer</key>
+			<string>A: The ear cushions contain electrodes that are seamlessly integrated into to the ear cushions. The electrodes are conducting the electric current to your brain via the skin interface. In order for the electricity to flow efficiently, the skin and electrode interface must be of as low resistance as possible. The conductive gel and water lowers the resistance for electricity which allows for better current flow which results in more comfortable treatment.</string>
+		</dict>
+		<dict>
+			<key>Question</key>
+			<string>Q: Why is it that when I press “START” in the timer circle, the timer does not start?</string>
+			<key>Answer</key>
+			<string>A: This is usually caused by the fact that the ear cushions are not making tight contact with your skin, you did not apply the conductive gel, the device is not paired with your app, or the Cervella and headset are not connected via the white electrode cable.</string>
+		</dict>
+		<dict>
+			<key>Question</key>
+			<string>Q: What do the various colors mean for the LED indicator on top of the Cervella?</string>
+			<key>Answer</key>
+			<string>A: The tri-color indicator LED shows you the status of the Cervella device. The LED will blink blue during treatment and solid blue when the treatment is paused. Red means that the Cervella needs to be recharged. Green means that Cervella is charged and is successfully paired with the app. For other colors, please refer to the Owner’s Manual for a detailed explanation.</string>
+		</dict>
+		<dict>
+			<key>Question</key>
+			<string>Q: Can I listen to music and use the ANR feature during treatment?</string>
+			<key>Answer</key>
+			<string>A: Absolutely. You can pair the headset to your smart device and use it as a wireless Bluetooth stereo headset with or without the ANR (Active Noise Reduction) feature. Your headset can be paired with the same device that runs the Cervella app or with a different device (e.g. your computer).</string>
+		</dict>
+		<dict>
+			<key>Question</key>
+			<string>Q: How should I clean the Cervella?</string>
+			<key>Answer</key>
+			<string>A: You can wipe the ear cushions with water using a damp cloth and let air dry. You can also use isopropyl alcohol to disinfect the ear cushions and headband after use. Never use chlorine or aggressive chemicals cleaners to clean the Cervella.</string>
+		</dict>
+	</array>
 	<key>配置要求</key>
 	<array>
 		<dict>
@@ -57,73 +135,6 @@
 	             （2）Epilepsy patients or individuals with family genetic history of epilepsy;
 	             （3）Patients with implanted electronic devices such as pacemakers or insulin pumps;
 	             （4）Patients with recent cerebral hemorrhage stroke, brain trauma or brain lesions;</string>
-		</dict>
-	</array>
-	<key>软件操作</key>
-	<array>
-		<dict>
-			<key>Question</key>
-			<string>1. How to adjust stimulation intensity?</string>
-			<key>Answer</key>
-			<string>Answer: After connecting to &quot;Somnormal&quot; Insomnia, press button at left side of stimulation intensity bar to reduce current; press button at right side of stimulation intensity bar to increase current.</string>
-		</dict>
-		<dict>
-			<key>Question</key>
-			<string>2. How to select stimulation mode?</string>
-			<key>Answer</key>
-			<string>Answer: Normal mode is &quot;Mode 1&quot;, which should function relatively well. If symptom persists after two weeks of use, you can switch to &quot;Mode 2&quot; and continue treatment. If you no longer feel tingling at the ears after days or weeks of using &quot;Mode 1&quot; or &quot;Mode 2&quot; regardless of stimulation intensity, use &quot;Mode 3&quot; once and then continue treatment with the previously used mode.</string>
-		</dict>
-		<dict>
-			<key>Question</key>
-			<string>3. How to start/stop treatment after setting the stimulation mode?</string>
-			<key>Answer</key>
-			<string>Answer: Press Start in the timer circle to start treatment; after treatment begins, the timer circle will display as &quot;stop&quot;. Press it to stop treatment.</string>
-		</dict>
-		<dict>
-			<key>Question</key>
-			<string>4. Do I have to select stimulation mode every time I use Somnormal?</string>
-			<key>Answer</key>
-			<string>Answer: No. Other than first time use, Somnormal will follow the last used stimulation mode for treatment.</string>
-		</dict>
-		<dict>
-			<key>Question</key>
-			<string>5. After registering with one account, how to Login with other accounts?</string>
-			<key>Answer</key>
-			<string>Answer: After signing in to the software main interface, click &quot;Personal Centre&quot; --&gt; &quot;My Information&quot; --&gt; &quot;Logout&quot; to return to login interface. However, the previously signed in account information will not be recorded.</string>
-		</dict>
-		<dict>
-			<key>Question</key>
-			<string>6. Do I have to connect to &quot;Somnormal&quot; when I use the software?</string>
-			<key>Answer</key>
-			<string>Answer: No. Other than &quot;Start Somnormal&quot; function requires connection to &quot;Somnormal&quot;, other functions can be used directly.</string>
-		</dict>
-		<dict>
-			<key>Question</key>
-			<string>7. What should I do if I forgot my password?</string>
-			<key>Answer</key>
-			<string>Answer: When connecting to network, input user account at Login interface. Click on the &quot;Forgot Password&quot; button there to enter the cell-phone number verification interface. Click &quot;Verify&quot; to receive verification number to input, and then click &quot;Next&quot; to enter password reset interface to re-enter login password. You can also contact the hotline +65-65632678 for assistance.</string>
-		</dict>
-		<dict>
-			<key>Question</key>
-			<string>8. When do I need to connect to the network with the device?</string>
-			<key>Answer</key>
-			<string>Answer: Network connection is required for registering new user, recovering password, first login for accounts, editing personal information, and data synchronizing. Other functions do not have this requirement, but you should use it with Wi-Fi connection whenever possible to ensure data is updated.</string>
-		</dict>
-	</array>
-	<key>常见问题</key>
-	<array>
-		<dict>
-			<key>Question</key>
-			<string>1. Why is it that I cannot adjust the stimulation intensity?</string>
-			<key>Answer</key>
-			<string>Answer:（1）Somnormal is not connected (Somnormal Host). Please bind Somnormal via Bluetooth first. If you do not have Somnormal, please purchase from us. 
-	             （2）the phone you use does not support Bluetooth 4.0 function (Bluetooth of your handphone cannot find &quot;Sleep4U-xxxxxxxxxxxx&quot; device). Please change to cell-phones that support Bluetooth 4.0 to connect to Somnormal.</string>
-		</dict>
-		<dict>
-			<key>Question</key>
-			<string>2. Why is it that when I press &quot;Start&quot; in the timer circle, and the timer number flashes without changing?</string>
-			<key>Answer</key>
-			<string>Answer: Connect &quot;Somnormal&quot; properly and set stimulation mode before starting. The timer number is not changing because the electrode cables are not connected properly. Please check if the felts on the earpieces are soaked with saline, check whether the earclips and earlobes are intact, and check the connection of the electrode cable plug and Somnormal.</string>
 		</dict>
 	</array>
 	<key>相关耗材</key>

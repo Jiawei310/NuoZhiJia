@@ -65,20 +65,20 @@
 
 - (void)preparData:(NSString *)sexStr
 {
-    if ([sexStr isEqualToString:@"男"])
+    if ([sexStr isEqualToString:@"F"])
     {
         _sexIndex = 0;
-        self.sexArray = @[@"男",@"女"];
+        self.sexArray = @[@"F",@"M"];
     }
-    else if ([sexStr isEqualToString:@"女"])
+    else if ([sexStr isEqualToString:@"M"])
     {
         _sexIndex = 1;
-        self.sexArray = @[@"男",@"女"];
+        self.sexArray = @[@"F",@"M"];
     }
     else
     {
         _sexIndex = 0;
-        self.sexArray = @[@"性别",@"男",@"女"];
+        self.sexArray = @[@"Sex",@"F",@"M"];
     }
 }
 
@@ -99,11 +99,11 @@
     NSString *sexSelect;
     if (_sexIndex == 0)
     {
-        sexSelect = @"男";
+        sexSelect = @"F";
     }
     else if (_sexIndex == 1)
     {
-        sexSelect = @"女";
+        sexSelect = @"M";
     }
     self.gotoSrceenOrderBySexPickBlock(sexSelect);
 }

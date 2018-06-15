@@ -53,28 +53,6 @@
     [self.view addSubview:phone];
     [self.view addSubview:unbind];
     
-    if (SCREENHEIGHT == 480)
-    {
-        _Label_One.font = [UIFont systemFontOfSize:12];
-        _Label_Two.font = [UIFont systemFontOfSize:12];
-    }
-    _Label_One.textAlignment = NSTextAlignmentCenter;
-    _Label_One.text = @"Unpair after, Cervella will not work properly";
-    _Label_One.adjustsFontSizeToFitWidth = YES;
-    _Label_Two.textAlignment = NSTextAlignmentCenter;
-    _Label_Two.text=@"Unpair after, Cervella can be connected using other mobile phone or replace it";
-    _Label_Two.numberOfLines = 0;
-    if (SCREENHEIGHT == 667)
-    {
-        _Label_One.font = [UIFont systemFontOfSize:20];
-        _Label_Two.font = [UIFont systemFontOfSize:20];
-    }
-    else if (SCREENWIDTH == 736)
-    {
-        _Label_One.font = [UIFont systemFontOfSize:22.5];
-        _Label_Two.font = [UIFont systemFontOfSize:22.5];
-    }
-    
     [_FreeBindButton setBackgroundColor:[UIColor colorWithRed:0x25/255.0 green:0x7e/255.0 blue:0xd6/255.0 alpha:1]];
     [_FreeBindButton setTitle:@"Unpair Cervella" forState:UIControlStateNormal];
     if (SCREENHEIGHT == 667)
