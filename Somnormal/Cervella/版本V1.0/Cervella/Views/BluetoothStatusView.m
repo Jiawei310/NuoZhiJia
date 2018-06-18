@@ -56,9 +56,22 @@
     [CATransaction commit];
 }
 
+- (void)readTime {
+    if (self.timers > 0) {
+        self.timers = self.timers - 1;
+        [self setTimeText];
+    } else {
+        self.statusType = StatusTypeStop;
+    }
+}
+
+- (void)setTimeText {
+    self.timeLab.text = [NSString stringWithFormat:@"%.2ld:%.2ld", self.timers/60, self.timers%60];
+}
+
 - (void)tapGestureAction {
     if (self.bluetoothStatusViewBlock) {
-        self.bluetoothStatusViewBlock();
+        self.bluetoothStatusViewBlock(self.statusType);
     }
 }
 
@@ -140,24 +153,23 @@
         self.startLab.hidden = YES;
     }
     else if (statusType == StatusTypeStart) {
-        self.timeLab.text = @"10:00";
-
         self.startLab.hidden = NO;
         self.startLab.frame = CGRectMake(24,
                                          self.timeLab.frame.size.height + self.timeLab.frame.origin.y,
                                          self.frame.size.width - 48,
                                          30);
         self.startLab.text = @"Start";
+        [self setTimeText];
+
     }
     else if (statusType == StatusTypeStop) {
-        self.timeLab.text = @"10:00";
-
         self.startLab.hidden = NO;
         self.startLab.frame = CGRectMake(5,
                                          self.timeLab.frame.size.height + self.timeLab.frame.origin.y,
                                          self.frame.size.width - 10,
                                          30);
         self.startLab.text = @"Stop";
+        [self setTimeText];
     }
 }
 

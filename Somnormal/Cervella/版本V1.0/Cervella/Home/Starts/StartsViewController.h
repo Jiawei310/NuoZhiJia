@@ -36,7 +36,7 @@
 //设置程序进入后台的时间
 @property (nonatomic, strong) NSTimer *_updateTimer;
 
-@property TreatInfo *treatInfo;
+//@property TreatInfo *treatInfo;
 @property BluetoothInfo *bluetoothInfo;
 
 @property NSArray *BluetoothInfoArray;

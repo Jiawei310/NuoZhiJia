@@ -18,7 +18,9 @@ typedef NS_ENUM(NSInteger, StatusType) {
 }
 
 @property (nonatomic, assign) StatusType statusType;
-@property (copy) void (^bluetoothStatusViewBlock)(void);
+@property (nonatomic, assign) NSUInteger timers;//单位秒
+@property (copy) void (^bluetoothStatusViewBlock)(StatusType);
 
 - (void)updateProgressWithNumber:(NSUInteger)number;
+- (void)readTime;
 @end

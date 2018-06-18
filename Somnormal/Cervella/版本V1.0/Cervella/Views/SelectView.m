@@ -32,6 +32,7 @@
 - (void)showViewInView:(UIView *)view {
     [view addSubview:self.backView];
     [view addSubview:self];
+    self.center = view.center;
 
 
     [self.tableView reloadData];

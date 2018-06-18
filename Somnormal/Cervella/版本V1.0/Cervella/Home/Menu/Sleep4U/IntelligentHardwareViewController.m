@@ -147,37 +147,37 @@
     _IntelligentHardwareTableView.dataSource=self;
     
     //test botton
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setTitle:@"test" forState:UIControlStateNormal];
-    btn.frame = CGRectMake(0, 100, 60, 60);
-    btn.backgroundColor = [UIColor blueColor];
-    btn.tag = 10;
-    [btn addTarget:self action:@selector(btnTestAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn];
-    
-    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn2 setTitle:@"test" forState:UIControlStateNormal];
-    btn2.frame = CGRectMake(0, 200, 60, 60);
-    btn2.backgroundColor = [UIColor blueColor];
-    btn2.tag = 11;
-    [btn2 addTarget:self action:@selector(btnTestAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn2];
+//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [btn setTitle:@"test" forState:UIControlStateNormal];
+//    btn.frame = CGRectMake(0, 100, 60, 60);
+//    btn.backgroundColor = [UIColor blueColor];
+//    btn.tag = 10;
+//    [btn addTarget:self action:@selector(btnTestAction:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:btn];
+//
+//    UIButton *btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+//    [btn2 setTitle:@"test" forState:UIControlStateNormal];
+//    btn2.frame = CGRectMake(0, 200, 60, 60);
+//    btn2.backgroundColor = [UIColor blueColor];
+//    btn2.tag = 11;
+//    [btn2 addTarget:self action:@selector(btnTestAction:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:btn2];
     
 }
 
-- (void)btnTestAction:(UIButton *)btn {
-    if (btn.tag == 10) {
-        FreeBindViewController *freeBindViewController=[[FreeBindViewController alloc] initWithNibName:@"FreeBindViewController" bundle:nil];
-        
-        [self.navigationController pushViewController:freeBindViewController animated:YES];
-    }
-    else if (btn.tag == 11) {
-        BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
-        bindViewController.bindFlag=@"2";
-
-        [self.navigationController pushViewController:bindViewController animated:YES];
-    }
-}
+//- (void)btnTestAction:(UIButton *)btn {
+//    if (btn.tag == 10) {
+//        FreeBindViewController *freeBindViewController=[[FreeBindViewController alloc] initWithNibName:@"FreeBindViewController" bundle:nil];
+//        
+//        [self.navigationController pushViewController:freeBindViewController animated:YES];
+//    }
+//    else if (btn.tag == 11) {
+//        BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
+//        bindViewController.bindFlag=@"2";
+//
+//        [self.navigationController pushViewController:bindViewController animated:YES];
+//    }
+//}
 
 //返回按钮点击事件
 - (void)backLoginClick:(UIButton *)sender

@@ -19,6 +19,6 @@
 
 //@property (nonatomic, weak) id<ImageTitleDetialViewDelegate>delegate;
 
-@property (copy) void (^imageTitleDetailViewBlock)(NSInteger);
+@property (copy) void (^imageTitleDetailViewBlock)();
 
 @end

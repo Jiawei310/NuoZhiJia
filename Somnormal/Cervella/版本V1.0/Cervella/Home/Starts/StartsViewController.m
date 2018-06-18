@@ -15,7 +15,16 @@
 
 #import "ColorsSliderView.h"
 #import "ImageTitleDetialView.h"
+#import "SelectView.h"
 #import "BluetoothStatusView.h"
+
+
+
+#define FrequencySelectors @[@"0.5Hz",@"1.5Hz",@"100Hz"]
+#define TimeSelectors @[@"10min",@"20min",@"30min",@"40min",@"50min",@"60min"]
+#define TimeSelectorsInteger @[600,1200,1800,2400,3000,3600]
+
+
 
 @interface StartsViewController ()<UITableViewDelegate,UITableViewDataSource,NSXMLParserDelegate,NSURLConnectionDelegate, ColorsSliderViewDelegate>
 
@@ -30,16 +39,24 @@
 
 @implementation StartsViewController
 {
+    NSInteger intensityLevel;
+    UILabel   *intensityLevelLabel;                   //用来显示电流强度大小
+
+    ColorsSliderView *colorsSliderView;
+    
+    NSInteger frequencySelector; 
+    NSInteger timeSelector;
+    
+
+
+    
+    
+    
+    
     NSString *bleState;  //蓝牙状态
     
     NSTimer *checkElectric;                //设置阻抗检测的NSTimer对象
-    
-    NSInteger electricCurrentNum;          //读取本地数据库中电流强度
-    UIButton *leftButton;
-    UIButton *rightButton;
-    AutoSlider *slider;
-    ColorsSliderView *colorsSliderView;
-    
+
     UIButton *modelButton;                 //刺激模式按钮
     
     UIButton *optionButton;                //操作按钮（显示开始、倒计时等等信息及功能，为圆形按钮）
@@ -49,7 +66,6 @@
     UIColor *tintColor;
     
     NSMutableArray *electricCurrentButtonArray;  //存储电流强度12个button的数组
-    UILabel *electricNumLabel;                   //用来显示电流强度大小
     
     NSArray *modelArray;                         //存储刺激模式的数组
     
@@ -58,8 +74,6 @@
     UIButton *selectButton;                //标志是否选中这一行，或者是否选择这个频率或者时间
     
     NSMutableArray *modelButtonArray;           //存储tableviewcell中模式按钮的数组
-    NSInteger timeIndex;                                 //用来记录选择时间的index
-    NSInteger modelIndex;                                //用来记录选择模式的index
     
     NSString *order;
     NSString *value;
@@ -125,89 +139,35 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    //数据库读取治疗数据
+    [self initTreatInfo];
+    
+    /**************强度***************/
+    [self addSectionOne];
+    /***************频率和时间**************/
+    [self addSectionTwo];
+    /***************治疗**************/
+    [self addSectionThree];
+
+    
+    
+    
+    
     
     //1.创建CBCentralManager
-    self.centralMgr=[[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    self.centralMgr = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    modelArray = [NSArray arrayWithObjects:@"1",@"2",@"3", nil];
     
-    modelArray=[NSArray arrayWithObjects:@"1",@"2",@"3", nil];
-    
-    dbOpration=[[DataBaseOpration alloc] init];
-    NSArray *treatInfoArray=[dbOpration getTreatDataFromDataBase];
-    [dbOpration closeDataBase];
-    if (_patientInfo!=nil)
-    {
-        NSMutableArray *treatInfoAtPatientID=[NSMutableArray array];
-        for (TreatInfo *tmp in treatInfoArray)
-        {
-            if ([tmp.PatientID isEqualToString:_patientInfo.PatientID])
-            {
-                [treatInfoAtPatientID addObject:tmp];
-            }
-        }
-        //判断数据库中是否有治疗数据
-        if (treatInfoAtPatientID.count>0)
-        {
-            _treatInfo=[treatInfoAtPatientID objectAtIndex:treatInfoAtPatientID.count-1];
-        }
-    }
-    
-    modelButtonArray=[NSMutableArray array];
-    stringArray=[NSMutableArray array];
-    
-    if (_treatInfo==nil)
-    {
-        modelIndex=0;
-        timeIndex=1;
-        time=1200;
-        timeout=1200;
-        electricCurrentNum=1;
-    }
-    else
-    {
-        time=[_treatInfo.Time intValue]; //倒计时时间
-        if ([_treatInfo.Frequency isEqualToString:@"1"])
-        {
-            modelIndex=0;
-        }
-        else if ([_treatInfo.Frequency isEqualToString:@"2"])
-        {
-            modelIndex=1;
-        }
-        else if ([_treatInfo.Frequency isEqualToString:@"3"])
-        {
-            modelIndex=2;
-        }
-        if ([_treatInfo.Time isEqualToString:@"600"])
-        {
-            timeIndex=0;
-            timeout=600;
-        }
-        else if ([_treatInfo.Time isEqualToString:@"1200"])
-        {
-            timeIndex=1;
-            timeout=1200;
-        }
-        else if ([_treatInfo.Time isEqualToString:@"2400"])
-        {
-            timeIndex=2;
-            timeout=2400;
-        }
-        else if ([_treatInfo.Time isEqualToString:@"3600"])
-        {
-            timeIndex=3;
-            timeout=3600;
-        }
-        electricCurrentNum=[_treatInfo.Strength integerValue];
-    }
-    
-    /***************第一部分**************/
-    electricCurrentButtonArray=[NSMutableArray array];
-    [self addSectionOne];
-    /***************第二、三部分合并**************/
-    [self addSectionTwoAndThree];
-    /***************第四部分**************/
-    [self addSectionFour];
+    modelButtonArray = [NSMutableArray array];
+    stringArray = [NSMutableArray array];
+    electricCurrentButtonArray = [NSMutableArray array];
+    hasConnect = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
     
     //注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendBluetoothInfoValue:) name:@"Note" object:nil];
@@ -215,9 +175,69 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(freeBluetoothInfo) name:@"Free" object:nil];
     //注册切换用户通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeUser) name:@"ChangeUser" object:nil];
-    
-    hasConnect=NO;
 }
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:YES];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma  mark - init
+- (void)initTreatInfo {
+    //数据库读取治疗数据
+    dbOpration = [[DataBaseOpration alloc] init];
+    NSArray *treatInfoArray = [dbOpration getTreatDataFromDataBase];
+    [dbOpration closeDataBase];
+    
+    TreatInfo *treatInfo = nil;
+    if (_patientInfo != nil)
+    {
+        NSMutableArray *treatInfoAtPatientID = [NSMutableArray array];
+        for (TreatInfo *tmp in treatInfoArray)
+        {
+            if ([tmp.PatientID isEqualToString:_patientInfo.PatientID])
+            {
+                [treatInfoAtPatientID addObject:tmp];
+            }
+        }
+        //读取最后治疗数据，更改设施
+        if (treatInfoAtPatientID.count > 0) {
+            treatInfo=[treatInfoAtPatientID objectAtIndex:treatInfoAtPatientID.count-1];
+        }
+    }
+    
+    if (treatInfo == nil) {
+        frequencySelector = 0;
+        timeSelector = 1;
+        time = 1200;
+        timeout = 1200;
+        intensityLevel=1;
+    } else {
+        time = [treatInfo.Time intValue]; //倒计时时间
+        NSInteger selector = treatInfo.Frequency.integerValue;
+        if (selector >= 1) {
+            frequencySelector = selector - 1;
+        }
+        
+        
+        if ([treatInfo.Time isEqualToString:@"600"]) {
+            timeSelector = 0;
+            timeout = 600;
+        } else if ([treatInfo.Time isEqualToString:@"1200"]) {
+            timeSelector = 1;
+            timeout = 1200;
+        } else if ([treatInfo.Time isEqualToString:@"2400"]) {
+            timeSelector = 2;
+            timeout = 2400;
+        } else if ([treatInfo.Time isEqualToString:@"3600"]) {
+            timeSelector = 3;
+            timeout = 3600;
+        }
+        intensityLevel = [treatInfo.Strength integerValue];
+    }
+}
+
 
 //每秒发送一次命令，检测是否连通
 -(void)impedancePerseconds
@@ -233,36 +253,37 @@
         }
     }
 }
-/***************第一部分**************/
+/***************强度**************/
 -(void)addSectionOne
 {
-    UIImageView *electricView=[[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT/30, SCREENWIDTH/15, CES_SCREENH_HEIGHT/21)];
-    [electricView setImage:[UIImage imageNamed:@"ces_strength"]];
+    UIImageView *intensityView=[[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT/30, SCREENWIDTH/15, CES_SCREENH_HEIGHT/21)];
+    [intensityView setImage:[UIImage imageNamed:@"ces_strength"]];
     
     UILabel *electricLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/12+SCREENWIDTH/10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT/30, SCREENWIDTH/2, CES_SCREENH_HEIGHT/16)];
     electricLabel.text=@"Intensity Level";
-    electricNumLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH-SCREENWIDTH/4, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT/30, SCREENWIDTH/8, CES_SCREENH_HEIGHT/16)];
+    
+    intensityLevelLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH-SCREENWIDTH/4, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT/30, SCREENWIDTH/8, CES_SCREENH_HEIGHT/16)];
     if (SCREENWIDTH==320)
     {
         electricLabel.font=[UIFont systemFontOfSize:20];
-        electricNumLabel.font=[UIFont systemFontOfSize:20];
+        intensityLevelLabel.font=[UIFont systemFontOfSize:20];
     }
     else if (SCREENWIDTH==375)
     {
         electricLabel.font=[UIFont systemFontOfSize:22.5];
-        electricNumLabel.font=[UIFont systemFontOfSize:22.5];
+        intensityLevelLabel.font=[UIFont systemFontOfSize:22.5];
     }
     else
     {
         electricLabel.font=[UIFont systemFontOfSize:25];
-        electricNumLabel.font=[UIFont systemFontOfSize:25];
+        intensityLevelLabel.font=[UIFont systemFontOfSize:25];
     }
-    NSString *str=[NSString stringWithFormat:@"%ld",(long)electricCurrentNum];
-    electricNumLabel.textColor=[UIColor redColor];
-    electricNumLabel.text=str;
-    [self.view addSubview:electricView];
+    NSString *str=[NSString stringWithFormat:@"%ld",(long)intensityLevel];
+    intensityLevelLabel.textColor=[UIColor redColor];
+    intensityLevelLabel.text=str;
+    [self.view addSubview:intensityView];
     [self.view addSubview:electricLabel];
-    [self.view addSubview:electricNumLabel];
+    [self.view addSubview:intensityLevelLabel];
     
     colorsSliderView = [[ColorsSliderView alloc] init];
     CGFloat w = colorSliderd_d * 11 + colorSliderWidth * 10;
@@ -271,56 +292,81 @@
     [self.view addSubview:colorsSliderView];
 }
 
-//ColorsSliderViewDelegate
+#pragma mark - ColorsSliderViewDelegate
 - (void)selectIndex:(NSInteger)index {
-    electricCurrentNum = index;
-    NSString *str = [NSString stringWithFormat:@"%ld",(long)electricCurrentNum];
-    electricNumLabel.text= str ;
+    intensityLevel = index;
+    NSString *str = [NSString stringWithFormat:@"%ld",(long)intensityLevel];
+    intensityLevelLabel.text = str ;
     [self sendElectricSetOrder];
 }
 
-/***************第二、三部分合并**************/
--(void)addSectionTwoAndThree
+/***************frequency time**************/
+-(void)addSectionTwo
 {
-    
-    NSArray *dataArr = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":@"0.5Hz"},
-                         @{@"image":@"time",@"title":@"Time",@"detail":@"10min"}
-                         ];
-    //Frequency
+    NSArray *dataArr = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":@"0.5Hz"}];
     ImageTitleDetialView *frequencyView = [[ImageTitleDetialView alloc] init];
-    frequencyView.frame = CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH - 60, dataArr.count * 50.0f);
+    frequencyView.frame = CGRectMake(SCREENWIDTH/12,
+                                     CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60,
+                                     SCREENWIDTH - 60,
+                                     dataArr.count * 50.0f);
     frequencyView.items = dataArr;
+    
+    SelectView *frequencySelectView = [[SelectView alloc] init];
+    frequencySelectView.titile = @"请选择";
+    frequencySelectView.items = FrequencySelectors;
+    frequencySelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 150);
+    __weak typeof (*&self) weakSelf = self;
+    frequencySelectView.selectViewBlock = ^(NSInteger index) {
+        
+    };
+    
+    frequencyView.imageTitleDetailViewBlock = ^(NSInteger index) {
+        [frequencySelectView showViewInView:weakSelf.view];
+    };
     [self.view addSubview:frequencyView];
     
     
     
-//    //Frequency
-//    UIImageView *modelView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/15, CES_SCREENH_HEIGHT/21)];
-//    [modelView setImage:[UIImage imageNamed:@"ces_freq"]];
-//
-//    UILabel *modelLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/12+SCREENWIDTH/10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16)];
-//    modelLabel.text=@"Frequency";
-//    modelButton = [UIButton buttonWithType:UIButtonTypeSystem];
-//    modelButton.tag = 1;//3;
-//    modelButton.frame = CGRectMake(SCREENWIDTH-SCREENWIDTH*3.5/8, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60, SCREENWIDTH/3, CES_SCREENH_HEIGHT/16);
-//    if (modelIndex==0)
-//    {
-//        [modelButton setTitle:@"0.5Hz" forState:UIControlStateNormal];
-//    }
-//    else if (modelIndex==1)
-//    {
-//        [modelButton setTitle:@"1.5Hz" forState:UIControlStateNormal];
-//    }
-//    else if (modelIndex==2)
-//    {
-//        [modelButton setTitle:@"100Hz" forState:UIControlStateNormal];
-//    }
-//
-//    [modelButton addTarget:self action:@selector(chooseModel:) forControlEvents:UIControlEventTouchUpInside];
+    NSArray *timeData = @[@{@"image":@"time",@"title":@"Time",@"detail":@"10min"}];
+    ImageTitleDetialView *timeView = [[ImageTitleDetialView alloc] init];
+    timeView.frame = CGRectMake(SCREENWIDTH/12,
+                                CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60 + 50,
+                                SCREENWIDTH - 60,
+                                dataArr.count * 50.0f);
+    timeView.items = timeData;
+    SelectView *timeSelectView = [[SelectView alloc] init];
+    timeSelectView.titile = @"请选择";
+    timeSelectView.items = TimeSelectors;
+    timeSelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 150);
+    timeSelectView.selectViewBlock = ^(NSInteger index) {
+        
+    };
     
-//    [self.view addSubview:modelView];
-//    [self.view addSubview:modelLabel];
-//    [self.view addSubview:modelButton];
+    timeView.imageTitleDetailViewBlock = ^(NSInteger index) {
+        [timeSelectView showViewInView:weakSelf.view];
+    };
+    [self.view addSubview:timeView];
+    
+    UIView *lineTopView = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12,
+                                                                   CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60,
+                                                                   SCREENWIDTH - 60,
+                                                                   1.5)];
+    lineTopView.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:lineTopView];
+    
+    UIView *lineCenterView = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12,
+                                                                   CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60 + 50,
+                                                                   SCREENWIDTH - 60,
+                                                                   0.5)];
+    lineCenterView.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:lineCenterView];
+    
+    UIView *linebottomView = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12,
+                                                                      CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60 + 100,
+                                                                      SCREENWIDTH - 60,
+                                                                      0.5)];
+    linebottomView.backgroundColor = [UIColor grayColor];
+    [self.view addSubview:linebottomView];
 }
 
 //实现刺激模式选择
@@ -367,42 +413,19 @@
 }
 
 /***************第四部分**************/
--(void)addSectionFour
+-(void)addSectionThree
 {
     BluetoothStatusView *bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 150)/2.0, SCREENHEIGHT - 300.0f, 120, 120)];
+    bluetoothStatusView.timers = 60 * 10;
     bluetoothStatusView.statusType = StatusTypeStart;
-    
     [self.view addSubview:bluetoothStatusView];
     
     
     
     
     
-    myLayer=[[CAShapeLayer alloc] init];
     
-    if (SCREENWIDTH==320 && SCREENHEIGHT==568)
-    {
-        myLayer.frame=CGRectMake(87, 271, 146, 146);
-    }
-    if (SCREENWIDTH==320 && SCREENHEIGHT==480)
-    {
-        myLayer.frame=CGRectMake(87, 218, 146, 146);
-    }
-    else if (SCREENWIDTH==375)
-    {
-        myLayer.frame=CGRectMake(102, 329.7, 171, 171);
-    }
-    else if (SCREENWIDTH==414)
-    {
-        myLayer.frame=CGRectMake(112.5, 370.5, 189, 189);
-    }
-    myLayer.path = [self drawPathWithArcCenter:-1 andEnd:3];
-    myLayer.fillColor = [UIColor clearColor].CGColor;
-    myLayer.strokeColor = [UIColor colorWithRed:184/255.0 green:233/255.0 blue:134/255.0 alpha:1.0].CGColor;
-    myLayer.lineWidth = 10;
     
-    [self setupLayer];
-//    [self.view.layer addSublayer:myLayer];
     
     _timeLimit=time;
     _elapsedTime=0;
@@ -514,15 +537,6 @@
     [self startAnimation];
 }
 
-- (double)percent
-{
-    _percent = [self calculatePercent:_elapsedTime toTime:_timeLimit];
-    
-    myLayer.path = [self drawPathWithArcCenter:4*_percent-1 andEnd:3];
-    myLayer.strokeColor= [UIColor colorWithRed:184/255.0 green:233/255.0 blue:134/255.0 alpha:1.0].CGColor;
-    
-    return _percent;
-}
 
 - (double)calculatePercent:(NSTimeInterval)fromTime toTime:(NSTimeInterval)toTime
 {
@@ -657,73 +671,73 @@
     NSString *strFrequency=[NSString string];
     NSString *strTime=[NSString string];
     NSString *strVerify=[NSString string];
-    if (modelIndex==0)
+    if (frequencySelector==0)
     {
         strFrequency=@"00";
-        if (timeIndex==0)
+        if (timeSelector==0)
         {
             strTime=@"0A";
             strVerify=@"96";
         }
-        else if (timeIndex==1)
+        else if (timeSelector==1)
         {
             strTime=@"14";
             strVerify=@"A0";
         }
-        else if (timeIndex==2)
+        else if (timeSelector==2)
         {
             strTime=@"28";
             strVerify=@"B4";
         }
-        else if (timeIndex==3)
+        else if (timeSelector==3)
         {
             strTime=@"3C";
             strVerify=@"C8";
         }
     }
-    else if (modelIndex==1)
+    else if (frequencySelector==1)
     {
         strFrequency=@"01";
-        if (timeIndex==0)
+        if (timeSelector==0)
         {
             strTime=@"0A";
             strVerify=@"97";
         }
-        else if (timeIndex==1)
+        else if (timeSelector==1)
         {
             strTime=@"14";
             strVerify=@"A1";
         }
-        else if (timeIndex==2)
+        else if (timeSelector==2)
         {
             strTime=@"28";
             strVerify=@"B5";
         }
-        else if (timeIndex==3)
+        else if (timeSelector==3)
         {
             strTime=@"3C";
             strVerify=@"C9";
         }
     }
-    else if (modelIndex==2)
+    else if (frequencySelector==2)
     {
         strFrequency=@"02";
-        if (timeIndex==0)
+        if (timeSelector==0)
         {
             strTime=@"0A";
             strVerify=@"98";
         }
-        else if (timeIndex==1)
+        else if (timeSelector==1)
         {
             strTime=@"14";
             strVerify=@"A2";
         }
-        else if (timeIndex==2)
+        else if (timeSelector==2)
         {
             strTime=@"28";
             strVerify=@"B6";
         }
-        else if (timeIndex==3)
+        else if (timeSelector==3)
         {
             strTime=@"3C";
             strVerify=@"CA";
@@ -745,66 +759,66 @@
 {
     NSString *strElectric=[NSString string];
     NSString *strElectricVerify=[NSString string];
-    if (electricCurrentNum==0)
+    if (intensityLevel==0)
     {
         strElectric=@"00";
         strElectricVerify=@"8E";
     }
-    else if (electricCurrentNum==1)
+    else if (intensityLevel==1)
     {
         strElectric=@"01";
         strElectricVerify=@"8F";
     }
-    else if (electricCurrentNum==2)
+    else if (intensityLevel==2)
     {
         strElectric=@"02";
         strElectricVerify=@"90";
     }
-    else if (electricCurrentNum==3)
+    else if (intensityLevel==3)
     {
         strElectric=@"03";
         strElectricVerify=@"91";
     }
-    else if (electricCurrentNum==4)
+    else if (intensityLevel==4)
     {
         strElectric=@"04";
         strElectricVerify=@"92";
     }
-    else if (electricCurrentNum==5)
+    else if (intensityLevel==5)
     {
         strElectric=@"05";
         strElectricVerify=@"93";
     }
-    else if (electricCurrentNum==6)
+    else if (intensityLevel==6)
     {
         strElectric=@"06";
         strElectricVerify=@"94";
     }
-    else if (electricCurrentNum==7)
+    else if (intensityLevel==7)
     {
         strElectric=@"07";
         strElectricVerify=@"95";
     }
-    else if (electricCurrentNum==8)
+    else if (intensityLevel==8)
     {
         strElectric=@"08";
         strElectricVerify=@"96";
     }
-    else if (electricCurrentNum==9)
+    else if (intensityLevel==9)
     {
         strElectric=@"09";
         strElectricVerify=@"97";
     }
-    else if (electricCurrentNum==10)
+    else if (intensityLevel==10)
     {
         strElectric=@"0A";
         strElectricVerify=@"98";
-    }else if (electricCurrentNum==11)
+    }else if (intensityLevel==11)
     {
         strElectric=@"0B";
         strElectricVerify=@"99";
     }
-    else if (electricCurrentNum==12)
+    else if (intensityLevel==12)
     {
         strElectric=@"0C";
         strElectricVerify=@"9A";
@@ -888,32 +902,33 @@
                             TreatInfo *treatInfoTmp=[[TreatInfo alloc] init];
                             treatInfoTmp.PatientID=_patientInfo.PatientID;
                             treatInfoTmp.Date=[BegainTime substringWithRange:NSMakeRange(0, 10)];
-                            treatInfoTmp.Strength=[NSString stringWithFormat:@"%ld",(long)electricCurrentNum];
-                            if (modelIndex==0)
+                            treatInfoTmp.Strength=[NSString stringWithFormat:@"%ld",(long)intensityLevel];
+                            if (frequencySelector==0)
                             {
                                 treatInfoTmp.Frequency=@"1";
                             }
-                            else if (modelIndex==1)
+                            else if (frequencySelector==1)
                             {
                                 treatInfoTmp.Frequency=@"2";
                             }
-                            else if (modelIndex==2)
+                            else if (frequencySelector==2)
                             {
                                 treatInfoTmp.Frequency=@"3";
                             }
-                            if (timeIndex==0)
+                            
+                            if (timeSelector==0)
                             {
                                 treatInfoTmp.Time=@"600";
                             }
-                            else if (timeIndex==1)
+                            else if (timeSelector==1)
                             {
                                 treatInfoTmp.Time=@"1200";
                             }
-                            else if (timeIndex==2)
+                            else if (timeSelector==2)
                             {
                                 treatInfoTmp.Time=@"2400";
                             }
-                            else if (timeIndex==3)
+                            else if (timeSelector==3)
                             {
                                 treatInfoTmp.Time=@"3600";
                             }
@@ -962,32 +977,32 @@
                             TreatInfo *treatInfoTmp=[[TreatInfo alloc] init];
                             treatInfoTmp.PatientID=_patientInfo.PatientID;
                             treatInfoTmp.Date=[BegainTime substringWithRange:NSMakeRange(0, 10)];
-                            treatInfoTmp.Strength=[NSString stringWithFormat:@"%ld",(long)electricCurrentNum];;
-                            if (modelIndex==0)
+                            treatInfoTmp.Strength=[NSString stringWithFormat:@"%ld",(long)intensityLevel];;
+                            if (frequencySelector==0)
                             {
                                 treatInfoTmp.Frequency=@"1";
                             }
-                            else if (modelIndex==1)
+                            else if (frequencySelector==1)
                             {
                                 treatInfoTmp.Frequency=@"2";
                             }
-                            else if (modelIndex==2)
+                            else if (frequencySelector==2)
                             {
                                 treatInfoTmp.Frequency=@"3";
                             }
-                            if (timeIndex==0)
+                            if (timeSelector==0)
                             {
                                 treatInfoTmp.Time=@"600";
                             }
-                            else if (timeIndex==1)
+                            else if (timeSelector==1)
                             {
                                 treatInfoTmp.Time=@"1200";
                             }
-                            else if (timeIndex==2)
+                            else if (timeSelector==2)
                             {
                                 treatInfoTmp.Time=@"2400";
                             }
-                            else if (timeIndex==3)
+                            else if (timeSelector==3)
                             {
                                 treatInfoTmp.Time=@"3600";
                             }
@@ -1110,32 +1125,32 @@
         TreatInfo *treatInfoTmp=[[TreatInfo alloc] init];
         treatInfoTmp.PatientID=_patientInfo.PatientID;
         treatInfoTmp.Date=[BegainTime substringWithRange:NSMakeRange(0, 10)];
-        treatInfoTmp.Strength=[NSString stringWithFormat:@"%ld",(long)electricCurrentNum];
-        if (modelIndex==0)
+        treatInfoTmp.Strength=[NSString stringWithFormat:@"%ld",(long)intensityLevel];
+        if (frequencySelector==0)
         {
             treatInfoTmp.Frequency=@"1";
         }
-        else if (modelIndex==1)
+        else if (frequencySelector==1)
         {
             treatInfoTmp.Frequency=@"2";
         }
-        else if (modelIndex==2)
+        else if (frequencySelector==2)
         {
             treatInfoTmp.Frequency=@"3";
         }
-        if (timeIndex==0)
+        if (timeSelector==0)
         {
             treatInfoTmp.Time=@"600";
         }
-        else if (timeIndex==1)
+        else if (timeSelector==1)
         {
             treatInfoTmp.Time=@"1200";
         }
-        else if (timeIndex==2)
+        else if (timeSelector==2)
         {
             treatInfoTmp.Time=@"2400";
         }
-        else if (timeIndex==3)
+        else if (timeSelector==3)
         {
             treatInfoTmp.Time=@"3600";
         }
@@ -2032,7 +2047,7 @@
     UITableViewCell *cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:Identifier];
     
     selectButton=[[UIButton alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5, 0, 30,40)];
-    if (indexPath.row == modelIndex)
+    if (indexPath.row == frequencySelector)
     {
         [selectButton setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateNormal];
     }
@@ -2081,8 +2096,8 @@
     UIButton *tmp0=[modelButtonArray objectAtIndex:0];
     UIButton *tmp1=[modelButtonArray objectAtIndex:1];
     UIButton *tmp2=[modelButtonArray objectAtIndex:2];
-    modelIndex=sender.tag;
-    timeIndex=1;
+    frequencySelector=sender.tag;
+    timeSelector=1;
     time=1200;
     timeout=1200;
     _timeLimit=time;
@@ -2135,8 +2150,8 @@
     UIButton *tmp0=[modelButtonArray objectAtIndex:0];
     UIButton *tmp1=[modelButtonArray objectAtIndex:1];
     UIButton *tmp2=[modelButtonArray objectAtIndex:2];
-    modelIndex=indexPath.row;
-    timeIndex=1;
+    frequencySelector=indexPath.row;
+    timeSelector=1;
     time=1200;
     timeout=1200;
     _timeLimit=time;
