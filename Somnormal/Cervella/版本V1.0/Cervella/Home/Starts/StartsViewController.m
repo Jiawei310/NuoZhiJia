@@ -44,6 +44,7 @@
 
 @implementation StartsViewController
 {
+    NSArray *scanednEquipments;
     
     NSInteger intensityLevel;
     UILabel   *intensityLevelLabel;         //用来显示电流强度大小
@@ -54,9 +55,14 @@
     __block NSInteger frequencySelector;
     __block NSInteger timeSelector;
     
+    BluetoothStatusView *bluetoothStatusView;
     NSInteger timeDuration;              //倒计时总时长 s
+    NSInteger timeRemaining;            //剩余时间
+    NSTimer *countDownTimer;
+
     
     DataBaseOpration *dbOpration;
+    
     
 }
 @synthesize webData,soapResults,xmlParser,elementFound,matchingElement,conn;
@@ -66,6 +72,13 @@
     // Do any additional setup after loading the view from its nib.
     
     self.view.backgroundColor = [UIColor whiteColor];
+    //注册链接蓝牙通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendBluetoothInfoValue:) name:@"Note" object:nil];
+    //注册解绑通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(freeBluetoothInfo) name:@"Free" object:nil];
+    //注册切换用户通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeUser) name:@"ChangeUser" object:nil];
+    
     
     //数据库读取治疗数据
     [self initTreatInfo];
@@ -78,21 +91,9 @@
     [self addSectionThree];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:YES];
-    
-    //注册通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendBluetoothInfoValue:) name:@"Note" object:nil];
-    //注册解绑通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(freeBluetoothInfo) name:@"Free" object:nil];
-    //注册切换用户通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeUser) name:@"ChangeUser" object:nil];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:YES];
-    
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [countDownTimer invalidate];
 }
 
 #pragma  mark - init
@@ -123,10 +124,12 @@
         frequencySelector = 0;
         timeSelector =  0;
         intensityLevel = 1;
+        timeDuration = [TimeSelectorsInteger[0] integerValue];
     } else {
         intensityLevel = [treatInfo.Strength integerValue];
         frequencySelector = [FrequencySelectorsInteger indexOfObject:treatInfo.Frequency];
         timeSelector = [TimeSelectorsInteger indexOfObject:treatInfo.Time];
+        timeDuration = [treatInfo.Time integerValue];
     }
 }
 
@@ -244,23 +247,85 @@
 /***************第四部分**************/
 -(void)addSectionThree
 {
-    BluetoothStatusView *bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 150)/2.0, SCREENHEIGHT - 300.0f, 120, 120)];
-    bluetoothStatusView.timers = 60 * 10;
-    bluetoothStatusView.statusType = StatusTypeStart;
+    bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 150)/2.0, SCREENHEIGHT - 300.0f, 120, 120)];
+    bluetoothStatusView.timers = timeDuration;
+    bluetoothStatusView.statusType = StatusTypeNone;
+    __weak typeof (*&self) weakSelf = self;
+    bluetoothStatusView.bluetoothStatusViewBlock = ^(StatusType statusType) {
+        if (statusType == StatusTypeNone) {
+            //圆形操作按钮点击事件（绑定疗疗、开始点刺激、停止等等）
+            BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
+            bindViewController.bindFlag=@"1";
+            [weakSelf.navigationController pushViewController:bindViewController animated:YES];
+
+        } else if (statusType == StatusTypeStart) {
+            bluetoothStatusView.statusType = StatusTypeStop;
+            frequencyView.isCanSelect = NO;
+            timeRemaining = timeDuration;
+            //开始倒计时
+            [weakSelf.bluetooth startWork];
+            [weakSelf timeCountDown];
+
+        } else if (statusType == StatusTypeStop) {
+            bluetoothStatusView.statusType = StatusTypeStart;
+            frequencyView.isCanSelect = YES;
+            timeRemaining = timeDuration;
+            bluetoothStatusView.timers = timeRemaining;
+
+
+            //开始重新
+            [countDownTimer invalidate];
+            [weakSelf.bluetooth endWork];
+        }
+    };
+    
     [self.view addSubview:bluetoothStatusView];
 }
 
+//倒计时
+- (void)timeCountDown {
+    countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
+}
 
+- (void)handleTimer {
+    if (timeRemaining > 0) {
+        timeRemaining = timeRemaining - 1;
+        bluetoothStatusView.timers = timeRemaining;
+    }
+    else {
+        bluetoothStatusView.statusType = StatusTypeStart;
+        frequencyView.isCanSelect = YES;
+        timeRemaining = timeDuration;
+        bluetoothStatusView.timers = timeRemaining;
+
+
+        //开始重新
+        [countDownTimer invalidate];
+        [self.bluetooth endWork];
+    }
+}
+
+//选择链接蓝牙设备
+- (void)sendBluetoothInfoValue:(NSNotification *)bluetoothInfo
+{
+    BLEInfo *bleinfo = [bluetoothInfo.userInfo objectForKey:@"BLEInfo"];
+    for (Equipment *eq in scanednEquipments) {
+        if ([[bleinfo.discoveredPeripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
+            [self.bluetooth connectEquipment:eq];
+            return;
+        }
+    }
+}
 
 #pragma mark -- BluetoothDelegate
 - (void)scanedEquipments:(NSArray *)equipments {
     //搜索到设备
-    NSLog(@"%@", equipments);
+    scanednEquipments = equipments;
 }
 
 - (void)connectState:(ConnectState)connectState Error:(NSError *)error {
     if (connectState == ConnectStateNormal) { //正常链接成功
-        
+        bluetoothStatusView.statusType = StatusTypeStart;
     }
     else {
         UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"有错误，连接失败" preferredStyle:(UIAlertControllerStyleAlert)];
@@ -288,11 +353,6 @@
     }
 }
 
-//圆形操作按钮点击事件（绑定疗疗、开始点刺激、停止等等）
-//BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
-//bindViewController.bindFlag=@"1";
-//
-//[self.navigationController pushViewController:bindViewController animated:YES];
 
 
 

@@ -38,7 +38,7 @@
         [self addSubview:self.timeLab];
         [self addSubview:self.startLab];
         
-        [self updateProgressWithNumber:1.0];
+        [self updateProgressWithPercent:0.001];
     }
     return self;
 }
@@ -48,25 +48,12 @@
 }
 
 
-- (void)updateProgressWithNumber:(NSUInteger)number {
+- (void)updateProgressWithPercent:(CGFloat )percent {
     [CATransaction begin];
     [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
     [CATransaction setAnimationDuration:0.5];
-    self.progressLayer.strokeEnd = number/100.0;
+    self.progressLayer.strokeEnd = percent;
     [CATransaction commit];
-}
-
-- (void)readTime {
-    if (self.timers > 0) {
-        self.timers = self.timers - 1;
-        [self setTimeText];
-    } else {
-        self.statusType = StatusTypeStop;
-    }
-}
-
-- (void)setTimeText {
-    self.timeLab.text = [NSString stringWithFormat:@"%.2ld:%.2ld", self.timers/60, self.timers%60];
 }
 
 - (void)tapGestureAction {
@@ -123,8 +110,6 @@
     return _tapGesture;
 }
 
-
-
 - (UILabel *)timeLab {
     if (!_timeLab) {
         _timeLab = [[UILabel alloc] init];
@@ -159,7 +144,7 @@
                                          self.frame.size.width - 48,
                                          30);
         self.startLab.text = @"Start";
-        [self setTimeText];
+        self.timeLab.text = [NSString stringWithFormat:@"%.2ld:%.2ld", self.timers/60, self.timers%60];
 
     }
     else if (statusType == StatusTypeStop) {
@@ -169,8 +154,14 @@
                                          self.frame.size.width - 10,
                                          30);
         self.startLab.text = @"Stop";
-        [self setTimeText];
+        self.timeLab.text = [NSString stringWithFormat:@"%.2ld:%.2ld", self.timers/60, self.timers%60];
+
     }
+}
+
+- (void)setTimers:(NSUInteger)timers {
+    _timers = timers;
+    self.timeLab.text = [NSString stringWithFormat:@"%.2ld:%.2ld", _timers/60, _timers%60];
 }
 
 
