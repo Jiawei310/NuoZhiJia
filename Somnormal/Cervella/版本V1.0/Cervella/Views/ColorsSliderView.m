@@ -32,6 +32,7 @@
             btn.selected = NO;
         }
     }
+    
     if ([self.delegate respondsToSelector:@selector(selectIndex:)]) {
         [self.delegate selectIndex:button.tag];
     }
@@ -60,6 +61,12 @@
         _btnsArr = arr;
     }
     return _btnsArr;
+}
+
+- (void)setLevel:(NSInteger)level {
+    _level = level;
+    UIButton *btn = self.btnsArr[level];
+    [self btnAction:btn];
 }
 
 

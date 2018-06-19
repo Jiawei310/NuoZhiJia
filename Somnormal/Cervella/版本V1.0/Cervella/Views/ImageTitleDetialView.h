@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, assign) NSInteger selector;
+@property (nonatomic, assign) BOOL isCanSelect;
 
 //@property (nonatomic, weak) id<ImageTitleDetialViewDelegate>delegate;
 

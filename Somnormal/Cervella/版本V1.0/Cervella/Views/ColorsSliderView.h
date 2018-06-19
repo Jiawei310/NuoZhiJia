@@ -20,4 +20,5 @@
 @interface ColorsSliderView : UIView
 
 @property (nonatomic, weak) id<ColorsSliderViewDelegate>delegate;
+@property (nonatomic, assign) NSInteger level;
 @end

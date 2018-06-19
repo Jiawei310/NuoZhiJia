@@ -64,7 +64,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *dict = self.items[indexPath.row];
+//    NSDictionary *dict = self.items[indexPath.row];
     if (self.imageTitleDetailViewBlock) {
         self.imageTitleDetailViewBlock();
     }
@@ -100,6 +100,14 @@
         _tableView.scrollEnabled = NO;
     }
     return _tableView;
+}
+- (void)setItems:(NSArray *)items {
+    _items = items;
+    [self.tableView reloadData];
+}
+- (void)setIsCanSelect:(BOOL)isCanSelect {
+    _isCanSelect = isCanSelect;
+    self.tableView.allowsSelection = isCanSelect;
 }
 
 //- (SelectView *)selectView {

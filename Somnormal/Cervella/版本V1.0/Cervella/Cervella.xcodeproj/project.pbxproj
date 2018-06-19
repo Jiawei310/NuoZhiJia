@@ -137,6 +137,10 @@
 		E905492D20D1078600F39334 /* ColorsSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492C20D1078600F39334 /* ColorsSliderView.m */; };
 		E905493020D11BFC00F39334 /* SelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492F20D11BFC00F39334 /* SelectView.m */; };
 		E905493320D125E200F39334 /* ImageTitleDetialView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905493220D125E200F39334 /* ImageTitleDetialView.m */; };
+		E91214C120D8F0A300E32D38 /* Bluetooth.m in Sources */ = {isa = PBXBuildFile; fileRef = E91214BA20D8F0A300E32D38 /* Bluetooth.m */; };
+		E91214C220D8F0A300E32D38 /* CommandManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E91214BC20D8F0A300E32D38 /* CommandManager.m */; };
+		E91214C320D8F0A300E32D38 /* Equipment.m in Sources */ = {isa = PBXBuildFile; fileRef = E91214BE20D8F0A300E32D38 /* Equipment.m */; };
+		E91214C420D8F0A300E32D38 /* Tool.m in Sources */ = {isa = PBXBuildFile; fileRef = E91214C020D8F0A300E32D38 /* Tool.m */; };
 		E92D49A320D35B4B00C3026A /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92D49A220D35B4B00C3026A /* WebViewController.m */; };
 		E92D49A520D36FAB00C3026A /* Quick Start Guide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = E92D49A420D36FAB00C3026A /* Quick Start Guide.pdf */; };
 		E92D49A820D384B400C3026A /* AboutCervellaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92D49A720D384B400C3026A /* AboutCervellaViewController.m */; };
@@ -385,6 +389,14 @@
 		E905492F20D11BFC00F39334 /* SelectView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectView.m; sourceTree = "<group>"; };
 		E905493120D125E200F39334 /* ImageTitleDetialView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageTitleDetialView.h; sourceTree = "<group>"; };
 		E905493220D125E200F39334 /* ImageTitleDetialView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageTitleDetialView.m; sourceTree = "<group>"; };
+		E91214B920D8F0A300E32D38 /* Bluetooth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bluetooth.h; sourceTree = "<group>"; };
+		E91214BA20D8F0A300E32D38 /* Bluetooth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bluetooth.m; sourceTree = "<group>"; };
+		E91214BB20D8F0A300E32D38 /* CommandManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandManager.h; sourceTree = "<group>"; };
+		E91214BC20D8F0A300E32D38 /* CommandManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandManager.m; sourceTree = "<group>"; };
+		E91214BD20D8F0A300E32D38 /* Equipment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Equipment.h; sourceTree = "<group>"; };
+		E91214BE20D8F0A300E32D38 /* Equipment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Equipment.m; sourceTree = "<group>"; };
+		E91214BF20D8F0A300E32D38 /* Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tool.h; sourceTree = "<group>"; };
+		E91214C020D8F0A300E32D38 /* Tool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tool.m; sourceTree = "<group>"; };
 		E92D49A120D35B4B00C3026A /* WebViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		E92D49A220D35B4B00C3026A /* WebViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		E92D49A420D36FAB00C3026A /* Quick Start Guide.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Quick Start Guide.pdf"; sourceTree = "<group>"; };
@@ -786,6 +798,7 @@
 			children = (
 				D04377581F026E370061F279 /* ThirdHelper */,
 				D043770B1F02688B0061F279 /* Structs */,
+				E91214B820D8F0A300E32D38 /* BlueToothSDK */,
 				D04376F41F02688B0061F279 /* Model */,
 				D04377B01F0385D00061F279 /* Views */,
 				D07B34C21F13B1830077B2F9 /* Category */,
@@ -1032,6 +1045,21 @@
 			path = Category;
 			sourceTree = "<group>";
 		};
+		E91214B820D8F0A300E32D38 /* BlueToothSDK */ = {
+			isa = PBXGroup;
+			children = (
+				E91214B920D8F0A300E32D38 /* Bluetooth.h */,
+				E91214BA20D8F0A300E32D38 /* Bluetooth.m */,
+				E91214BB20D8F0A300E32D38 /* CommandManager.h */,
+				E91214BC20D8F0A300E32D38 /* CommandManager.m */,
+				E91214BD20D8F0A300E32D38 /* Equipment.h */,
+				E91214BE20D8F0A300E32D38 /* Equipment.m */,
+				E91214BF20D8F0A300E32D38 /* Tool.h */,
+				E91214C020D8F0A300E32D38 /* Tool.m */,
+			);
+			path = BlueToothSDK;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1244,7 +1272,9 @@
 				D04377921F026E370061F279 /* UIImageView+HighlightedWebCache.m in Sources */,
 				D04377831F026E370061F279 /* JXTAlertController.m in Sources */,
 				D04377271F02688B0061F279 /* PatientInfo.m in Sources */,
+				E91214C220D8F0A300E32D38 /* CommandManager.m in Sources */,
 				D04377A11F0344620061F279 /* HSK_CFUtilities.m in Sources */,
+				E91214C120D8F0A300E32D38 /* Bluetooth.m in Sources */,
 				D04377231F02688B0061F279 /* BLEInfo.m in Sources */,
 				D07B34BF1F13887D0077B2F9 /* AssessmentViewController.m in Sources */,
 				D07B34571F13591C0077B2F9 /* BindViewController.m in Sources */,
@@ -1267,10 +1297,12 @@
 				D022E0DA1F0F3BC600D92F7C /* TreatDataViewController.m in Sources */,
 				D07B34B41F135B480077B2F9 /* RelatedConsumViewController.m in Sources */,
 				D043778D1F026E370061F279 /* SDWebImagePrefetcher.m in Sources */,
+				E91214C320D8F0A300E32D38 /* Equipment.m in Sources */,
 				E9F6E9A220D2130A008DBB72 /* BluetoothStatusView.m in Sources */,
 				D022E0DF1F0F3BD800D92F7C /* AssessDataViewController.m in Sources */,
 				D07B34651F13596B0077B2F9 /* MethodViewController.m in Sources */,
 				D07B346A1F135A040077B2F9 /* PrincipleViewController.m in Sources */,
+				E91214C420D8F0A300E32D38 /* Tool.m in Sources */,
 				E905493020D11BFC00F39334 /* SelectView.m in Sources */,
 				D06B8C591F0142EE00531D8E /* ViewController.m in Sources */,
 				D04377841F026E370061F279 /* JXTAlertView.m in Sources */,
