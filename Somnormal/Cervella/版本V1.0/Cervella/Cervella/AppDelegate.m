@@ -17,8 +17,6 @@
 
 @implementation AppDelegate
 {
-      PatientInfo *patientInfo;
-    BluetoothInfo *bluetoothInfo;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -39,9 +37,8 @@
     } else {
         //从数据库读取数据传到主界面（读取NSUserDefaults中的该PatientID用户信息表信息、治疗数据、评估数据以及蓝牙外设，读完数据之后关闭数据库）
         DataBaseOpration *dataBaseOpration = [[DataBaseOpration alloc] init];
-        NSArray *bluetoothInfoArray=[dataBaseOpration getBluetoothDataFromDataBase];
         NSArray *patientInfoArray = [dataBaseOpration getPatientDataFromDataBase];
-        
+        PatientInfo *patientInfo = nil;
         for (PatientInfo *tmp in patientInfoArray)
         {
             if ([tmp.PatientID isEqualToString:userName])
@@ -49,17 +46,12 @@
                 patientInfo = tmp;
             }
         }
-        
-        if (bluetoothInfoArray.count>0)
-        {
-            bluetoothInfo=[bluetoothInfoArray objectAtIndex:0];
-        }
         [dataBaseOpration closeDataBase];
+
         
         //设置HomeViewController为根视图控制器
         HomeViewController *rootView = [[HomeViewController alloc] init];
         rootView.patientInfo = patientInfo;
-        rootView.bluetoothInfo = bluetoothInfo;
         rootVC = rootView;
     }
     

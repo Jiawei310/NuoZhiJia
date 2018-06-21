@@ -13,7 +13,6 @@
 @interface HomeViewController : UIViewController<NSXMLParserDelegate,NSURLConnectionDelegate>
 
 @property (nonatomic, strong)   PatientInfo *patientInfo;
-@property (nonatomic, strong) BluetoothInfo *bluetoothInfo;
 
 @property (strong,nonatomic) NSMutableData *webData;
 @property (strong,nonatomic) NSMutableString *soapResults;

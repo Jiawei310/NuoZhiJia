@@ -226,6 +226,15 @@
 {
     _currentItemIndex = currentItemIndex;
     UIButton *button = _itemBtns[currentItemIndex];
+    for (UIButton *btn in _itemBtns) {
+        if (button == btn) {
+            btn.selected = YES;
+        }
+        else {
+            btn.selected = NO;
+        }
+    }
+    
     CGFloat flag = _showArrowButton ? (SCREEN_WIDTH - ARROW_BUTTON_WIDTH) : SCREEN_WIDTH;
     
     if (button.frame.origin.x + button.frame.size.width > flag)

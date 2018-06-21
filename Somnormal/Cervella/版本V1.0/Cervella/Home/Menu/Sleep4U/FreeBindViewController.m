@@ -77,22 +77,14 @@
     DataBaseOpration *dbOpration = [[DataBaseOpration alloc] init];
     [dbOpration deletePeripheralInfo];
     [dbOpration closeDataBase];
+    
+    
     NSNotification *notification = [NSNotification notificationWithName:@"Free" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
+    
     //2.跳转界面
     NSArray *arr = self.navigationController.viewControllers;
-    if (arr.count == 5)
-    {
-        [self.navigationController popToViewController:[arr objectAtIndex:2] animated:YES];
-    }
-    else if (arr.count == 4)
-    {
-        [self.navigationController popToViewController:[arr objectAtIndex:1] animated:YES];
-    }
-    else
-    {
-        [self.navigationController popToViewController:[arr objectAtIndex:0] animated:YES];
-    }
+    [self.navigationController popToViewController:[arr objectAtIndex:arr.count - 3] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

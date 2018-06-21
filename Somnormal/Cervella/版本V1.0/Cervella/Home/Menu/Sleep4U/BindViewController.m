@@ -10,7 +10,10 @@
 #import "BluetoothInfo.h"
 #import "StartsViewController.h"
 
-@interface BindViewController ()
+#import "Bluetooth.h"
+
+@interface BindViewController () <BluetoothDelegate>
+@property (nonatomic, strong) Bluetooth *bluetooth;
 
 @end
 
@@ -24,7 +27,7 @@
     
     DataBaseOpration *dbOpration;
 }
-@synthesize centralMgr,arrayBLE;
+@synthesize arrayBLE;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,15 +44,11 @@
     [backLogin setImage:[UIImage imageNamed:@"btn_back"] forState:UIControlStateNormal];
     [backLogin addTarget:self action:@selector(backLoginClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backLoginItem = [[UIBarButtonItem alloc] initWithCustomView:backLogin];
+    
     //添加fixedButton是为了让backLoginItem往左边靠拢
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedButton.width = -10;
     self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
-    
-    //1.创建CBCentralManager
-    self.centralMgr = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-    self.arrayBLE = [[NSMutableArray alloc] init];
-    
     
     [_scanButton setBackgroundColor:[UIColor colorWithRed:0x25/255.0 green:0x7e/255.0 blue:0xd6/255.0 alpha:1]];
     [self.scanButton setTitle:@"Search Again" forState:UIControlStateNormal];
@@ -86,6 +85,8 @@
     [self.view addSubview:bind];
     
     [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(scanClick:) userInfo:nil repeats:NO];
+    
+    self.arrayBLE = [[NSMutableArray alloc] init];
 }
 
 //返回按钮点击事件
@@ -98,67 +99,15 @@
 - (IBAction)scanClick:(id)sender
 {
     [arrayBLE removeAllObjects];
-    if (self.centralMgr.state == CBCentralManagerStatePoweredOn)
-    {
-        [self.centralMgr scanForPeripheralsWithServices:nil options:nil];
-    }
+    [self.bluetooth scanEquipment];
     [self.scanResultTableView reloadData];
 }
 
-#pragma mark -CBCentralManagerDelegate方法(required)
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central
-{
-    switch (central.state)
-    {
-        case CBCentralManagerStateUnknown:
-            NSLog(@">>>CBCentralManagerStateUnknown");
-            break;
-        case CBCentralManagerStateResetting:
-            NSLog(@">>>CBCentralManagerStateResetting");
-            break;
-        case CBCentralManagerStateUnsupported:
-            NSLog(@">>>CBCentralManagerStateUnsupported");
-            break;
-        case CBCentralManagerStateUnauthorized:
-            NSLog(@">>>CBCentralManagerStateUnauthorized");
-            break;
-        case CBCentralManagerStatePoweredOff:
-            NSLog(@">>>CBCentralManagerStatePoweredOff");
-            break;
-        case CBCentralManagerStatePoweredOn:
-            NSLog(@">>>CBCentralManagerStatePoweredOn");
-            break;
-            
-        default:
-            break;
-    }
-}
-
-- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
-{
-    BLEInfo *discoveredBLEInfo = [[BLEInfo alloc] init];
-    discoveredBLEInfo.discoveredPeripheral = peripheral;
-    discoveredBLEInfo.rssi = RSSI;
-    
-    [self saveBLE:discoveredBLEInfo];
-}
-
-#pragma mark -更新tableview的数据源
--(BOOL)saveBLE:(BLEInfo *)discoveredBLEInfo
-{
-    for (BLEInfo *info in self.arrayBLE)
-    {
-        if ([info.discoveredPeripheral.identifier.UUIDString isEqualToString:discoveredBLEInfo.discoveredPeripheral.identifier.UUIDString])
-        {
-            return NO;
-        }
-    }
-    if ([discoveredBLEInfo.discoveredPeripheral.name isEqualToString:@"NZJ-iHappySleep"] || [discoveredBLEInfo.discoveredPeripheral.name containsString:@"Sleep4U"])
-    {
-        [self.arrayBLE addObject:discoveredBLEInfo];
-    }
+#pragma mark -- BluetoothDelegate
+- (void)scanedEquipments:(NSArray *)equipments {
+    //搜索到设备
+    arrayBLE = [equipments mutableCopy];
     [self.scanResultTableView reloadData];
-    return YES;
 }
 
 #pragma mark -tableview的方法
@@ -178,19 +127,18 @@
         BLEcell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"blecell"];
     }
     
-    BLEInfo *discoveredBLEInfo = [BLEInfo new];
-    discoveredBLEInfo = [arrayBLE objectAtIndex:indexPath.row];
-    
     nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/30, 0, SCREENWIDTH/2, 40)];
     nameLabel.font = [UIFont systemFontOfSize:16];
     UUIDLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/2 + SCREENWIDTH/30, 0, SCREENWIDTH/2-SCREENWIDTH/15, 40)];
     UUIDLabel.font = [UIFont systemFontOfSize:16];
     UUIDLabel.textAlignment = NSTextAlignmentRight;
     
-    NSString* uuid = [NSString stringWithFormat:@"%@",[discoveredBLEInfo.discoveredPeripheral identifier]];
-    uuid = [uuid substringFromIndex:[uuid length] - 13];
     
-    nameLabel.text = discoveredBLEInfo.discoveredPeripheral.name;
+    Equipment *eq = [arrayBLE objectAtIndex:indexPath.row];
+    nameLabel.text = eq.peripheral.name;
+    
+    NSString* uuid = [NSString stringWithFormat:@"%@",[eq.peripheral identifier]];
+    uuid = [uuid substringFromIndex:[uuid length] - 13];
     UUIDLabel.text = uuid;
     
     [BLEcell.contentView addSubview:nameLabel];
@@ -201,50 +149,31 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BLEInfo *bleInfo = [arrayBLE objectAtIndex:indexPath.row];
-    //1.将选择的外设存储到数据库并关闭数据库
-    dbOpration = [[DataBaseOpration alloc] init];
-    BluetoothInfo *bluetoothInfo = [[BluetoothInfo alloc] init];
-    bluetoothInfo.saveId = @"1";
-    bluetoothInfo.peripheralIdentify = bleInfo.discoveredPeripheral.identifier.UUIDString;
-    [dbOpration insertPeripheralInfo:bluetoothInfo];
+    Equipment *eq = [arrayBLE objectAtIndex:indexPath.row];
+    
     //2.采用通知传值
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.centralMgr,@"CBCentralManager",bleInfo,@"BLEInfo", nil];
-    NSNotification *notification = [NSNotification notificationWithName:@"Note" object:nil userInfo:dic];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:eq,@"BLEInfo", nil];
+    NSNotification *notification = [NSNotification notificationWithName:@"connectBLE" object:nil userInfo:dic];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
     
     NSArray *arr = self.navigationController.viewControllers;
-    
     if ([_bindFlag isEqualToString:@"1"])
     {
-        if (arr.count == 4)
-        {
-            [self.navigationController popToViewController:[arr objectAtIndex:2] animated:YES];
-        }
-        else if(arr.count == 3)
-        {
-            [self.navigationController popToViewController:[arr objectAtIndex:1] animated:YES];
-        }
-        else
-        {
-            [self.navigationController popToViewController:[arr objectAtIndex:0] animated:YES];
-        }
+        [self.navigationController popToViewController:[arr objectAtIndex:arr.count - 2] animated:YES];
     }
     else if ([_bindFlag isEqualToString:@"2"])
     {
-        if (arr.count == 5)
-        {
-            [self.navigationController popToViewController:[arr objectAtIndex:2] animated:YES];
-        }
-        else if(arr.count == 4)
-        {
-            [self.navigationController popToViewController:[arr objectAtIndex:1] animated:YES];
-        }
-        else
-        {
-            [self.navigationController popToViewController:[arr objectAtIndex:0] animated:YES];
-        }
+        [self.navigationController popToViewController:[arr objectAtIndex:arr.count - 3] animated:YES];
     }
+}
+
+#pragma mark setter and getter
+- (Bluetooth *)bluetooth {
+    if (!_bluetooth) {
+        _bluetooth = [[Bluetooth alloc] init];
+        _bluetooth.delegate = self;
+    }
+    return _bluetooth;
 }
 
 - (void)didReceiveMemoryWarning {

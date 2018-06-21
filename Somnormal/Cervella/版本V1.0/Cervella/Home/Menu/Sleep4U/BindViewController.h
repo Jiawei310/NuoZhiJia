@@ -14,7 +14,6 @@
 
 @property NSString *bindFlag;
 
-@property (nonatomic,strong) CBCentralManager *centralMgr;
 @property (nonatomic,strong) NSMutableArray *arrayBLE;
 
 @property NSMutableArray *peripheralsArray;

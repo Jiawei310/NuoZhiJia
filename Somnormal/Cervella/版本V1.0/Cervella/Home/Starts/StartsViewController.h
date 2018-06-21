@@ -12,21 +12,15 @@
 #import "BLEInfo.h"
 #import "TreatInfo.h"
 #import "BluetoothInfo.h"
+#import "Bluetooth.h"
 
 #import "BindViewController.h"
 
-@protocol sendElectricQuality <NSObject>
-
--(void)sendElectricQualityValue:(NSString *)string;
-
-@end
-
 @interface StartsViewController : UIViewController
-
 @property (nonatomic, strong) PatientInfo *patientInfo;
-@property BluetoothInfo *bluetoothInfo;
-@property id<sendElectricQuality>delegate;
 
+@property (nonatomic, strong) Bluetooth *bluetooth;
+@property (strong,nonatomic) BluetoothInfo *bluetoothInfo;
 
 
 

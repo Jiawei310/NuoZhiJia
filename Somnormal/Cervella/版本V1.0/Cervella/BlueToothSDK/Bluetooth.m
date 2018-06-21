@@ -60,7 +60,6 @@
         
         [self.centralManager scanForPeripheralsWithServices:nil options:nil];
         _scanTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(scanTimerAction) userInfo:nil repeats:NO];
-
     }
 }
 

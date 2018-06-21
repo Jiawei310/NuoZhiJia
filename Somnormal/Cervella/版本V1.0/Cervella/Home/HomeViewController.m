@@ -23,7 +23,7 @@
 #import "MyInfoViewController.h"
 
 
-@interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource,sendElectricQuality>
+@interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property UITableView *menuTableView;
 @property BLEInfo *BleInfo;
@@ -36,11 +36,12 @@
     NSArray *menuArray;
     
     UIImageView *menuImageView;
-    NSString *electricQuality;
     
     DataBaseOpration *dbOpration;
     NSArray *treatInfoArray;
     NSArray *evaluateInfoArray;
+    
+    StartsViewController *startsVC;
 }
 @synthesize webData,soapResults,xmlParser,elementFound,matchingElement,conn;
 
@@ -65,16 +66,13 @@
     [self.navigationItem setRightBarButtonItem:menu_Item];
     
     //tabbar
-    StartsViewController *startsVC = [[StartsViewController alloc] init];
+    startsVC = [[StartsViewController alloc] init];
     NSDictionary *homeImageDict = @{selectedImage:@"homeSelectedImage", normalImage:@"homeNormalImage"};
     
     startsVC.patientInfo = _patientInfo;
-    startsVC.bluetoothInfo = _bluetoothInfo;
-    startsVC.delegate = self;
     
     TreatDataViewController *assessVC = [[TreatDataViewController alloc] init];
     NSDictionary *assessImageDict = @{selectedImage:@"assessSelectedImage", normalImage:@"assessNormalImage"};
-
     assessVC.patientInfo = _patientInfo;
     
     MyInfoViewController *meVC = [[MyInfoViewController alloc] init];
@@ -87,13 +85,6 @@
     navTabBarController.navTabBar.isNavTabBarImage = YES;
     navTabBarController.navTabBar.itemImages = @[homeImageDict, assessImageDict, meImageDict];
     [navTabBarController addParentController:self];
-    
-    //注册通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendBluetoothInfoValue:) name:@"Note" object:nil];
-    //注册解绑通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(freeBluetoothInfoAtViewController) name:@"Free" object:nil];
-    //注册切换用户通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeUser) name:@"ChangeUser" object:nil];
     
     dbOpration=[[DataBaseOpration alloc] init];
     treatInfoArray=[dbOpration getTreatDataFromDataBase];
@@ -109,35 +100,6 @@
         [self sendEvaluateDataToSevice];
         [self sendTreatDataToSevice];
     });
-}
-
-#pragma - mark sendElectricQuality delegate
-//实现CES代理中的传值
--(void)sendElectricQualityValue:(NSString *)string
-{
-    electricQuality = string;
-}
-
-#pragma mark - notification
-//实现通知传值
--(void)sendBluetoothInfoValue:(NSNotification *)bluetoothInfo
-{
-    _BleInfo = [bluetoothInfo.userInfo objectForKey:@"BLEInfo"];
-    BluetoothInfo *tmp = [[BluetoothInfo alloc] init];
-    tmp.peripheralIdentify=_BleInfo.discoveredPeripheral.identifier.UUIDString;
-    tmp.saveId = @"1";
-    _bluetoothInfo = tmp;
-}
-
-//清除蓝牙信息
--(void)freeBluetoothInfoAtViewController
-{
-    _bluetoothInfo = nil;
-}
-
--(void)changeUser
-{
-    _bluetoothInfo =  nil;
 }
 
 
@@ -234,15 +196,7 @@
     {
         //智能硬件(绑定蓝牙，解绑蓝牙的界面)
         IntelligentHardwareViewController *IHViewController=[[IntelligentHardwareViewController alloc] initWithNibName:@"IntelligentHardwareViewController" bundle:nil];
-        IHViewController.electricQuality=electricQuality;
-        if (_bluetoothInfo!=nil)
-        {
-            IHViewController.identify=@"已绑定";
-        }
-        else
-        {
-            IHViewController.identify=@"未绑定";
-        }
+        IHViewController.battery = startsVC.bluetooth.equipment.battery;
         
         [self.navigationController pushViewController:IHViewController animated:YES];
     }

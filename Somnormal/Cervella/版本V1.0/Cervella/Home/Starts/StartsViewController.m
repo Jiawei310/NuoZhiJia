@@ -18,9 +18,6 @@
 #import "SelectView.h"
 #import "BluetoothStatusView.h"
 
-#import "Bluetooth.h"
-
-
 #define FrequencySelectors @[@"0.5Hz",@"1.5Hz",@"100Hz"]
 #define FrequencySelectorsInteger @[@"1",@"2",@"3"]
 
@@ -28,9 +25,6 @@
 #define TimeSelectorsInteger @[@"600",@"1200",@"1800",@"2400",@"3000",@"3600"]
 
 @interface StartsViewController ()<NSXMLParserDelegate,NSURLConnectionDelegate, ColorsSliderViewDelegate, BluetoothDelegate>
-
-@property (nonatomic, strong) Bluetooth *bluetooth;
-
 
 //接口请求和解析
 @property (strong,nonatomic) NSMutableData *webData;
@@ -73,7 +67,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     //注册链接蓝牙通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendBluetoothInfoValue:) name:@"Note" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendBluetoothInfoValue:) name:@"connectBLE" object:nil];
     //注册解绑通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(freeBluetoothInfo) name:@"Free" object:nil];
     //注册切换用户通知
@@ -121,16 +115,20 @@
     }
     
     if (treatInfo == nil) {
-        frequencySelector = 0;
-        timeSelector =  0;
-        intensityLevel = 1;
-        timeDuration = [TimeSelectorsInteger[0] integerValue];
+        [self defaultData];
     } else {
         intensityLevel = [treatInfo.Strength integerValue];
         frequencySelector = [FrequencySelectorsInteger indexOfObject:treatInfo.Frequency];
         timeSelector = [TimeSelectorsInteger indexOfObject:treatInfo.Time];
         timeDuration = [treatInfo.Time integerValue];
     }
+}
+
+- (void)defaultData {
+    intensityLevel = 1;
+    frequencySelector = 2;
+    timeSelector =  2;
+    timeDuration = [TimeSelectorsInteger[0] integerValue];
 }
 
 /***************强度**************/
@@ -163,9 +161,9 @@
     intensityLevel = index;
     intensityLevelLabel.text = [NSString stringWithFormat:@"%ld",(long)intensityLevel];
     
-    //设置蓝牙
+    //设置电流强度
     if (self.bluetooth.connectSate == ConnectStateNormal) {
-        [self.bluetooth changeLevel:self.bluetooth.equipment.level];
+        [self.bluetooth changeLevel:intensityLevel];
     }
 }
 
@@ -188,12 +186,14 @@
     frequencySelectView.selectViewBlock = ^(NSInteger index) {
         frequencySelector = index;
         frequencyView.items = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":FrequencySelectors[frequencySelector]}];
+        //设置频率
         if (weakSelf.bluetooth.connectSate == ConnectStateNormal) {
             [weakSelf.bluetooth changeWorkModel:frequencySelector];
         }
     };
     
     frequencyView.imageTitleDetailViewBlock = ^() {
+        //显示电流强度选项
         frequencySelectView.selector = frequencySelector;
         [frequencySelectView showViewInView:weakSelf.view];
     };
@@ -211,12 +211,18 @@
     timeSelectView.items = TimeSelectors;
     timeSelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 150);
     timeSelectView.selectViewBlock = ^(NSInteger index) {
-        timeSelector = index;
-        timeDuration = [TimeSelectorsInteger[index] integerValue];
-        timeView.items = @[@{@"image":@"time",@"title":@"Time",@"detail":TimeSelectors[timeSelector]}];
+        //设置时间长度
+        NSInteger duration = [TimeSelectorsInteger[index] integerValue];
+        if (timeRemaining > duration) {
+            timeRemaining = duration - (timeDuration - timeRemaining);
+            timeSelector = index;
+            timeDuration = [TimeSelectorsInteger[index] integerValue];
+            timeView.items = @[@{@"image":@"time",@"title":@"Time",@"detail":TimeSelectors[timeSelector]}];
+        }
     };
     
     timeView.imageTitleDetailViewBlock = ^() {
+        //显示时间选项
         timeSelectView.selector  = timeSelector;
         [timeSelectView showViewInView:weakSelf.view];
     };
@@ -253,33 +259,58 @@
     __weak typeof (*&self) weakSelf = self;
     bluetoothStatusView.bluetoothStatusViewBlock = ^(StatusType statusType) {
         if (statusType == StatusTypeNone) {
-            //圆形操作按钮点击事件（绑定疗疗、开始点刺激、停止等等）
-            BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
-            bindViewController.bindFlag=@"1";
-            [weakSelf.navigationController pushViewController:bindViewController animated:YES];
+            //绑定过直接链接
+            if (weakSelf.bluetoothInfo) {
+                for (Equipment *eq in scanednEquipments) {
+                    if ([weakSelf.bluetoothInfo.peripheralIdentify isEqualToString:[eq.peripheral.identifier UUIDString]]) {
+                        //链接蓝牙设备
+                        [self.bluetooth connectEquipment:eq];
+                        break;
+                    }
+                }
+            } else {
+                //点击绑定设备
+                BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
+                bindViewController.bindFlag=@"1";
+                [weakSelf.navigationController pushViewController:bindViewController animated:YES];
+            }
 
         } else if (statusType == StatusTypeStart) {
-            bluetoothStatusView.statusType = StatusTypeStop;
-            frequencyView.isCanSelect = NO;
-            timeRemaining = timeDuration;
-            //开始倒计时
-            [weakSelf.bluetooth startWork];
-            [weakSelf timeCountDown];
+            //点解开始治疗
+            [weakSelf blueStartWorkUI];
 
         } else if (statusType == StatusTypeStop) {
-            bluetoothStatusView.statusType = StatusTypeStart;
-            frequencyView.isCanSelect = YES;
-            timeRemaining = timeDuration;
-            bluetoothStatusView.timers = timeRemaining;
-
-
-            //开始重新
-            [countDownTimer invalidate];
-            [weakSelf.bluetooth endWork];
+            //点击结束
+            [weakSelf blueStopWorkUI];
         }
     };
     
     [self.view addSubview:bluetoothStatusView];
+}
+//开始治疗UI
+- (void)blueStartWorkUI {
+    //UI
+    bluetoothStatusView.statusType = StatusTypeStop;
+    frequencyView.isCanSelect = NO;
+    timeRemaining = timeDuration;
+    
+    //开始治疗
+    [self.bluetooth startWork];
+    //倒计时
+    [self timeCountDown];
+}
+//停止治疗UI
+- (void)blueStopWorkUI {
+    //UI
+    bluetoothStatusView.statusType = StatusTypeStart;
+    frequencyView.isCanSelect = YES;
+    timeRemaining = timeDuration;
+    bluetoothStatusView.timers = timeRemaining;
+    
+    //停止治疗
+    [self.bluetooth endWork];
+    //停止倒计时
+    [countDownTimer invalidate];
 }
 
 //倒计时
@@ -287,34 +318,37 @@
     countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
 }
 
+//倒计时处理
 - (void)handleTimer {
     if (timeRemaining > 0) {
         timeRemaining = timeRemaining - 1;
         bluetoothStatusView.timers = timeRemaining;
+        CGFloat precent = (timeDuration * 1.0 - timeRemaining * 1.0)/(timeDuration * 1.0);
+        [bluetoothStatusView updateProgressWithPercent:precent];
     }
     else {
-        bluetoothStatusView.statusType = StatusTypeStart;
-        frequencyView.isCanSelect = YES;
-        timeRemaining = timeDuration;
-        bluetoothStatusView.timers = timeRemaining;
-
-
-        //开始重新
-        [countDownTimer invalidate];
-        [self.bluetooth endWork];
+        [self blueStopWorkUI];
     }
 }
-
-//选择链接蓝牙设备
-- (void)sendBluetoothInfoValue:(NSNotification *)bluetoothInfo
+#pragma mark 通知
+//BindViewController选择返回蓝牙信息
+- (void)sendBluetoothInfoValue:(NSNotification *)notification
 {
-    BLEInfo *bleinfo = [bluetoothInfo.userInfo objectForKey:@"BLEInfo"];
-    for (Equipment *eq in scanednEquipments) {
-        if ([[bleinfo.discoveredPeripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
-            [self.bluetooth connectEquipment:eq];
-            return;
-        }
-    }
+    Equipment *eq = [notification.userInfo objectForKey:@"BLEInfo"];
+    [self.bluetooth connectEquipment:eq];
+}
+
+//解除绑定
+- (void)freeBluetoothInfo {
+    bluetoothStatusView.statusType = StatusTypeNone;
+
+    //停止治疗
+    [self.bluetooth endWork];
+    [self.bluetooth stopConnectEquipment:self.bluetooth.equipment];
+    //停止倒计时
+    [countDownTimer invalidate];
+    
+    [self defaultData];
 }
 
 #pragma mark -- BluetoothDelegate
@@ -326,8 +360,11 @@
 - (void)connectState:(ConnectState)connectState Error:(NSError *)error {
     if (connectState == ConnectStateNormal) { //正常链接成功
         bluetoothStatusView.statusType = StatusTypeStart;
+        //保存设备
+        [self saveConnectEquiment];
     }
     else {
+        //提出警告
         UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"有错误，连接失败" preferredStyle:(UIAlertControllerStyleAlert)];
         UIAlertAction *alert = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *  action) {
             
@@ -343,16 +380,30 @@
     }
     else {
         NSLog(@"WearStateError");
+        //停止治疗
+        [self blueStopWorkUI];
     }
 }
 
 //电池状态
 - (void)battery:(NSUInteger )battery Error:(NSError *)error {
-    if ([self.delegate respondsToSelector:@selector(sendElectricQualityValue:)]) {
-        [self.delegate sendElectricQualityValue:[NSString stringWithFormat:@"%ld", battery]];
-    }
+    
 }
 
+#pragma mark - DataBaseOpration
+- (void)saveConnectEquiment {
+    BLEInfo *bleInfo = [[BLEInfo alloc] init];
+    bleInfo.discoveredPeripheral = self.bluetooth.equipment.peripheral;
+    bleInfo.rssi = self.bluetooth.equipment.RSSI;
+    
+    //将选择的外设存储到数据库并关闭数据库
+    dbOpration = [[DataBaseOpration alloc] init];
+    BluetoothInfo *bluetoothInfo = [[BluetoothInfo alloc] init];
+    bluetoothInfo.saveId = @"1";
+    bluetoothInfo.peripheralIdentify = bleInfo.discoveredPeripheral.identifier.UUIDString;
+    [dbOpration insertPeripheralInfo:bluetoothInfo];
+    [dbOpration closeDataBase];
+}
 
 
 
@@ -457,6 +508,19 @@
         _bluetooth.delegate = self;
     }
     return _bluetooth;
+}
+
+- (BluetoothInfo *)bluetoothInfo {
+    //从数据库读取之前绑定设备
+    DataBaseOpration *dataBaseOpration = [[DataBaseOpration alloc] init];
+    NSArray *bluetoothInfoArray=[dataBaseOpration getBluetoothDataFromDataBase];
+        
+    if (bluetoothInfoArray.count>0)
+    {
+        _bluetoothInfo = [bluetoothInfoArray objectAtIndex:0];
+    }
+    [dataBaseOpration closeDataBase];
+    return _bluetoothInfo;
 }
 
 - (void)postBindDevice:(NSString *)deviceID {

@@ -10,8 +10,6 @@
 
 @interface IntelligentHardwareViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
-@property NSString *identify; //标志刺激仪是否绑定
-@property NSString *electricQuality;
-@property (strong, nonatomic) IBOutlet UITableView *IntelligentHardwareTableView;
+@property (assign, nonatomic) NSInteger battery;
 
 @end
