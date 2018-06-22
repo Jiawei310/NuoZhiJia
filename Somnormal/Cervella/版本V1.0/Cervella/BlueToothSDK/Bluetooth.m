@@ -285,6 +285,8 @@
         if (!self.equipment.deviceCode) {
             //读取设备信息
             [self readAndSendDeviceInfo];
+            //读取电量
+            [self readBattery];
         }
     }
 }

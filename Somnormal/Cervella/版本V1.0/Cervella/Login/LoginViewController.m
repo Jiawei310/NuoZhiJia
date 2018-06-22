@@ -28,7 +28,6 @@
 {
     BOOL isOverTime;      //判断登录是否超时
     
-    DataBaseOpration *dbOpration;
     InterfaceModel *interfaceModel;
     PatientInfo *patientInfo;
 }

@@ -12,7 +12,7 @@
 
 #import "Bluetooth.h"
 
-@interface BindViewController () <BluetoothDelegate>
+@interface BindViewController ()<BluetoothDelegate>
 @property (nonatomic, strong) Bluetooth *bluetooth;
 
 @end
@@ -24,8 +24,6 @@
     
     UILabel *nameLabel;
     UILabel *UUIDLabel;
-    
-    DataBaseOpration *dbOpration;
 }
 @synthesize arrayBLE;
 
@@ -170,7 +168,7 @@
 #pragma mark setter and getter
 - (Bluetooth *)bluetooth {
     if (!_bluetooth) {
-        _bluetooth = [[Bluetooth alloc] init];
+        _bluetooth = [Bluetooth shareBluetooth];
         _bluetooth.delegate = self;
     }
     return _bluetooth;

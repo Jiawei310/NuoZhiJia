@@ -10,13 +10,11 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "BLEInfo.h"
 
-@interface BindViewController : UIViewController<CBCentralManagerDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface BindViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
 @property NSString *bindFlag;
 
 @property (nonatomic,strong) NSMutableArray *arrayBLE;
-
-@property NSMutableArray *peripheralsArray;
 
 @property (strong, nonatomic) IBOutlet UIButton *scanButton;
 @property (strong, nonatomic) IBOutlet UITableView *scanResultTableView;

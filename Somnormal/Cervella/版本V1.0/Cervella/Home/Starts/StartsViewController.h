@@ -9,19 +9,16 @@
 #import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 
-#import "BLEInfo.h"
-#import "TreatInfo.h"
-#import "BluetoothInfo.h"
-#import "Bluetooth.h"
 
-#import "BindViewController.h"
+#import "Bluetooth.h"
+#import "BluetoothInfo.h"
+
 
 @interface StartsViewController : UIViewController
 @property (nonatomic, strong) PatientInfo *patientInfo;
 
 @property (nonatomic, strong) Bluetooth *bluetooth;
 @property (strong,nonatomic) BluetoothInfo *bluetoothInfo;
-
 
 
 

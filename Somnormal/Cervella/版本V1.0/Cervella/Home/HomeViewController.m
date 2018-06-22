@@ -67,18 +67,17 @@
     
     //tabbar
     startsVC = [[StartsViewController alloc] init];
+    startsVC.patientInfo = _patientInfo;
     NSDictionary *homeImageDict = @{selectedImage:@"homeSelectedImage", normalImage:@"homeNormalImage"};
     
-    startsVC.patientInfo = _patientInfo;
-    
     TreatDataViewController *assessVC = [[TreatDataViewController alloc] init];
-    NSDictionary *assessImageDict = @{selectedImage:@"assessSelectedImage", normalImage:@"assessNormalImage"};
     assessVC.patientInfo = _patientInfo;
+    NSDictionary *assessImageDict = @{selectedImage:@"assessSelectedImage", normalImage:@"assessNormalImage"};
     
     MyInfoViewController *meVC = [[MyInfoViewController alloc] init];
-    NSDictionary *meImageDict = @{selectedImage:@"meSelectedImage", normalImage:@"meNormalIamge"};
     meVC.patientInfo = _patientInfo;
-    
+    NSDictionary *meImageDict = @{selectedImage:@"meSelectedImage", normalImage:@"meNormalIamge"};
+
     SCNavTabBarController *navTabBarController = [[SCNavTabBarController alloc] init];
     navTabBarController.subViewControllers = @[startsVC, assessVC, meVC];
 
@@ -196,7 +195,6 @@
     {
         //智能硬件(绑定蓝牙，解绑蓝牙的界面)
         IntelligentHardwareViewController *IHViewController=[[IntelligentHardwareViewController alloc] initWithNibName:@"IntelligentHardwareViewController" bundle:nil];
-        IHViewController.battery = startsVC.bluetooth.equipment.battery;
         
         [self.navigationController pushViewController:IHViewController animated:YES];
     }
@@ -292,20 +290,8 @@
         {
             treatInfo=[treatInfoArray objectAtIndex:i-1];
             //循环调用插入治疗数据接口
-            NSString *Freq;
-            if ([treatInfo.Frequency isEqualToString:@"1"])
-            {
-                Freq=@"0.5";
-            }
-            else if ([treatInfo.Frequency isEqualToString:@"2"])
-            {
-                Freq=@"1.5";
-            }
-            else if ([treatInfo.Frequency isEqualToString:@"3"])
-            {
-                Freq=@"100";
-            }
-            NSDictionary *jsonUserID = [NSDictionary dictionaryWithObjectsAndKeys:treatInfo.PatientID,@"PatientID",treatInfo.Strength,@"Strength",Freq,@"Freq",treatInfo.BeginTime ,@"BeginTime",treatInfo.EndTime,@"EndTime",treatInfo.CureTime,@"CureTime",nil];
+            NSDictionary *jsonUserID = [NSDictionary dictionaryWithObjectsAndKeys:treatInfo.PatientID,@"PatientID",treatInfo.Strength,@"Strength",treatInfo.Frequency,@"Freq",treatInfo.BeginTime ,@"BeginTime",treatInfo.EndTime,@"EndTime",treatInfo.CureTime,@"CureTime",nil];
+            
             NSArray *jsonArray=[NSArray arrayWithObjects:jsonUserID, nil];
             NSData *jsondata = [NSJSONSerialization dataWithJSONObject:jsonArray options:NSJSONWritingPrettyPrinted error:nil];
             NSString *jsonString=[[NSString alloc] initWithData:jsondata encoding:NSUTF8StringEncoding];

@@ -259,6 +259,7 @@
     }
 }
 
+
 //根据开始时间跟结束时间选择评估数据，并把数据放入对应数组
 -(void)putTreatDataToArray
 {
@@ -303,9 +304,9 @@
     static NSString *identify=@"EvaluateDataCell";
     
     UITableViewCell *cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
-    
     if (indexPath.row%2==0)
     {
+        //    159,199,247
         cell.backgroundColor=[UIColor colorWithRed:0xad/255.0 green:0xd8/255.0 blue:0xe6/255.0 alpha:1];
     }
     else if (indexPath.row%2==1)
@@ -348,9 +349,9 @@
     TreatInfo *tmp=[treatInfoAtPatientID objectAtIndex:indexPath.row];
     dateLabel.text=[tmp.BeginTime substringWithRange:NSMakeRange(0, 10)];
     strengthLabel.text=tmp.Strength;
-    frequencyLabel.text=tmp.Frequency;
-    startTimeLabel.text=[tmp.BeginTime substringWithRange:NSMakeRange(11, 5)];
-    cureTimeLabel.text=tmp.CureTime;
+    frequencyLabel.text = [NSString stringWithFormat:@"%@Hz", tmp.Frequency];
+    startTimeLabel.text = [self dateToTime:tmp.BeginTime];
+    cureTimeLabel.text  = [NSString stringWithFormat:@"%@Min", tmp.CureTime];
     
     [cell.contentView addSubview:dateLabel];
     [cell.contentView addSubview:frequencyLabel];
@@ -901,20 +902,9 @@
                     tmp_treatInfo.EndTime=[[resultArray objectAtIndex:i] objectForKey:@"EndTime"];
                     tmp_treatInfo.CureTime=[[resultArray objectAtIndex:i] objectForKey:@"CureTime"];
                     tmp_treatInfo.Strength=[[resultArray objectAtIndex:i] objectForKey:@"Strength"];
-                    tmp_treatInfo.Date=[tmp_treatInfo.BeginTime substringWithRange:NSMakeRange(0, 10)];
-                    if ([[[resultArray objectAtIndex:i] objectForKey:@"Freq"] isEqualToString:@"0.5"])
-                    {
-                        tmp_treatInfo.Frequency=@"1";
-                    }
-                    else if ([[[resultArray objectAtIndex:i] objectForKey:@"Freq"] isEqualToString:@"1.5"])
-                    {
-                        tmp_treatInfo.Frequency=@"2";
-                    }
-                    else if ([[[resultArray objectAtIndex:i] objectForKey:@"Freq"] isEqualToString:@"100"])
-                    {
-                        tmp_treatInfo.Frequency=@"3";
-                    }
-                    tmp_treatInfo.Time=@"1200";
+                    tmp_treatInfo.Date = tmp_treatInfo.BeginTime;
+                    tmp_treatInfo.Frequency = [[resultArray objectAtIndex:i] objectForKey:@"Freq"];
+                    tmp_treatInfo.Time = @"1200";
                     
                     TreatInfo *tmpInfo;
                     for (TreatInfo *tmp in treatInfoArray)
@@ -985,6 +975,17 @@
     [outputForMatter setDateFormat:@"yyyy/MM/dd"];
     NSString *outputDate=[outputForMatter stringFromDate:stringDate];
     return outputDate;
+}
+
+//12进制时间
+- (NSString *)dateToTime:(NSString *)dateStr {
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm"];
+    NSDate *date = [dateFormatter dateFromString:dateStr];
+    
+    [dateFormatter setDateFormat:@"hh:mmaa"];
+    dateFormatter.locale=[[NSLocale alloc]initWithLocaleIdentifier:@"en_US"];
+    return [dateFormatter stringFromDate:date];
 }
 
 //冒泡排序

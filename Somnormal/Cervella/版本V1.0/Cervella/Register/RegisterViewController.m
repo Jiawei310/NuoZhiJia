@@ -38,7 +38,6 @@
 
 @implementation RegisterViewController
 {
-    DataBaseOpration *dbOpration;
     InterfaceModel *interfaceModel;
     
     BOOL isOverTime;       //用来标志是否注册超时

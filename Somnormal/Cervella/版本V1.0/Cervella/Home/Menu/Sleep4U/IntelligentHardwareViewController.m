@@ -10,9 +10,11 @@
 #import "BindViewController.h"
 #import "FreeBindViewController.h"
 #import "CircleView.h"
+#import "Bluetooth.h"
 
 @interface IntelligentHardwareViewController ()
 @property (assign, nonatomic) BOOL isBind;
+@property (assign, nonatomic) Bluetooth *bluetooth;
 @end
 
 @implementation IntelligentHardwareViewController
@@ -108,9 +110,9 @@
     if (self.isBind)
     {
         [turnBtn setTitle:@"Unbind Cervella" forState:UIControlStateNormal];
-        if (_battery > 0)
+        if (self.bluetooth.equipment)
         {
-            percentLabel.text = [NSString stringWithFormat:@"%ld%%", _battery];
+            percentLabel.text = [NSString stringWithFormat:@"%ld%%", self.bluetooth.equipment.battery];
         }
         else
         {
@@ -156,7 +158,7 @@
     CGFloat position_x = myLayer.frame.size.width/2;
     progressLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(position_x, position_y)
                                                         radius:position_y
-                                                    startAngle:(3*M_PI/2 - (_battery/100.0)*(M_PI * 2))
+                                                    startAngle:(3*M_PI/2 - (self.bluetooth.equipment.battery/100.0)*(M_PI * 2))
                                                       endAngle:(3*M_PI/2)
                                                      clockwise:YES].CGPath;
     progressLayer.fillColor = [UIColor clearColor].CGColor;
@@ -181,6 +183,14 @@
     NSArray *bluetoothInfoArray=[dataBaseOpration getBluetoothDataFromDataBase];
     [dataBaseOpration closeDataBase];
     return bluetoothInfoArray.count;
+}
+
+#pragma mark setter and getter
+- (Bluetooth *)bluetooth {
+    if (!_bluetooth) {
+        _bluetooth = [Bluetooth shareBluetooth];
+    }
+    return _bluetooth;
 }
 
 - (void)didReceiveMemoryWarning {

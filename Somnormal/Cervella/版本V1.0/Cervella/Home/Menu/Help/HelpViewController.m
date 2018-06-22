@@ -34,6 +34,8 @@
     NSArray *softwareOptionArray;
     NSArray *commonProArray;
     NSArray *relatedConsumArray;
+    
+    BluetoothInfo *_bluetoothInfo;
 }
 
 - (void)viewDidLoad {
@@ -160,9 +162,24 @@
                                       30);
         _deviceLab.textAlignment = NSTextAlignmentCenter;
         _deviceLab.textColor = [UIColor grayColor];
-        _deviceLab.text = @"Cervella Serial Number:168000001506";
+        _deviceLab.font = [UIFont systemFontOfSize:14];
+        _deviceLab.text = [NSString stringWithFormat:@"Cervella Serial Number:%@",self.bluetoothInfo.deviceName];
     }
     return _deviceLab;
+}
+
+- (BluetoothInfo *)bluetoothInfo {
+    //从数据库读取之前绑定设备
+    _bluetoothInfo = nil;
+    DataBaseOpration *dataBaseOpration = [[DataBaseOpration alloc] init];
+    NSArray *bluetoothInfoArray=[dataBaseOpration getBluetoothDataFromDataBase];
+    
+    if (bluetoothInfoArray.count>0)
+    {
+        _bluetoothInfo = [bluetoothInfoArray objectAtIndex:0];
+    }
+    [dataBaseOpration closeDataBase];
+    return _bluetoothInfo;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -10,6 +10,4 @@
 
 @interface IntelligentHardwareViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
-@property (assign, nonatomic) NSInteger battery;
-
 @end

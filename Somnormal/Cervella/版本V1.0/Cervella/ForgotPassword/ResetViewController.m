@@ -249,9 +249,11 @@
             if ([state isEqualToString:@"OK"])
             {
                 _patientInfo.PatientPwd = _refillTextfield.text;
+                
                 DataBaseOpration *dataBaseOpration = [[DataBaseOpration alloc] init];
                 [dataBaseOpration updataUserInfo:_patientInfo];
                 [dataBaseOpration closeDataBase];
+                
                 //提示修改成功
                 jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Modified successful");
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

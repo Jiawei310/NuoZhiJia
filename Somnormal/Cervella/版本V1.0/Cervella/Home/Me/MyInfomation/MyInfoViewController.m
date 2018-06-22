@@ -322,12 +322,16 @@
         //切换账号
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PatientID"];
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PatientPwd"];
+        
         //清除缓存（例：绑定刺激仪后，切换用户，不断开外设以及清楚缓存，刺激仪将一致处于连接状态）
         NSNotification *notification = [NSNotification notificationWithName:@"ChangeUser" object:self];
         [[NSNotificationCenter defaultCenter] postNotification:notification];
+        
         //删除本地数据库蓝牙绑定信息
         DataBaseOpration *dbOpration = [[DataBaseOpration alloc] init];
         [dbOpration deletePeripheralInfo];
+        [dbOpration closeDataBase];
+        
         //调用AppDelegate的代理方法，切换根视图
         UIApplication *app = [UIApplication sharedApplication];
         AppDelegate *appDelegate = (AppDelegate *)app.delegate;
