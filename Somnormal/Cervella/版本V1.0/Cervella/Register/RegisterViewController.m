@@ -128,6 +128,13 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)dismissKeyboard {
+    [_acountTextField resignFirstResponder];
+    [_passwordTextField resignFirstResponder];
+    [_emailTextField resignFirstResponder];
+    [_birthTextField resignFirstResponder];
+}
+
 #pragma mark - UITextViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
     if (URL) {
@@ -275,6 +282,8 @@
 /** 显示出生年月选择器 */
 - (void)showDatePicker
 {
+    [self dismissKeyboard];
+    
     [self.datePicker show];
     
     __weak typeof(self) weakSelf = self;
