@@ -65,9 +65,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 //    NSDictionary *dict = self.items[indexPath.row];
-    if (self.imageTitleDetailViewBlock) {
-        self.imageTitleDetailViewBlock();
+    if (self.isCanSelect) {
+        if (self.imageTitleDetailViewBlock) {
+            self.imageTitleDetailViewBlock();
+        }
+    } else {
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"治疗期间不可调整");
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            jxt_dismissHUD();
+        });
     }
+    
 //    if ([dict[@"title"] isEqualToString:@"Frequency"]) {
 //        self.selectView.items = FrequencyArr;
 //        [self.selectView showViewInView:self.superview];
@@ -107,7 +115,7 @@
 }
 - (void)setIsCanSelect:(BOOL)isCanSelect {
     _isCanSelect = isCanSelect;
-    self.tableView.allowsSelection = isCanSelect;
+//    self.tableView.allowsSelection = isCanSelect;
 }
 
 //- (SelectView *)selectView {

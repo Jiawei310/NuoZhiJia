@@ -22,6 +22,8 @@
     CAShapeLayer *myLayer;
     CAShapeLayer *progressLayer;
     UILabel *percentLabel;
+    
+    BluetoothInfo *_bluetoothInfo;
 }
 
 - (void)viewDidLoad {
@@ -106,6 +108,19 @@
     lineTwo.backgroundColor=[UIColor grayColor];
     [self.view addSubview:lineTwo];
     
+    //device num
+    UILabel *deviceNumLab = [[UILabel alloc] init];
+    deviceNumLab.frame = CGRectMake(30, lineTwo.frame.size.height + lineTwo.frame.origin.y + 15, SCREENWIDTH - 60, 30);
+    deviceNumLab.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:deviceNumLab];
+
+    if (self.isBind) {
+        deviceNumLab.hidden = NO;
+        deviceNumLab.text = self.bluetoothInfo.deviceName;
+    } else {
+        deviceNumLab.hidden = YES;
+    }
+    
     /**************Data*************/
     if (self.isBind)
     {
@@ -178,13 +193,25 @@
 
 
 - (BOOL)isBind {
-    //从数据库读取之前绑定设备
-    DataBaseOpration *dataBaseOpration = [[DataBaseOpration alloc] init];
-    NSArray *bluetoothInfoArray=[dataBaseOpration getBluetoothDataFromDataBase];
-    [dataBaseOpration closeDataBase];
-    return bluetoothInfoArray.count;
+    if (self.bluetoothInfo) {
+        return YES;
+    }
+    return NO;
 }
 
+- (BluetoothInfo *)bluetoothInfo {
+    //从数据库读取之前绑定设备
+    _bluetoothInfo = nil;
+    DataBaseOpration *dataBaseOpration = [[DataBaseOpration alloc] init];
+    NSArray *bluetoothInfoArray=[dataBaseOpration getBluetoothDataFromDataBase];
+    
+    if (bluetoothInfoArray.count>0)
+    {
+        _bluetoothInfo = [bluetoothInfoArray objectAtIndex:0];
+    }
+    [dataBaseOpration closeDataBase];
+    return _bluetoothInfo;
+}
 #pragma mark setter and getter
 - (Bluetooth *)bluetooth {
     if (!_bluetooth) {

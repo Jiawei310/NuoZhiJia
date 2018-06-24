@@ -26,8 +26,6 @@
 //手机为蓝牙中心
 @property (nonatomic, strong) CBCentralManager *centralManager;
 
-//发现的所有设备
-@property (nonatomic, strong) NSMutableArray *equipments;
 //命令
 @property (nonatomic, strong) CommandManager *commandManger;
 
@@ -443,17 +441,7 @@
         [self.equipment battery:valueStr];
         
         NSError *errorE = nil;
-        if (self.equipment.battery > 5 && self.equipment.battery <= 20)
-        {
-            //NSLog(@"电池电量小于百分之20，请及时给设备充电");
-            errorE = [[NSError alloc] initWithDomain:@"电量低于20%"
-                                                code:920
-                                            userInfo:@{NSLocalizedDescriptionKey:@"电量低于20%",
-                                                       NSLocalizedFailureReasonErrorKey:@"电量低于20%",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"及时给设备充电，以免影响您的使用",
-                                                       NSLocalizedRecoveryOptionsErrorKey:@[@"及时给设备充电，以免影响您的使用"]}];
-        }
-        else if(self.equipment.battery <= 5)
+        if(self.equipment.battery <= 5)
         {
             //NSLog(@"电池电量小于百分之5，设备无法正常工作，请先充电");
             errorE = [[NSError alloc] initWithDomain:@"电量低于5%"
@@ -462,9 +450,19 @@
                                                        NSLocalizedFailureReasonErrorKey:@"电量低于5%",
                                                        NSLocalizedRecoverySuggestionErrorKey:@"尽快给设备充电，以免影响您的使用",
                                                        NSLocalizedRecoveryOptionsErrorKey:@[@"尽快给设备充电，以免影响您的使用"]}];
+        } else if ( self.equipment.battery <= 20) {
+            //NSLog(@"电池电量小于百分之20，请及时给设备充电");
+            errorE = [[NSError alloc] initWithDomain:@"电量低于20%"
+                                                code:920
+                                            userInfo:@{NSLocalizedDescriptionKey:@"电量低于20%",
+                                                       NSLocalizedFailureReasonErrorKey:@"电量低于20%",
+                                                       NSLocalizedRecoverySuggestionErrorKey:@"及时给设备充电，以免影响您的使用",
+                                                       NSLocalizedRecoveryOptionsErrorKey:@[@"及时给设备充电，以免影响您的使用"]}];
         }
-        if ([self.delegate respondsToSelector:@selector(battery:Error:)]) {
-            [self.delegate battery:self.equipment.battery Error:errorE];
+        if (error) {
+            if ([self.delegate respondsToSelector:@selector(battery:Error:)]) {
+                [self.delegate battery:self.equipment.battery Error:errorE];
+            }
         }
     }
 }

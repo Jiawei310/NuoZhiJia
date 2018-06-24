@@ -150,7 +150,7 @@
     [self.view addSubview:label_cureTime];
     [self.view addSubview:viewTwo];
     
-    DataTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 66+SCREENHEIGHT/10, SCREENWIDTH, (SCREENHEIGHT*18/20)-65) style:UITableViewStylePlain];
+    DataTableView=[[UITableView alloc] initWithFrame:CGRectMake(0,SCREENHEIGHT/10, SCREENWIDTH, (SCREENHEIGHT*18/20)-65) style:UITableViewStylePlain];
     [DataTableView.tableHeaderView removeFromSuperview];
     DataTableView.tableFooterView=[[UIView alloc] init];
     DataTableView.delegate=self;

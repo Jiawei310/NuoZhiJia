@@ -52,6 +52,9 @@ typedef NS_OPTIONS(NSUInteger, WearState) {
 #pragma mark -- 属性
 //协议
 @property (nonatomic, weak) id <BluetoothDelegate> delegate;
+//发现的所有设备
+@property (nonatomic, strong) NSMutableArray *equipments;
+
 //连接的设备
 @property (nonatomic, strong) Equipment *equipment;
 //连接状态

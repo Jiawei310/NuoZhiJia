@@ -41,7 +41,15 @@
 //block
 @property (assign,nonatomic) NSInteger frequencySelector;
 @property (assign,nonatomic) NSInteger timeSelector;
-@property (strong,nonatomic) NSArray *scanednEquipments;
+@property (assign,nonatomic) NSInteger timeDuration;//倒计时总时长 s
+
+//@property (strong,nonatomic) NSArray *scanednEquipments;
+
+@property (strong,nonatomic) ImageTitleDetialView *frequencyView;;
+@property (strong,nonatomic) SelectView *frequencySelectView;
+@property (strong,nonatomic) ImageTitleDetialView *timeView;
+@property (strong,nonatomic) SelectView *timeSelectView;
+@property (strong,nonatomic) BluetoothStatusView *bluetoothStatusView;
 
 
 @end
@@ -54,11 +62,6 @@
 
     ColorsSliderView *colorsSliderView;
     
-    ImageTitleDetialView *frequencyView;
-    
-    
-    BluetoothStatusView *bluetoothStatusView;
-    NSInteger timeDuration;              //倒计时总时长 s
     NSInteger timeRemaining;            //剩余时间
     NSTimer *countDownTimer;
 
@@ -83,7 +86,7 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     //注册链接蓝牙通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendBluetoothInfoValue:) name:@"connectBLE" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendBluetoothInfoValue:) name:@"connectBLE" object:nil];
     //注册解绑通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(freeBluetoothInfo) name:@"Free" object:nil];
     //注册切换用户通知
@@ -93,7 +96,7 @@
     [self defaultData];
     
     //数据库读取治疗数据
-    [self initTreatInfo];
+//    [self initTreatInfo];
     
     /**************强度***************/
     [self addSectionOne];
@@ -144,7 +147,7 @@
         if ([TimeSelectorsInteger containsObject:treatInfo.Time]) {
             self.timeSelector = [TimeSelectorsInteger indexOfObject:treatInfo.Time];
         }
-        timeDuration = [TimeSelectorsInteger[self.timeSelector] integerValue];
+        self.timeDuration = [TimeSelectorsInteger[self.timeSelector] integerValue];
     }
 }
 
@@ -152,7 +155,7 @@
     intensityLevel = 1;
     self.frequencySelector = 2;
     self.timeSelector =  2;
-    timeDuration = [TimeSelectorsInteger[0] integerValue];
+    self.timeDuration = [TimeSelectorsInteger[self.timeSelector] integerValue];
 }
 
 /***************强度**************/
@@ -194,63 +197,63 @@
 /***************frequency time**************/
 -(void)addSectionTwo
 {
-    frequencyView = [[ImageTitleDetialView alloc] init];
-    frequencyView.frame = CGRectMake(SCREENWIDTH/12,
+    self.frequencyView = [[ImageTitleDetialView alloc] init];
+    self.frequencyView.frame = CGRectMake(SCREENWIDTH/12,
                                      CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60,
                                      SCREENWIDTH - 60,
                                      50.0f);
-    frequencyView.items = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":FrequencySelectors[self.frequencySelector]}];
-    frequencyView.isCanSelect = YES;
+    self.frequencyView.items = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":FrequencySelectors[self.frequencySelector]}];
+    self.frequencyView.isCanSelect = YES;
     
-    SelectView *frequencySelectView = [[SelectView alloc] init];
-    frequencySelectView.titile = @"请选择";
-    frequencySelectView.items = FrequencySelectors;
-    frequencySelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 150);
+    self.frequencySelectView = [[SelectView alloc] init];
+    self.frequencySelectView.titile = @"请选择";
+    self.frequencySelectView.items = FrequencySelectors;
+    self.frequencySelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 150);
     __weak typeof (*&self) weakSelf = self;
-    frequencySelectView.selectViewBlock = ^(NSInteger index) {
+   self.frequencySelectView.selectViewBlock = ^(NSInteger index) {
         weakSelf.frequencySelector = index;
-        frequencyView.items = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":FrequencySelectors[self.frequencySelector]}];
+        weakSelf.frequencyView.items = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":FrequencySelectors[weakSelf.frequencySelector]}];
         //设置频率
         if (weakSelf.bluetooth.connectSate == ConnectStateNormal) {
-            [weakSelf.bluetooth changeWorkModel:self.frequencySelector];
+            [weakSelf.bluetooth changeWorkModel:weakSelf.frequencySelector];
         }
     };
     
-    frequencyView.imageTitleDetailViewBlock = ^() {
+    self.frequencyView.imageTitleDetailViewBlock = ^() {
         //显示电流强度选项
-        frequencySelectView.selector = weakSelf.frequencySelector;
-        [frequencySelectView showViewInView:weakSelf.view];
+        weakSelf.frequencySelectView.selector = weakSelf.frequencySelector;
+        [weakSelf.frequencySelectView showViewInView:weakSelf.view];
     };
-    [self.view addSubview:frequencyView];
+    [self.view addSubview:self.frequencyView];
     
-    ImageTitleDetialView *timeView = [[ImageTitleDetialView alloc] init];
-    timeView.frame = CGRectMake(SCREENWIDTH/12,
+    self.timeView = [[ImageTitleDetialView alloc] init];
+    self.timeView.frame = CGRectMake(SCREENWIDTH/12,
                                 CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60 + 50,
                                 SCREENWIDTH - 60,
                                 50.0f);
-    timeView.items = @[@{@"image":@"time",@"title":@"Time",@"detail":TimeSelectors[self.timeSelector]}];
-    
-    SelectView *timeSelectView = [[SelectView alloc] init];
-    timeSelectView.titile = @"请选择";
-    timeSelectView.items = TimeSelectors;
-    timeSelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 150);
-    timeSelectView.selectViewBlock = ^(NSInteger index) {
+    self.timeView.items = @[@{@"image":@"time",@"title":@"Time",@"detail":TimeSelectors[self.timeSelector]}];
+    self.timeView.isCanSelect = YES;
+
+    self.timeSelectView = [[SelectView alloc] init];
+    self.timeSelectView.titile = @"请选择";
+    self.timeSelectView.items = TimeSelectors;
+    self.timeSelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 150);
+    self.timeSelectView.selectViewBlock = ^(NSInteger index) {
         //设置时间长度
-        NSInteger duration = [TimeSelectorsInteger[index] integerValue];
-        if (timeRemaining > duration) {
-            timeRemaining = duration - (timeDuration - timeRemaining);
-            weakSelf.timeSelector = index;
-            timeDuration = [TimeSelectorsInteger[index] integerValue];
-            timeView.items = @[@{@"image":@"time",@"title":@"Time",@"detail":TimeSelectors[weakSelf.timeSelector]}];
+        weakSelf.timeSelector = index;
+        weakSelf.timeView.items = @[@{@"image":@"time",@"title":@"Time",@"detail":TimeSelectors[weakSelf.timeSelector]}];
+        weakSelf.timeDuration = [TimeSelectorsInteger[index] integerValue];
+        if (weakSelf.bluetoothStatusView.statusType == StatusTypeStart) {
+            weakSelf.bluetoothStatusView.timers = weakSelf.timeDuration;
         }
     };
     
-    timeView.imageTitleDetailViewBlock = ^() {
+    self.timeView.imageTitleDetailViewBlock = ^() {
         //显示时间选项
-        timeSelectView.selector  = weakSelf.timeSelector;
-        [timeSelectView showViewInView:weakSelf.view];
+        weakSelf.timeSelectView.selector  = weakSelf.timeSelector;
+        [weakSelf.timeSelectView showViewInView:weakSelf.view];
     };
-    [self.view addSubview:timeView];
+    [self.view addSubview:weakSelf.timeView];
     
     UIView *lineTopView = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12,
                                                                    CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60,
@@ -277,15 +280,15 @@
 /***************第四部分**************/
 -(void)addSectionThree
 {
-    bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 150)/2.0, SCREENHEIGHT - 300.0f, 120, 120)];
-    bluetoothStatusView.timers = timeDuration;
-    bluetoothStatusView.statusType = StatusTypeNone;
+    self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 150)/2.0, SCREENHEIGHT - 300.0f, 120, 120)];
+    self.bluetoothStatusView.timers = self.timeDuration;
+    self.bluetoothStatusView.statusType = StatusTypeNone;
     __weak typeof (*&self) weakSelf = self;
-    bluetoothStatusView.bluetoothStatusViewBlock = ^(StatusType statusType) {
+    self.bluetoothStatusView.bluetoothStatusViewBlock = ^(StatusType statusType) {
         if (statusType == StatusTypeNone) {
             //绑定过直接链接
             if (weakSelf.bluetoothInfo) {
-                for (Equipment *eq in weakSelf.scanednEquipments) {
+                for (Equipment *eq in weakSelf.bluetooth.equipments) {
                     if ([weakSelf.bluetoothInfo.peripheralIdentify isEqualToString:[eq.peripheral.identifier UUIDString]]) {
                         //链接蓝牙设备
                         [weakSelf.bluetooth connectEquipment:eq];
@@ -296,6 +299,14 @@
                 //点击绑定设备
                 BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
                 bindViewController.bindFlag=@"1";
+                bindViewController.bindViewControllerSelectEquiment = ^(Equipment *eq) {
+                    for (Equipment *equipmemt in weakSelf.bluetooth.equipments) {
+                        if ([[eq.peripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
+                            [weakSelf.bluetooth connectEquipment:equipmemt];
+                            break;
+                        }
+                    }
+                };
                 [weakSelf.navigationController pushViewController:bindViewController animated:YES];
             }
 
@@ -309,29 +320,26 @@
         }
     };
     
-    [self.view addSubview:bluetoothStatusView];
+    [self.view addSubview:self.bluetoothStatusView];
 }
 //开始治疗UI
 - (void)blueStartWorkUI {
     //UI
-    bluetoothStatusView.statusType = StatusTypeStop;
-    frequencyView.isCanSelect = NO;
-    timeRemaining = timeDuration;
-    beginDate = [NSDate new];
+    self.frequencyView.isCanSelect = NO;
+    self.timeView.isCanSelect = NO;
+    timeRemaining = self.timeDuration;
+    self.bluetoothStatusView.statusType = StatusTypeStop;
+    self.bluetoothStatusView.timers = self.timeDuration;
     
     //开始治疗
     [self.bluetooth startWork];
     //倒计时
     [self timeCountDown];
+    
+    beginDate = [NSDate new];
 }
 //停止治疗UI
 - (void)blueStopWorkUI {
-    //UI
-    bluetoothStatusView.statusType = StatusTypeStart;
-    frequencyView.isCanSelect = YES;
-    timeRemaining = timeDuration;
-    bluetoothStatusView.timers = timeRemaining;
-    
     //停止治疗
     [self.bluetooth endWork];
     //停止倒计时
@@ -342,6 +350,14 @@
     [self saveTreatInfo];
     beginDate = nil;
     endDate = nil;
+    
+    //UI
+    self.frequencyView.isCanSelect = YES;
+    self.timeView.isCanSelect = YES;
+    timeRemaining = self.timeDuration;
+    self.bluetoothStatusView.statusType = StatusTypeStart;
+    self.bluetoothStatusView.timers = self.timeDuration;
+    [self.bluetoothStatusView updateProgressWithPercent:0.001];
 }
 
 //倒计时
@@ -353,9 +369,9 @@
 - (void)handleTimer {
     if (timeRemaining > 0) {
         timeRemaining = timeRemaining - 1;
-        bluetoothStatusView.timers = timeRemaining;
-        CGFloat precent = (timeDuration * 1.0 - timeRemaining * 1.0)/(timeDuration * 1.0);
-        [bluetoothStatusView updateProgressWithPercent:precent];
+        self.bluetoothStatusView.timers = timeRemaining;
+        CGFloat precent = (self.timeDuration * 1.0 - timeRemaining * 1.0)/(self.timeDuration * 1.0);
+        [self.bluetoothStatusView updateProgressWithPercent:precent];
     }
     else {
         [self blueStopWorkUI];
@@ -376,24 +392,26 @@
 }
 
 #pragma mark 通知
-//BindViewController选择返回蓝牙信息
-- (void)sendBluetoothInfoValue:(NSNotification *)notification
-{
-    Equipment *eq = [notification.userInfo objectForKey:@"BLEInfo"];
-    for (Equipment *equipmemt in self.scanednEquipments) {
-        if ([[eq.peripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
-            [self.bluetooth connectEquipment:equipmemt];
-        }
-    }
-}
+////BindViewController选择返回蓝牙信息
+//- (void)sendBluetoothInfoValue:(NSNotification *)notification
+//{
+//    Equipment *eq = [notification.userInfo objectForKey:@"BLEInfo"];
+//    for (Equipment *equipmemt in self.scanednEquipments) {
+//        if ([[eq.peripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
+//            [self.bluetooth connectEquipment:equipmemt];
+//        }
+//    }
+//}
 
 //解除绑定
 - (void)freeBluetoothInfo {
-    bluetoothStatusView.statusType = StatusTypeNone;
+    self.bluetoothStatusView.statusType = StatusTypeNone;
 
     //停止治疗
     [self.bluetooth endWork];
-    [self.bluetooth stopConnectEquipment:self.bluetooth.equipment];
+    if (self.bluetooth.equipment) {
+        [self.bluetooth stopConnectEquipment:self.bluetooth.equipment];
+    }
     //停止倒计时
     [countDownTimer invalidate];
     
@@ -403,12 +421,13 @@
 #pragma mark -- BluetoothDelegate
 - (void)scanedEquipments:(NSArray *)equipments {
     //搜索到设备
-    self.scanednEquipments = equipments;
+//    self.scanednEquipments = equipments;
 }
 
 - (void)connectState:(ConnectState)connectState Error:(NSError *)error {
     if (connectState == ConnectStateNormal) { //正常链接成功
-        bluetoothStatusView.statusType = StatusTypeStart;
+        self.bluetoothStatusView.statusType = StatusTypeStart;
+        self.bluetoothStatusView.timers = self.timeDuration;
         //保存设备
         [self saveConnectEquiment];
         //上传服务器硬件设备
@@ -457,7 +476,7 @@
 - (void)saveTreatInfo {
 //    存储治疗数据到数据库
 //    初始化数据库
-    if (timeDuration - timeRemaining > 60 || _patientInfo.PatientID!=nil )  {
+    if (self.timeDuration - timeRemaining > 60 || _patientInfo.PatientID!=nil )  {
         NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
         
         dbOpration=[[DataBaseOpration alloc] init];
@@ -475,7 +494,7 @@
         [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm"];
         treatInfoTmp.BeginTime = [dateFormatter stringFromDate:beginDate];
         treatInfoTmp.EndTime = [dateFormatter stringFromDate:endDate];
-        treatInfoTmp.CureTime = [NSString stringWithFormat:@"%.ld", (timeDuration - timeRemaining)/60];
+        treatInfoTmp.CureTime = [NSString stringWithFormat:@"%.ld", (self.timeDuration - timeRemaining)/60];
         [dbOpration insertTreatInfo:treatInfoTmp];
         [dbOpration closeDataBase];
     }
@@ -486,6 +505,8 @@
     if (!_bluetooth) {
         _bluetooth = [Bluetooth shareBluetooth];
         _bluetooth.delegate = self;
+        [_bluetooth scanEquipment];
+        
     }
     return _bluetooth;
 }

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import "BLEInfo.h"
+#import "Bluetooth.h"
 
 @interface BindViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 
@@ -19,5 +20,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *scanButton;
 @property (strong, nonatomic) IBOutlet UITableView *scanResultTableView;
 @property (strong, nonatomic) IBOutlet UILabel *alertLabel;
+@property (copy) void (^bindViewControllerSelectEquiment)(Equipment *);
 
 @end

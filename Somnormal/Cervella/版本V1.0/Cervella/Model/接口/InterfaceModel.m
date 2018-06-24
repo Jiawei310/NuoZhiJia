@@ -120,9 +120,8 @@
 -(void)sendJsonRegisterInfoToServer:(PatientInfo *)patientInfo
 {
     _patientInfo = patientInfo;
-    
-    NSDictionary *jsonRegisterPatient = [NSDictionary dictionaryWithObjectsAndKeys:patientInfo.PatientID,@"PatientID",patientInfo.PatientID,@"PatientName",patientInfo.PatientPwd,@"PatientPwd",patientInfo.PatientSex,@"PatientSex",patientInfo.CellPhone,@"CellPhone",patientInfo.Birthday,@"Birthday",@"",@"IDCard",@"0",@"Age",@"",@"Marriage",@"",@"NativePlace",@"",@"BloodModel",@"",@"FamilyPhone",@"",@"Email",@"",@"Vocation",@"",@"Address",@"",@"PatientHeight",@"",@"PatientWeight",@"",@"PatientRemarks",@"",@"Picture",@"2",@"PatientType", nil];
-    NSArray *jsonArray=[NSArray arrayWithObjects:jsonRegisterPatient, nil];
+    NSDictionary *jsonRegisterPatient = [NSDictionary dictionaryWithObjectsAndKeys:_patientInfo.PatientID,@"PatientID",_patientInfo.PatientID,@"PatientName",_patientInfo.PatientPwd,@"PatientPwd",_patientInfo.PatientSex,@"PatientSex",patientInfo.Birthday,@"Birthday",_patientInfo.Email,@"Email",_patientInfo.CellPhone,@"CellPhone",_patientInfo.Birthday,@"Birthday",@"2",@"PatientType",@"",@"IDCard",patientInfo.Address,@"Address",@"0",@"Age",patientInfo.BloodModel,@"BloodModel",_patientInfo.FamilyPhone,@"FamilyPhone",_patientInfo.Marriage,@"Marriage",_patientInfo.NativePlace,@"NativePlace",_patientInfo.PatientHeight,@"PatientHeight",_patientInfo.PatientRemarks,@"PatientRemarks",_patientInfo.PatientWeight,@"PatientWeight",_patientInfo.Picture,@"Picture",_patientInfo.Vocation,@"Vocation",nil];
+    NSArray *jsonArray=[NSArray arrayWithObjects:jsonRegisterPatient,nil];
     NSData *jsondata = [NSJSONSerialization dataWithJSONObject:jsonArray options:NSJSONWritingPrettyPrinted error:nil];
     NSString *jsonString=[[NSString alloc] initWithData:jsondata encoding:NSUTF8StringEncoding];
     
@@ -141,8 +140,8 @@
                "</APP_RegisterPatient>"
                "</soap12:Body>"
                "</soap12:Envelope>", jsonString,nil];
-    //打印soapMsg信息
     NSLog(@"%@",soapMsg);
+    //打印soapMsg信息
     [self allNeedPartByJH];
 }
 
@@ -540,9 +539,11 @@
             {
                 [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PatientID"];
                 [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PatientPwd"];
+                
                 NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
                 [userDefault setObject:_patientInfo.PatientID forKey:@"PatientID"];
                 [userDefault setObject:_patientInfo.PatientPwd forKey:@"PatientPwd"];
+                
                 //跳转到主界面（变更app的根视图控制器）
                 [self.delegate sendValueBackToController:_patientInfo type:InterfaceModelBackTypeLogin];
                 
@@ -550,6 +551,9 @@
                 DataBaseOpration *dbOpration=[[DataBaseOpration alloc] init];
                 [dbOpration insertUserInfo:_patientInfo];
                 [dbOpration closeDataBase];
+            }
+            else {
+                [self.delegate sendValueBackToController:resultDic type:InterfaceModelBackTypeLogin];
             }
         }
         else if ([matchingElement isEqualToString:@"APP_GetEvaluateDataResponse"])

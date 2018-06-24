@@ -134,6 +134,7 @@
 		D07B34C11F13887D0077B2F9 /* SleepTipsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = D07B34BD1F13887D0077B2F9 /* SleepTipsList.plist */; };
 		D07B34C51F13B1830077B2F9 /* UIButton+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = D07B34C41F13B1830077B2F9 /* UIButton+Common.m */; };
 		D09E92541F14B257005D45C2 /* JustinMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D09E92531F14B257005D45C2 /* JustinMenu.m */; };
+		E4E320CA20DF71E1005041A0 /* ShowLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E320C920DF71E1005041A0 /* ShowLinkViewController.m */; };
 		E905492D20D1078600F39334 /* ColorsSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492C20D1078600F39334 /* ColorsSliderView.m */; };
 		E905493020D11BFC00F39334 /* SelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492F20D11BFC00F39334 /* SelectView.m */; };
 		E905493320D125E200F39334 /* ImageTitleDetialView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905493220D125E200F39334 /* ImageTitleDetialView.m */; };
@@ -383,6 +384,8 @@
 		D07B34C41F13B1830077B2F9 /* UIButton+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Common.m"; sourceTree = "<group>"; };
 		D09E92521F14B257005D45C2 /* JustinMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JustinMenu.h; sourceTree = "<group>"; };
 		D09E92531F14B257005D45C2 /* JustinMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JustinMenu.m; sourceTree = "<group>"; };
+		E4E320C820DF71E1005041A0 /* ShowLinkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowLinkViewController.h; sourceTree = "<group>"; };
+		E4E320C920DF71E1005041A0 /* ShowLinkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowLinkViewController.m; sourceTree = "<group>"; };
 		E905492B20D1078600F39334 /* ColorsSliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorsSliderView.h; sourceTree = "<group>"; };
 		E905492C20D1078600F39334 /* ColorsSliderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ColorsSliderView.m; sourceTree = "<group>"; };
 		E905492E20D11BFC00F39334 /* SelectView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectView.h; sourceTree = "<group>"; };
@@ -884,7 +887,6 @@
 				D07B345E1F1359440077B2F9 /* AboutViewController.m */,
 				D07B345F1F1359440077B2F9 /* AboutViewController.xib */,
 				D07B34441F1358EA0077B2F9 /* Note */,
-				D07B34431F1358EA0077B2F9 /* Method */,
 				D07B34461F1358EA0077B2F9 /* Theory */,
 				D07B34451F1358EA0077B2F9 /* ProductInfo */,
 			);
@@ -943,6 +945,9 @@
 				D07B347E1F135A930077B2F9 /* HelpViewController.h */,
 				D07B347F1F135A930077B2F9 /* HelpViewController.m */,
 				D07B34801F135A930077B2F9 /* HelpViewController.xib */,
+				E4E320C820DF71E1005041A0 /* ShowLinkViewController.h */,
+				E4E320C920DF71E1005041A0 /* ShowLinkViewController.m */,
+				D07B34431F1358EA0077B2F9 /* Method */,
 				D07B34491F1358EA0077B2F9 /* CommonProView */,
 				E92D49A620D384B400C3026A /* AboutCervellaViewController.h */,
 				E92D49A720D384B400C3026A /* AboutCervellaViewController.m */,
@@ -1242,6 +1247,7 @@
 				D07B34961F135AE80077B2F9 /* ClinicalUseViewController.m in Sources */,
 				D04377941F026E370061F279 /* UIView+WebCacheOperation.m in Sources */,
 				D07B34B81F1373A70077B2F9 /* CircleView.m in Sources */,
+				E4E320CA20DF71E1005041A0 /* ShowLinkViewController.m in Sources */,
 				D00C936F1F431D93006BF803 /* AutoSlider.m in Sources */,
 				D07B343F1F1318ED0077B2F9 /* SexPickerView.m in Sources */,
 				D04376F21F02521D0061F279 /* ForgotPasswordViewController.m in Sources */,

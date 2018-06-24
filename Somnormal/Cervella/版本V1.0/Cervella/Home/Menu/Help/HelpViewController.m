@@ -16,6 +16,7 @@
 #import "PrincipleViewController.h"
 #import "AttentionViewController.h"
 #import "ProductInfoViewController.h"
+#import "ShowLinkViewController.h"
 
 #import "WebViewController.h"
 #import "AboutCervellaViewController.h"
@@ -58,6 +59,14 @@
     self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
     [self.view addSubview:self.deviceLab];
+    
+    if (self.bluetoothInfo.deviceName) {
+        self.deviceLab.hidden = NO;
+        self.deviceLab.text = [NSString stringWithFormat:@"Cervella Serial Number:%@",self.bluetoothInfo.deviceName];
+    } else {
+        self.deviceLab.hidden = YES;
+    }
+
     
     _helpTableView.delegate=self;
     _helpTableView.dataSource=self;
@@ -104,18 +113,16 @@
 {
     if (indexPath.row==0)
     {
-        WebViewController *webVC = [[WebViewController alloc] init];
-        webVC.title = helpArray[indexPath.row];
-        webVC.url = [NSURL URLWithString:@"https://cervella.us/manual"];
-        [self.navigationController pushViewController:webVC animated:YES];
+        ShowLinkViewController *vc = [[ShowLinkViewController alloc] init];
+        vc.title = helpArray[indexPath.row];
+        vc.linkStr = @"https://cervella.us/manual";
+        [self.navigationController pushViewController:vc animated:YES];
     }
     if (indexPath.row == 1)
     {
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"Quick Start Guide" ofType:@"pdf"];
-        WebViewController *webVC = [[WebViewController alloc] init];
-        webVC.title = helpArray[indexPath.row];
-        webVC.url = [NSURL fileURLWithPath:path];
-        [self.navigationController pushViewController:webVC animated:YES];
+        MethodViewController *vc = [[MethodViewController alloc] init];
+        vc.title = helpArray[indexPath.row];
+        [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row==2)
     {
@@ -141,10 +148,10 @@
     }
     else if (indexPath.row==5)
     {
-        WebViewController *webVC = [[WebViewController alloc] init];
-        webVC.title = helpArray[indexPath.row];
-        webVC.url = [NSURL URLWithString:@"https://cervella.us/shop"];
-        [self.navigationController pushViewController:webVC animated:YES];
+        ShowLinkViewController *vc = [[ShowLinkViewController alloc] init];
+        vc.title = helpArray[indexPath.row];
+        vc.linkStr = @"https://cervella.us/shop";
+        [self.navigationController pushViewController:vc animated:YES];
     }
     else if (indexPath.row==6)
     {
@@ -163,7 +170,6 @@
         _deviceLab.textAlignment = NSTextAlignmentCenter;
         _deviceLab.textColor = [UIColor grayColor];
         _deviceLab.font = [UIFont systemFontOfSize:14];
-        _deviceLab.text = [NSString stringWithFormat:@"Cervella Serial Number:%@",self.bluetoothInfo.deviceName];
     }
     return _deviceLab;
 }

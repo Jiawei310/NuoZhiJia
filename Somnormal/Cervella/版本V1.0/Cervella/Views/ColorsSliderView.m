@@ -25,8 +25,14 @@
 
 
 - (void)btnAction:(UIButton *)button {
+    if (_level < button.tag) {
+        _level = _level + 1;
+    }
+    else if (self.level > button.tag) {
+        _level = _level - 1;
+    }
     for (UIButton *btn in self.btnsArr) {
-        if (btn.tag <= button.tag) {
+        if (btn.tag <= _level) {
             btn.selected = YES;
         } else {
             btn.selected = NO;
@@ -34,7 +40,7 @@
     }
     
     if ([self.delegate respondsToSelector:@selector(selectIndex:)]) {
-        [self.delegate selectIndex:button.tag];
+        [self.delegate selectIndex:_level];
     }
 }
 

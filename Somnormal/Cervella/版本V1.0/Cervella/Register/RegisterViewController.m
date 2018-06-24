@@ -9,8 +9,11 @@
 #import "RegisterViewController.h"
 #import "WebViewController.h"
 #import "DatePickerView.h"
+#import "AppDelegate.h"
+#import "HomeViewController.h"
 
-@interface RegisterViewController ()<UITableViewDelegate, UITableViewDataSource, UITextViewDelegate>
+
+@interface RegisterViewController ()<UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, InterfaceModelDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *registerTableView;
 @property (weak, nonatomic) IBOutlet UIButton *RegisterBtn;
@@ -74,6 +77,8 @@
     
     //Data
     _patientInfo = [[PatientInfo alloc] init];
+    interfaceModel = [[InterfaceModel alloc] init];
+    interfaceModel.delegate = self;
 }
 
 - (void)addTextView {
@@ -142,7 +147,7 @@
         webVC.url = URL;
         [self.navigationController pushViewController:webVC animated:YES];
     }
-    return YES;
+    return NO;
 }
 
 #pragma loginTableView -- delegate
@@ -170,6 +175,7 @@
         _acountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 5, 230, 40)];
         _acountTextField.font = [UIFont systemFontOfSize:18];
         _acountTextField.placeholder = @"Username";
+        _acountTextField.keyboardType = UIKeyboardTypeASCIICapable;
         [cell.contentView addSubview:_acountTextField];
     }
     else if (indexPath.row == 1)
@@ -181,6 +187,8 @@
         _passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 5, 230, 40)];
         _passwordTextField.font = [UIFont systemFontOfSize:18];
         _passwordTextField.placeholder = @"Password";
+        _passwordTextField.keyboardType = UIKeyboardTypeASCIICapable;
+
         [cell.contentView addSubview:_passwordTextField];
     }
     else if (indexPath.row == 2)
@@ -192,6 +200,8 @@
         _emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 5, 230, 40)];
         _emailTextField.font = [UIFont systemFontOfSize:18];
         _emailTextField.placeholder = @"E-Mail";
+        _emailTextField.keyboardType = UIKeyboardTypeASCIICapable;
+
         [cell.contentView addSubview:_emailTextField];
     }
     else if (indexPath.row == 3)
@@ -204,6 +214,8 @@
         _birthTextField.font = [UIFont systemFontOfSize:18];
         _birthTextField.placeholder = @"Birthday";
         _birthTextField.userInteractionEnabled = NO;
+        _birthTextField.keyboardType = UIKeyboardTypeASCIICapable;
+
         [cell.contentView addSubview:_birthTextField];
     }
     else
@@ -362,14 +374,14 @@
             jxt_dismissHUD();
         });
     }
-    else if(_emailTextField.text == nil)
+    else if(_emailTextField.text.length == 0)
     {
         jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Email must be entered");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
     }
-    else if(_birthTextField.text == nil)
+    else if(_birthTextField.text.length == 0)
     {
         jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Please select Date of birth");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -387,10 +399,13 @@
         _patientInfo.PatientID = _acountTextField.text;
         _patientInfo.PatientPwd = _passwordTextField.text;
         _patientInfo.PatientName = _passwordTextField.text;
-        _patientInfo.CellPhone = _passwordTextField.text;
-        NSString *birthStr_One = [_birthTextField.text substringWithRange:NSMakeRange(0, 4)];
-        NSString *birthStr_Two = [_birthTextField.text substringWithRange:NSMakeRange(5, 2)];
-        _patientInfo.Birthday = [NSString stringWithFormat:@"%@-%@",birthStr_One,birthStr_Two];
+        _patientInfo.Birthday = _birthTextField.text;
+        _patientInfo.Email = _emailTextField.text;
+        _patientInfo.PatientSex = @"Male";
+        if (_femaleBtn.selected) {
+            _patientInfo.PatientSex = @"Female";
+        }
+        _patientInfo.CellPhone = @"";
         _patientInfo.Age = 0;
         _patientInfo.FamilyPhone = @"";
         _patientInfo.PatientContactWay = @"";
@@ -400,21 +415,25 @@
         _patientInfo.PatientWeight = @"";
         _patientInfo.NativePlace = @"";
         _patientInfo.BloodModel = @"";
-        _patientInfo.Email = @"";
         _patientInfo.Address = @"";
         _patientInfo.PatientRemarks = @"";
+        _patientInfo.Picture = @"";
+        _patientInfo.PhotoUrl = @"";
+        
+//        [{"Address":"","Age":"32","Birthday":"1987.06.03","BloodModel":"","CellPhone":"","Email":"123456@163.com","FamilyPhone":"","IDCard":"","Marriage":"","NativePlace":"","PatientHeight":"","PatientID":"Mine","PatientName":"","PatientPwd":"123456","PatientRemarks":"","PatientSex":"Male","PatientType":"2","PatientWeight":"","Picture":"","Vocation":""}]
+        
         //做一个默认头像
         //图片下载完成  在这里进行相关操作，如加到数组里 或者显示在imageView上
-        UIImage *photoImage = [UIImage imageNamed:@"Default.jpg"];
-        NSData *imageData = UIImagePNGRepresentation(photoImage);
-        _patientInfo.Picture = [imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-        _patientInfo.PhotoUrl = @"//PatientHeadImg//Default.jpg";
+//        UIImage *photoImage = [UIImage imageNamed:@"Default.jpg"];
+//        NSData *imageData = UIImagePNGRepresentation(photoImage);
+//        _patientInfo.Picture = [imageData base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+//        _patientInfo.PhotoUrl = @"//PatientHeadImg//Default.jpg";
         
         //添加Loading
         jxt_showLoadingHUDTitleMessage(@"Sign in", @"Loading...");
         isOverTime = YES;
-        
         [NSTimer scheduledTimerWithTimeInterval:8 target:self selector:@selector(overTimeOpration) userInfo:nil repeats:NO];
+        
         //借口请求，后台添加账号
         [interfaceModel sendJsonRegisterInfoToServer:_patientInfo];
     }
@@ -424,11 +443,20 @@
 {
     if (interfaceModelBackType == InterfaceModelBackTypeLogin)
     {
-        isOverTime=NO;
-        
-        _patientInfo = value;
-        //隐藏Loading
-        jxt_dismissHUD();
+        if ([value isKindOfClass:[PatientInfo class]]) {
+            isOverTime=NO;
+            
+            _patientInfo = value;
+            //隐藏Loading
+            jxt_dismissHUD();
+            
+            [self changeRoot];
+        } else {
+            jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"密码输入错误，请重新输入");
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                jxt_dismissHUD();
+            });
+        }
     }
 }
 
@@ -440,6 +468,23 @@
         jxt_dismissHUD();
         jxt_showAlertTitle(@"Login timeout");
     }
+}
+
+//切换app的根视图控制器
+- (void)changeRoot
+{
+    //变更app的根视图控制器
+    UIApplication *app = [UIApplication sharedApplication];
+    AppDelegate *app2 =  (AppDelegate*)app.delegate;
+    app2.window.backgroundColor = [UIColor whiteColor];
+    
+    HomeViewController *homeVC = [[HomeViewController alloc] init];
+    homeVC.patientInfo = _patientInfo;
+    
+    UINavigationController *rootVC = [[UINavigationController alloc] initWithRootViewController:homeVC];
+    app2.window.rootViewController = rootVC;
+    
+    [app2.window makeKeyAndVisible];
 }
 
 - (void)didReceiveMemoryWarning {

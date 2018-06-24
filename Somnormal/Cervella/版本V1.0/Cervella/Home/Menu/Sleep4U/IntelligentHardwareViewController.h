@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface IntelligentHardwareViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface IntelligentHardwareViewController : UIViewController
 
 @end

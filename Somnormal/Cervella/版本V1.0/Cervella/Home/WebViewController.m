@@ -57,7 +57,7 @@
 - (UIWebView *)webView {
     if (!_webView) {
         _webView = [[UIWebView alloc] init];
-        _webView.frame = CGRectMake(0, 64.0, self.view.frame.size.width, self.view.frame.size.height);
+        _webView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
         _webView.scalesPageToFit = YES;
         [_webView setMultipleTouchEnabled:YES];
         [_webView setUserInteractionEnabled:YES];

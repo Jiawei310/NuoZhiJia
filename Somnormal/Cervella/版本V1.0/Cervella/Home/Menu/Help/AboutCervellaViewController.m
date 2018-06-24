@@ -22,9 +22,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.topBackView];
-    [self.view addSubview:self.infoLab];
+    self.view.backgroundColor = [UIColor whiteColor];    
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.frame = CGRectMake(0, 64.0, self.view.frame.size.width, self.view.frame.size.height - 64);
+    imageView.image = [UIImage imageNamed:@"about"];
+    [self.view addSubview:imageView];
 }
 
 

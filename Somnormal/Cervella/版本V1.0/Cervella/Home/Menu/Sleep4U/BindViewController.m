@@ -10,8 +10,6 @@
 #import "BluetoothInfo.h"
 #import "StartsViewController.h"
 
-#import "Bluetooth.h"
-
 @interface BindViewController ()<BluetoothDelegate>
 @property (nonatomic, strong) Bluetooth *bluetooth;
 
@@ -148,11 +146,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Equipment *eq = [arrayBLE objectAtIndex:indexPath.row];
-    
-    //2.采用通知传值
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:eq,@"BLEInfo", nil];
-    NSNotification *notification = [NSNotification notificationWithName:@"connectBLE" object:nil userInfo:dic];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    if (self.bindViewControllerSelectEquiment) {
+        self.bindViewControllerSelectEquiment(eq);
+    }
     
     NSArray *arr = self.navigationController.viewControllers;
     if ([_bindFlag isEqualToString:@"1"])
