@@ -95,7 +95,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return 50.0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -105,6 +105,7 @@
     UITableViewCell *cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
     cell.textLabel.font = [UIFont systemFontOfSize:18];
     cell.textLabel.text = [helpArray objectAtIndex:indexPath.row];
+    cell.textLabel.numberOfLines = 0;
 
     return cell;
 }
@@ -164,7 +165,7 @@
     if (!_deviceLab) {
         _deviceLab = [[UILabel alloc] init];
         _deviceLab.frame = CGRectMake(0,
-                                      self.view.frame.size.height - 40,
+                                      SCREENHEIGHT- 40,
                                       SCREENWIDTH,
                                       30);
         _deviceLab.textAlignment = NSTextAlignmentCenter;

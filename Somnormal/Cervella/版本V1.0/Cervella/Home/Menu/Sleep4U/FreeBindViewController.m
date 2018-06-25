@@ -36,17 +36,31 @@
     UIImageView *device = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"picture_device"]];
     UIImageView *phone = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"picture_phone"]];
     UIImageView *unbind = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"picture_unbind"]];
-    if (SCREENHEIGHT == 480)
-    {
-        device.frame=CGRectMake(SCREENWIDTH/20, SCREENHEIGHT/30+65, SCREENWIDTH*7/20, SCREENWIDTH*7/20);
-        phone.frame=CGRectMake(SCREENWIDTH*12/20, SCREENHEIGHT/30+65, SCREENWIDTH*7/20, SCREENWIDTH*7/20);
-        unbind.frame=CGRectMake(SCREENWIDTH*9/20, SCREENHEIGHT/8+65, SCREENWIDTH*2/20, SCREENWIDTH*3/20);
+    if (SCREENHEIGHT == 568) {
+        device.frame = CGRectMake(15, 100, 90, 90);
+        unbind.frame = CGRectMake((SCREENWIDTH - 40)/2.0, 125, 40, 40);
+        phone.frame = CGRectMake(SCREENWIDTH - 105, 100, 90, 90);
+        _Label_One.frame = CGRectMake(15, 220, SCREENWIDTH - 30, 120);
+
+    } else if (SCREENHEIGHT == 667) {
+        device.frame = CGRectMake(15, 120, 110, 110);
+        unbind.frame = CGRectMake((SCREENWIDTH - 40)/2.0, 150, 40, 40);
+        phone.frame = CGRectMake(SCREENWIDTH - 135, 120, 110, 110);
+        _Label_One.frame = CGRectMake(15, 240, SCREENWIDTH - 30, 120);
+
+    } else if (SCREENHEIGHT == 736) {
+        device.frame = CGRectMake(15, 120, 110, 110);
+        unbind.frame = CGRectMake((SCREENWIDTH - 40)/2.0, 145, 40, 40);
+        phone.frame = CGRectMake(SCREENWIDTH - 135, 120, 110, 110);
+        _Label_One.frame = CGRectMake(15, 240, SCREENWIDTH - 30, 120);
+
     }
-    else
-    {
-        device.frame=CGRectMake(SCREENWIDTH/20, SCREENHEIGHT/10+65, SCREENWIDTH*7/20, SCREENWIDTH*7/20);
-        phone.frame=CGRectMake(SCREENWIDTH*12/20, SCREENHEIGHT/10+65, SCREENWIDTH*7/20, SCREENWIDTH*7/20);
-        unbind.frame=CGRectMake(SCREENWIDTH*9/20, SCREENHEIGHT/6+65, SCREENWIDTH*2/20, SCREENWIDTH*2/20);
+    else if (SCREENHEIGHT == 812) {
+        device.frame = CGRectMake(15, 120, 110, 110);
+        unbind.frame = CGRectMake((SCREENWIDTH - 40)/2.0, 145, 40, 40);
+        phone.frame = CGRectMake(SCREENWIDTH - 135, 120, 110, 110);
+        _Label_One.frame = CGRectMake(15, 240, SCREENWIDTH - 30, 120);
+
     }
     
     [self.view addSubview:device];
@@ -55,14 +69,6 @@
     
     [_FreeBindButton setBackgroundColor:[UIColor colorWithRed:0x25/255.0 green:0x7e/255.0 blue:0xd6/255.0 alpha:1]];
     [_FreeBindButton setTitle:@"Unpair Cervella" forState:UIControlStateNormal];
-    if (SCREENHEIGHT == 667)
-    {
-        _FreeBindButton.titleLabel.font = [UIFont systemFontOfSize:20];
-    }
-    else if (SCREENWIDTH == 736)
-    {
-        _FreeBindButton.titleLabel.font = [UIFont systemFontOfSize:22.5];
-    }
 }
 
 //返回按钮点击事件

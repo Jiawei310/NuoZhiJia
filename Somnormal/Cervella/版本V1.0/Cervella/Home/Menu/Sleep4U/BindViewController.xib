@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,7 +23,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2VK-LN-dgb">
-                    <rect key="frame" x="56" y="420" width="264" height="30"/>
+                    <rect key="frame" x="56" y="397.5" width="264" height="30"/>
                     <color key="backgroundColor" red="0.065292198460000006" green="0.52483437430000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <state key="normal">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -35,18 +34,12 @@
                     </connections>
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" sectionIndexMinimumDisplayRowCount="4" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="uEM-0A-265">
-                    <rect key="frame" x="0.0" y="458" width="375" height="209"/>
+                    <rect key="frame" x="0.0" y="435.5" width="375" height="231.5"/>
                     <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="209" id="p3i-aw-cKQ"/>
-                    </constraints>
                     <color key="sectionIndexBackgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </tableView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdC-VF-baW">
-                    <rect key="frame" x="16" y="293" width="343" height="109"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="109" id="EiG-qe-Uz9"/>
-                    </constraints>
+                    <rect key="frame" x="16" y="265" width="343" height="101.5"/>
                     <string key="text">Ensure that your Cervella device is charged and placed nearby and verify that the Bluetooth function is enabled on your smart device. To pair, simply select your Cervella device from the list below.</string>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -55,15 +48,18 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="2VK-LN-dgb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="56" id="0HF-lU-wwa"/>
-                <constraint firstItem="uEM-0A-265" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="IkN-XN-Byc"/>
-                <constraint firstItem="uEM-0A-265" firstAttribute="top" secondItem="2VK-LN-dgb" secondAttribute="bottom" constant="8" symbolic="YES" id="PXg-Jp-dKe"/>
-                <constraint firstItem="pdC-VF-baW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="293" id="RAi-mc-Hww"/>
-                <constraint firstAttribute="bottom" secondItem="uEM-0A-265" secondAttribute="bottom" id="Zqr-nW-gy3"/>
-                <constraint firstAttribute="trailing" secondItem="uEM-0A-265" secondAttribute="trailing" id="cPB-Ct-OsK"/>
-                <constraint firstItem="2VK-LN-dgb" firstAttribute="centerX" secondItem="pdC-VF-baW" secondAttribute="centerX" id="o2f-dK-OBz"/>
-                <constraint firstItem="pdC-VF-baW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leadingMargin" id="p9K-el-Y4d"/>
-                <constraint firstItem="pdC-VF-baW" firstAttribute="centerX" secondItem="uEM-0A-265" secondAttribute="centerX" id="qSQ-Z2-3Fp"/>
+                <constraint firstAttribute="trailing" secondItem="2VK-LN-dgb" secondAttribute="trailing" constant="55" id="4Zo-FO-BkU"/>
+                <constraint firstAttribute="trailing" secondItem="uEM-0A-265" secondAttribute="trailing" id="55z-3g-9fR"/>
+                <constraint firstItem="uEM-0A-265" firstAttribute="top" secondItem="2VK-LN-dgb" secondAttribute="bottom" constant="8" id="MXc-PN-m8A"/>
+                <constraint firstItem="pdC-VF-baW" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="265" id="NZB-Rb-8KE"/>
+                <constraint firstItem="2VK-LN-dgb" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="56" id="YDB-vo-rub"/>
+                <constraint firstAttribute="bottom" secondItem="uEM-0A-265" secondAttribute="bottom" id="arX-1a-Z2O"/>
+                <constraint firstItem="2VK-LN-dgb" firstAttribute="top" secondItem="pdC-VF-baW" secondAttribute="bottom" constant="31" id="bwr-uc-9rN"/>
+                <constraint firstItem="uEM-0A-265" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iOJ-zd-ZrA"/>
+                <constraint firstItem="uEM-0A-265" firstAttribute="top" secondItem="2VK-LN-dgb" secondAttribute="bottom" constant="8" id="niA-n0-3xi"/>
+                <constraint firstItem="2VK-LN-dgb" firstAttribute="top" secondItem="pdC-VF-baW" secondAttribute="bottom" constant="31" id="uPd-DX-g4Q"/>
+                <constraint firstItem="pdC-VF-baW" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="ve2-NE-ysm"/>
+                <constraint firstAttribute="trailing" secondItem="pdC-VF-baW" secondAttribute="trailing" constant="16" id="wDw-DA-AcH"/>
             </constraints>
             <point key="canvasLocation" x="464.5" y="307.5"/>
         </view>

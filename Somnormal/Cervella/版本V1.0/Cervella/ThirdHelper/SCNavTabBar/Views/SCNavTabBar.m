@@ -85,7 +85,17 @@
     for (NSInteger index = 0; index < self.itemCount; index++)
     {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue], NAV_TAB_BAR_HEIGHT);
+        if (SCREENHEIGHT == 568) {
+            button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue] + 18, NAV_TAB_BAR_HEIGHT);
+        } else if (SCREENHEIGHT == 667) {
+            button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue], NAV_TAB_BAR_HEIGHT);
+
+        } else if (SCREENHEIGHT == 736) {
+            button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue] - 12.0, NAV_TAB_BAR_HEIGHT);
+        }
+        else if (SCREENHEIGHT == 812) {
+            button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue], NAV_TAB_BAR_HEIGHT);
+        }
         if (self.isNavTabBarImage) {
             [button setImage:[UIImage imageNamed:self.itemImages[index][normalImage]] forState:UIControlStateNormal];
             [button setImage:[UIImage imageNamed:self.itemImages[index][selectedImage]] forState:UIControlStateSelected];

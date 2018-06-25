@@ -47,7 +47,12 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation"]forBarMetrics:UIBarMetricsDefault];
+    if (SCREENHEIGHT == 812) {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navBar_X"]forBarMetrics:UIBarMetricsDefault];
+    } else {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation"]forBarMetrics:UIBarMetricsDefault];
+    }
+    self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)viewDidLoad {
@@ -177,7 +182,7 @@
     }
    
 
-    UILabel *listLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/10, 0, SCREENWIDTH*11/40, SCREENWIDTH*1.5/10)];
+    UILabel *listLabel=[[UILabel alloc] initWithFrame:CGRectMake(40, 0, SCREENWIDTH*11/40, 60)];
     listLabel.textColor=[UIColor whiteColor];
     listLabel.font=[UIFont systemFontOfSize:16];
     listLabel.text=[menuArray objectAtIndex:indexPath.row];

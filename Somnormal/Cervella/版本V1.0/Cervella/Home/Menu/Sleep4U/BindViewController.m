@@ -48,14 +48,6 @@
     
     [_scanButton setBackgroundColor:[UIColor colorWithRed:0x25/255.0 green:0x7e/255.0 blue:0xd6/255.0 alpha:1]];
     [self.scanButton setTitle:@"Search Again" forState:UIControlStateNormal];
-    if (SCREENHEIGHT == 667)
-    {
-        _scanButton.titleLabel.font = [UIFont systemFontOfSize:20];
-    }
-    else if (SCREENWIDTH == 736)
-    {
-        _scanButton.titleLabel.font = [UIFont systemFontOfSize:22.5];
-    }
     
     _scanResultTableView.delegate = self;
     _scanResultTableView.dataSource = self;
@@ -63,17 +55,24 @@
     UIImageView *device = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"picture_device"]];
     UIImageView *phone = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"picture_phone"]];
     UIImageView *bind = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"picture_bind"]];
-    if (SCREENHEIGHT == 480)
-    {
-        device.frame = CGRectMake(SCREENWIDTH/20, SCREENHEIGHT/30+65, SCREENWIDTH*7/20, SCREENWIDTH*7/20);
-        phone.frame = CGRectMake(SCREENWIDTH*12/20, SCREENHEIGHT/30+65, SCREENWIDTH*7/20, SCREENWIDTH*7/20);
-        bind.frame = CGRectMake(SCREENWIDTH*9/20, SCREENHEIGHT/9+65, SCREENWIDTH*2/20, SCREENWIDTH*3/20);
+    
+    if (SCREENHEIGHT == 568) {
+        device.frame = CGRectMake(15, 120, 90, 90);
+        bind.frame = CGRectMake((SCREENWIDTH - 40)/2.0, 140, 30, 50);
+        phone.frame = CGRectMake(SCREENWIDTH - 105, 120, 90, 90);
+    } else if (SCREENHEIGHT == 667) {
+        device.frame = CGRectMake(15, 120, 110, 110);
+        bind.frame = CGRectMake((SCREENWIDTH - 40)/2.0, 140, 40, 60);
+        phone.frame = CGRectMake(SCREENWIDTH - 135, 120, 110, 110);
+    } else if (SCREENHEIGHT == 736) {
+        device.frame = CGRectMake(15, 120, 110, 110);
+        bind.frame = CGRectMake((SCREENWIDTH - 40)/2.0, 140, 40, 60);
+        phone.frame = CGRectMake(SCREENWIDTH - 135, 120, 110, 110);
     }
-    else
-    {
-        device.frame = CGRectMake(SCREENWIDTH/20, SCREENHEIGHT/10+65, SCREENWIDTH*7/20, SCREENWIDTH*7/20);
-        phone.frame = CGRectMake(SCREENWIDTH*12/20, SCREENHEIGHT/10+65, SCREENWIDTH*7/20, SCREENWIDTH*7/20);
-        bind.frame = CGRectMake(SCREENWIDTH*9/20, SCREENHEIGHT/6+65, SCREENWIDTH*2/20, SCREENWIDTH*3/20);
+    else if (SCREENHEIGHT == 812) {
+        device.frame = CGRectMake(15, 120, 110, 110);
+        bind.frame = CGRectMake((SCREENWIDTH - 40)/2.0, 140, 40, 60);
+        phone.frame = CGRectMake(SCREENWIDTH - 135, 120, 110, 110);
     }
     
     [self.view addSubview:device];

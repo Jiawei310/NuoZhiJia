@@ -22,20 +22,19 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ej8-BM-0Rh">
-                    <rect key="frame" x="37" y="480" width="303" height="50"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="Hse-wT-aiP"/>
-                    </constraints>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tQT-W2-yk6">
+                    <rect key="frame" x="21" y="350" width="335" height="93"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <string key="text">Unpairing will cause Cervella to stop working with your smart device. Use this feature if you would like to pair your Cervella with another smart device.</string>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NPT-lD-q9c">
-                    <rect key="frame" x="20" y="562" width="335" height="39"/>
+                    <rect key="frame" x="20" y="603" width="336" height="44"/>
                     <color key="backgroundColor" red="0.065292198460000006" green="0.52483437430000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="39" id="R4o-Xa-Q8V"/>
+                        <constraint firstAttribute="height" constant="44" id="9tZ-hC-B0l"/>
                     </constraints>
                     <state key="normal">
                         <color key="titleColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -45,12 +44,11 @@
                         <action selector="FreeBindButtonClick:" destination="-1" eventType="touchUpInside" id="fRi-46-xVN"/>
                     </connections>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tQT-W2-yk6">
-                    <rect key="frame" x="20" y="291" width="335" height="105"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ej8-BM-0Rh">
+                    <rect key="frame" x="21" y="536" width="335" height="30"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="105" id="Gxl-8k-cq3"/>
+                        <constraint firstAttribute="height" constant="30" id="vCP-Pd-NEI"/>
                     </constraints>
-                    <string key="text">Unpairing will cause Cervella to stop working with your smart device. Use this feature if you would like to pair your Cervella with another smart device.</string>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -59,15 +57,12 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <color key="tintColor" red="0.065292198460000006" green="0.52483437430000002" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="NPT-lD-q9c" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="1JB-gB-86Y"/>
-                <constraint firstItem="NPT-lD-q9c" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="FML-tM-cVN"/>
-                <constraint firstItem="tQT-W2-yk6" firstAttribute="trailing" secondItem="NPT-lD-q9c" secondAttribute="trailing" id="Oob-9d-6Lj"/>
-                <constraint firstItem="ej8-BM-0Rh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="37" id="TA4-fS-EK4"/>
-                <constraint firstAttribute="trailing" secondItem="ej8-BM-0Rh" secondAttribute="trailing" constant="35" id="Z8u-is-Xlc"/>
-                <constraint firstAttribute="bottom" secondItem="NPT-lD-q9c" secondAttribute="bottom" constant="66" id="gl1-Bc-X3i"/>
-                <constraint firstItem="NPT-lD-q9c" firstAttribute="top" secondItem="ej8-BM-0Rh" secondAttribute="bottom" constant="32" id="h4F-rS-c0l"/>
-                <constraint firstItem="ej8-BM-0Rh" firstAttribute="top" secondItem="tQT-W2-yk6" secondAttribute="bottom" constant="84" id="iPM-f4-GIw"/>
-                <constraint firstItem="tQT-W2-yk6" firstAttribute="leading" secondItem="NPT-lD-q9c" secondAttribute="leading" id="vp2-GP-Paq"/>
+                <constraint firstAttribute="trailing" secondItem="ej8-BM-0Rh" secondAttribute="trailing" constant="19" id="1FF-uj-whe"/>
+                <constraint firstItem="ej8-BM-0Rh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="21" id="1cl-8s-toY"/>
+                <constraint firstAttribute="trailing" secondItem="NPT-lD-q9c" secondAttribute="trailing" constant="19" id="3Xq-Zk-F9D"/>
+                <constraint firstItem="NPT-lD-q9c" firstAttribute="top" secondItem="ej8-BM-0Rh" secondAttribute="bottom" constant="37" id="b2e-92-HIi"/>
+                <constraint firstAttribute="bottom" secondItem="NPT-lD-q9c" secondAttribute="bottom" constant="20" id="bwB-uX-hsz"/>
+                <constraint firstItem="NPT-lD-q9c" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="d1t-B9-7na"/>
             </constraints>
             <point key="canvasLocation" x="33.5" y="78.5"/>
         </view>

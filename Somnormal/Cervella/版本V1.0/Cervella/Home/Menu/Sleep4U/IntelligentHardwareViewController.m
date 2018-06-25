@@ -49,42 +49,34 @@
     /**************UI*************/
     //圆环
     myLayer = [[CAShapeLayer alloc] init];
-    if (SCREENWIDTH ==320)
-    {
+    //百分比
+    percentLabel=[[UILabel alloc] init];
+    
+    if (SCREENHEIGHT == 568) {
         myLayer.frame=CGRectMake(72.5, 114, 175, 175);
-    }
-    else if (SCREENWIDTH==375)
-    {
+        percentLabel.frame=CGRectMake(5, 70, 165, 35);
+    } else if (SCREENHEIGHT == 667) {
         myLayer.frame=CGRectMake(95, 124, 185, 185);
-    }
-    else if (SCREENWIDTH==414)
-    {
+        percentLabel.frame=CGRectMake(5, 75, 175, 35);
+    } else if (SCREENHEIGHT == 736) {
         myLayer.frame=CGRectMake(109.5, 114, 195, 195);
+        percentLabel.frame=CGRectMake(5, 80, 185, 35);
     }
+    else if (SCREENHEIGHT == 812) {
+        myLayer.frame=CGRectMake((SCREENWIDTH - 195)/2.0, 114, 195, 195);
+        percentLabel.frame=CGRectMake(5, 80, 185, 35);
+    }
+    
     myLayer.path = [self drawPathWithArcCenter:4];
     myLayer.fillColor = [UIColor clearColor].CGColor;
     myLayer.strokeColor = [UIColor colorWithRed:0.86f green:0.86f blue:0.86f alpha:0.4f].CGColor;
     myLayer.lineWidth = 10;
     [self.view.layer addSublayer:myLayer];
 
-    
-    //百分比
-    percentLabel=[[UILabel alloc] init];
     percentLabel.textAlignment=NSTextAlignmentCenter;
     percentLabel.font=[UIFont systemFontOfSize:20];
-    if (SCREENWIDTH==320)
-    {
-        percentLabel.frame=CGRectMake(5, 70, 165, 35);
-    }
-    else if (SCREENWIDTH==375)
-    {
-        percentLabel.frame=CGRectMake(5, 75, 175, 35);
-    }
-    else if (SCREENWIDTH==414)
-    {
-        percentLabel.frame=CGRectMake(5, 80, 185, 35);
-    }
     [myLayer addSublayer:percentLabel.layer];
+    
     
     //battery level
     UILabel *batteryLab = [[UILabel alloc] init];

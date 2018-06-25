@@ -75,11 +75,6 @@
 }
 @synthesize webData,soapResults,xmlParser,elementFound,matchingElement,conn;
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:YES];
-    self.bluetooth.delegate = self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
@@ -105,6 +100,13 @@
     /***************治疗**************/
     [self addSectionThree];
     
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    self.bluetooth.delegate = self;
+
+
 }
 
 - (void)dealloc {
@@ -176,8 +178,7 @@
     [self.view addSubview:intensityLevelLabel];
     
     colorsSliderView = [[ColorsSliderView alloc] init];
-    CGFloat w = colorSliderd_d * 11 + colorSliderWidth * 10;
-    colorsSliderView.frame = CGRectMake((SCREENWIDTH - w)/2.0, SCREENHEIGHT/6.6, w, 40);
+    colorsSliderView.frame = CGRectMake(40, SCREENHEIGHT/6.6, SCREENWIDTH - 80, 40);
     colorsSliderView.delegate = self;
     colorsSliderView.level = intensityLevel;
     [self.view addSubview:colorsSliderView];
@@ -280,7 +281,17 @@
 /***************第四部分**************/
 -(void)addSectionThree
 {
-    self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 150)/2.0, SCREENHEIGHT - 300.0f, 120, 120)];
+    if (SCREENHEIGHT == 568) {
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 120)/2.0, SCREENHEIGHT - 260.0f, 120, 120)];
+
+    } else if (SCREENHEIGHT == 667) {
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 150)/2.0, SCREENHEIGHT - 300.0f, 150, 150)];
+
+    } else if (SCREENHEIGHT == 736) {
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 180)/2.0, SCREENHEIGHT - 350.0f, 180, 180)];
+    } else if (SCREENHEIGHT == 812) {
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 180)/2.0, SCREENHEIGHT - 400.0f, 180, 180)];
+    }
     self.bluetoothStatusView.timers = self.timeDuration;
     self.bluetoothStatusView.statusType = StatusTypeNone;
     __weak typeof (*&self) weakSelf = self;

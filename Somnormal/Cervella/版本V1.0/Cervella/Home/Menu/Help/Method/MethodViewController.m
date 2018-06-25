@@ -38,17 +38,17 @@
     _scrollView.contentOffset=CGPointMake(0, 0);
     _scrollView.bounces=NO;
     
-    UIImageView  *imageview_one=[[UIImageView alloc]initWithFrame:CGRectMake(0, SCREENHEIGHT/15, SCREENWIDTH, SCREENWIDTH*128/95)];
+    UIImageView  *imageview_one=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
     [imageview_one setImage:[UIImage imageNamed:@"use1.png"]];
-    UIImageView *imageview_two=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH, SCREENHEIGHT/15, SCREENWIDTH, SCREENWIDTH*220/140)];
+    UIImageView *imageview_two=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH, 0, SCREENWIDTH, SCREENHEIGHT)];
     [imageview_two setImage:[UIImage imageNamed:@"use2.png"]];
-    UIImageView *imageview_three=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH*2, SCREENHEIGHT/15, SCREENWIDTH, SCREENWIDTH*135/95)];
+    UIImageView *imageview_three=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 2, 0, SCREENWIDTH, SCREENHEIGHT)];
     [imageview_three setImage:[UIImage imageNamed:@"use3.png"]];
-    UIImageView  *imageview_foure=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH*3, SCREENHEIGHT/15, SCREENWIDTH, SCREENWIDTH*100/95)];
+    UIImageView  *imageview_foure=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 3, 0, SCREENWIDTH, SCREENHEIGHT)];
     [imageview_foure setImage:[UIImage imageNamed:@"use4.png"]];
-    UIImageView *imageview_five=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH*4, SCREENHEIGHT/15, SCREENWIDTH, SCREENWIDTH*105/95)];
+    UIImageView *imageview_five=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 4, 0, SCREENWIDTH, SCREENHEIGHT)];
     [imageview_five setImage:[UIImage imageNamed:@"use5.png"]];
-    UIImageView *imageview_six=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH*5, SCREENHEIGHT/15, SCREENWIDTH, SCREENWIDTH*100/95)];
+    UIImageView *imageview_six=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 5, 0, SCREENWIDTH, SCREENHEIGHT)];
     [imageview_six setImage:[UIImage imageNamed:@"use6.png"]];
     
     [_scrollView addSubview:imageview_one];

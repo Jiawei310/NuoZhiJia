@@ -34,7 +34,11 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation"]forBarMetrics:UIBarMetricsDefault];
+    if (SCREENHEIGHT == 812) {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navBar_X"]forBarMetrics:UIBarMetricsDefault];
+    } else {
+        [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation"]forBarMetrics:UIBarMetricsDefault];
+    }
     self.navigationController.navigationBar.translucent = NO;
 
 }
@@ -44,15 +48,15 @@
     // Do any additional setup after loading the view.
     
     //UIView
-//    self.title = @"Cervella";
+    self.title = @"Cervella";
 //    UILabel *titleLab = [[UILabel alloc] init];
 //    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
 //    titleLab.text = @"Cervella";
-//    titleLab.textColor = [UIColor ];
+//    titleLab.textColor = [UIColor whiteColor];
 //    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
 
-//    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     //Data
     interfaceModel = [[InterfaceModel alloc] init];

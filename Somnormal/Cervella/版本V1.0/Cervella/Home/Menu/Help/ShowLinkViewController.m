@@ -19,7 +19,12 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(15, 64.0, self.view.frame.size.width - 30, 60);
+    btn.frame = CGRectMake(15, 64, self.view.frame.size.width - 30, 60);
+
+    if (SCREENHEIGHT == 812) {
+        btn.frame = CGRectMake(15, 88, self.view.frame.size.width - 30, 60);
+    }
+
     [btn setTitle:self.linkStr forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(btnAction) forControlEvents:UIControlEventTouchUpInside];

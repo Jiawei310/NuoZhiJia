@@ -23,6 +23,13 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    for (UIButton *btn in self.btnsArr) {
+        btn.frame = CGRectMake(colorSliderd_d * btn.tag + colorSliderWidth * (btn.tag-1), 0, colorSliderWidth, colorSliderHeight);
+    }
+}
+
 
 - (void)btnAction:(UIButton *)button {
     if (_level < button.tag) {
@@ -51,7 +58,6 @@
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.tag = k;
             [btn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
-            btn.frame = CGRectMake(colorSliderd_d * k + colorSliderWidth * (k-1), 0, colorSliderWidth, colorSliderHeight);
             [btn setBackgroundImage:[UIImage imageNamed:@"ces_ball_grey"] forState:UIControlStateNormal];
             if (k <= 3) {
                 [btn setBackgroundImage:[UIImage imageNamed:@"ces_ball_green"] forState:UIControlStateSelected];
