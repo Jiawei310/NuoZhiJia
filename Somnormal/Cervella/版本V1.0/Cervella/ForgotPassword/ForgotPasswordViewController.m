@@ -153,16 +153,18 @@
 - (void)sendCodeOpration
 {
     SKPSMTPMessage *testMsg = [[SKPSMTPMessage alloc] init];
-    testMsg.fromEmail = @"sleep4u@nuozhijia.com.cn";
-    testMsg.toEmail = @"826895426@qq.com";
     testMsg.relayHost = @"smtp.qiye.163.com";
     testMsg.requiresAuth = YES;
-    testMsg.login = @"sleep4u@nuozhijia.com.cn";
-    testMsg.pass = @"Sleep4U2016";
-    testMsg.subject = [NSString stringWithCString:"The email of identifying code for Cervella" encoding:NSUTF8StringEncoding ];
     testMsg.wantsSecure = YES; // smtp.gmail.com doesn't work without TLS!
     testMsg.delegate = self;
+    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
+    testMsg.pass = @"Sleep4U2016";
     
+    testMsg.fromEmail = testMsg.login;
+    testMsg.toEmail = _patientInfo.Email;
+    
+    
+    testMsg.subject = [NSString stringWithCString:"The email of identifying code for Cervella" encoding:NSUTF8StringEncoding];
     NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
                                [NSString stringWithFormat:@"Thanks for using, the identfying code is:%@",[self createRandomNumber]],kSKPSMTPPartMessageKey,
                                @"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];

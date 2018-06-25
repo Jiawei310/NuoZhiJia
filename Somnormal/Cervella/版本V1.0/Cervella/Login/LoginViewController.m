@@ -35,6 +35,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigation"]forBarMetrics:UIBarMetricsDefault];
+    self.navigationController.navigationBar.translucent = NO;
+
 }
 
 - (void)viewDidLoad {
@@ -42,15 +44,15 @@
     // Do any additional setup after loading the view.
     
     //UIView
-    self.title = @"Cervella";
+//    self.title = @"Cervella";
 //    UILabel *titleLab = [[UILabel alloc] init];
 //    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
 //    titleLab.text = @"Cervella";
-//    titleLab.textColor = [UIColor whiteColor];
+//    titleLab.textColor = [UIColor ];
 //    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
 
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+//    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     //Data
     interfaceModel = [[InterfaceModel alloc] init];

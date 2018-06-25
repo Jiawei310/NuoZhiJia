@@ -16,6 +16,8 @@
 @interface RegisterViewController ()<UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, InterfaceModelDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *registerTableView;
+@property (weak, nonatomic) IBOutlet UITextView *textView;
+
 @property (weak, nonatomic) IBOutlet UIButton *RegisterBtn;
 
 @property (strong, nonatomic) PatientInfo *patientInfo;
@@ -32,7 +34,6 @@
 @property (strong, nonatomic) UIButton *maleBtn;
 @property (strong, nonatomic) UIButton *femaleBtn;
 
-@property (strong, nonatomic) UITextView *textView;
 @property (strong, nonatomic) UIButton *provisionBtn1;
 @property (strong, nonatomic) UIButton *provisionBtn2;
 @property (strong, nonatomic) UIButton *provisionBtn3;
@@ -67,14 +68,14 @@
     fixedButton.width = -10;
     self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
-    [self addTextView];
     //tableView
     _registerTableView.scrollEnabled =NO; //设置tableview不能滚动
     _registerTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     _registerTableView.delegate = self;
     _registerTableView.dataSource = self;
     
-    
+    [self addTextView];
+
     //Data
     _patientInfo = [[PatientInfo alloc] init];
     interfaceModel = [[InterfaceModel alloc] init];
@@ -82,38 +83,50 @@
 }
 
 - (void)addTextView {
-    UITextView *textView = [[UITextView alloc] init];
-    textView.frame = CGRectMake(0, self.registerTableView.frame.size.height + 15, self.view.frame.size.width, self.RegisterBtn.frame.origin.y - self.registerTableView.frame.size.height );
-    textView.delegate = self;
-    textView.editable = NO;
+    self.textView.delegate = self;
+    self.textView.editable = NO;
     NSString *htmlStr =  @"<h4 align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TERMS OF SERVICE & PRIVACY POLICY</h4>    <p>INNOVATIVE NEUROLOGICAL DEVICES LLC, the makers of Cervella, take your privacy seriously. Before continuing, please read and understand our policies.</p>    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I confirm I am 18 years old or older.</p>    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I agree to the<a href=\"https://cervella.us/terms-of-service\">Terms of Service</a> and <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>. I consent to the collection, processing, and disclosure of my de-identified treatment activity data by INNOVATIVE NEUROLOGICAL DEVICES LLC as described in the <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>. I have the right to withdraw my consent at any time as described in the <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>.</p>    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I give my permission to receive marketing communications from INNOVATIVE NEUROLOGICAL DEVICES LLC about products and services that may be of interest to me. I understand that I have the right to opt-out from marketing communications at any time per the <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>.</p>";
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithData:[htmlStr dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType} documentAttributes:nil error:nil];
-    textView.attributedText = str;
+    self.textView.attributedText = str;
     
     _provisionBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    _provisionBtn1.frame = CGRectMake(10, 99, 14, 14);
     _provisionBtn1.backgroundColor = [UIColor blueColor];
     [_provisionBtn1 setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
     [_provisionBtn1 setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
     [_provisionBtn1 addTarget:self action:@selector(provisionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [textView addSubview:_provisionBtn1];
+    [self.textView addSubview:_provisionBtn1];
     
     _provisionBtn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    _provisionBtn2.frame = CGRectMake(10, 127, 14, 14);
     [_provisionBtn2 setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
     [_provisionBtn2 setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
     [_provisionBtn2 addTarget:self action:@selector(provisionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [textView addSubview:_provisionBtn2];
+    [self.textView addSubview:_provisionBtn2];
     
     _provisionBtn3 = [UIButton buttonWithType:UIButtonTypeCustom];
-    _provisionBtn3.frame = CGRectMake(10, 217, 14, 14);
     _provisionBtn3.backgroundColor = [UIColor blueColor];
     [_provisionBtn3 setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
     [_provisionBtn3 setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
     [_provisionBtn3 addTarget:self action:@selector(provisionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [textView addSubview:_provisionBtn3];
+    [self.textView addSubview:_provisionBtn3];
+    if (SCREENHEIGHT == 568) {
+        _provisionBtn1.frame = CGRectMake(10, 99, 14, 14);
+        _provisionBtn2.frame = CGRectMake(10, 127, 14, 14);
+        _provisionBtn3.frame = CGRectMake(10, 232, 14, 14);
+    } else if (SCREENHEIGHT == 667) {
+        _provisionBtn1.frame = CGRectMake(10, 99 , 14, 14);
+        _provisionBtn2.frame = CGRectMake(10, 127, 14, 14);
+        _provisionBtn3.frame = CGRectMake(10, 217, 14, 14);
+    } else if (SCREENHEIGHT == 736) {
+        _provisionBtn1.frame = CGRectMake(10, 84, 14, 14);
+        _provisionBtn2.frame = CGRectMake(10, 111, 14, 14);
+        _provisionBtn3.frame = CGRectMake(10, 200, 14, 14);
+    }
+    else if (SCREENHEIGHT == 812) {
+        _provisionBtn1.frame = CGRectMake(10, 99, 14, 14);
+        _provisionBtn2.frame = CGRectMake(10, 127, 14, 14);
+        _provisionBtn3.frame = CGRectMake(10, 217, 14, 14);
+    }
     
-    [self.view addSubview:textView];
 }
 
 - (void)provisionButtonAction:(UIButton *)btn {
@@ -153,7 +166,7 @@
 #pragma loginTableView -- delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return 44;
 }
 
 #pragma loginTableView -- dataSource
@@ -168,11 +181,11 @@
     cell.backgroundColor = [UIColor colorWithRed:0xF4/255.0 green:0xF4/255.0 blue:0xF4/255.0 alpha:1.0];
     if (indexPath.row == 0)
     {
-        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(19, 15, 22, 20)];
+        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(19, 12, 22, 20)];
         [headImageView setImage:[UIImage imageNamed:@"register_head"]];
         [cell.contentView addSubview:headImageView];
         
-        _acountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 5, 230, 40)];
+        _acountTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 2, 230, 40)];
         _acountTextField.font = [UIFont systemFontOfSize:18];
         _acountTextField.placeholder = @"Username";
         _acountTextField.keyboardType = UIKeyboardTypeASCIICapable;
@@ -180,11 +193,11 @@
     }
     else if (indexPath.row == 1)
     {
-        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 15, 20, 20)];
+        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, 12, 20, 20)];
         [headImageView setImage:[UIImage imageNamed:@"register_password"]];
         [cell.contentView addSubview:headImageView];
         
-        _passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 5, 230, 40)];
+        _passwordTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 2, 230, 40)];
         _passwordTextField.font = [UIFont systemFontOfSize:18];
         _passwordTextField.placeholder = @"Password";
         _passwordTextField.keyboardType = UIKeyboardTypeASCIICapable;
@@ -193,11 +206,11 @@
     }
     else if (indexPath.row == 2)
     {
-        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(19, 14, 22, 22)];
+        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(19, 11, 22, 22)];
         [headImageView setImage:[UIImage imageNamed:@"more_information"]];
         [cell.contentView addSubview:headImageView];
         
-        _emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 5, 230, 40)];
+        _emailTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 2, 230, 40)];
         _emailTextField.font = [UIFont systemFontOfSize:18];
         _emailTextField.placeholder = @"E-Mail";
         _emailTextField.keyboardType = UIKeyboardTypeASCIICapable;
@@ -206,11 +219,11 @@
     }
     else if (indexPath.row == 3)
     {
-        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(19, 15, 22, 20)];
+        UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(19, 12, 22, 20)];
         [headImageView setImage:[UIImage imageNamed:@"register_age"]];
         [cell.contentView addSubview:headImageView];
         
-        _birthTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 5, 230, 40)];
+        _birthTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 2, 230, 40)];
         _birthTextField.font = [UIFont systemFontOfSize:18];
         _birthTextField.placeholder = @"Birthday";
         _birthTextField.userInteractionEnabled = NO;
@@ -223,39 +236,39 @@
         _maleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _maleBtn.tag = 11;
         _maleBtn.backgroundColor = [UIColor whiteColor];
-        _maleBtn.frame = CGRectMake(20, 15, 20, 20);
+        _maleBtn.frame = CGRectMake(20, 12, 20, 20);
         [_maleBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateNormal];
         _maleBtn.selected = YES;
         [_maleBtn addTarget:self action:@selector(genderSelect:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:_maleBtn];
         
-        UILabel *maleLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 10, 20, 30)];
+        UILabel *maleLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 7, 20, 30)];
         maleLabel.textColor = [UIColor colorWithRed:0xA7/255.0 green:0xA7/255.0 blue:0xA7/255.0 alpha:1.0];
         maleLabel.font = [UIFont systemFontOfSize:18];
         maleLabel.textAlignment = NSTextAlignmentCenter;
         maleLabel.text = @"M";
         [cell.contentView addSubview:maleLabel];
         
-        UIImageView *maleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(70, 15, 21, 20)];
+        UIImageView *maleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(70, 12, 21, 20)];
         [maleImageView setImage:[UIImage imageNamed:@"register_male"]];
         [cell.contentView addSubview:maleImageView];
         
         _femaleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _femaleBtn.tag = 12;
         _femaleBtn.backgroundColor = [UIColor whiteColor];
-        _femaleBtn.frame = CGRectMake(120, 15, 20, 20);
+        _femaleBtn.frame = CGRectMake(120, 12, 20, 20);
         [_femaleBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
         [_femaleBtn addTarget:self action:@selector(genderSelect:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:_femaleBtn];
         
-        UILabel *femaleLabel = [[UILabel alloc] initWithFrame:CGRectMake(145, 10, 20, 30)];
+        UILabel *femaleLabel = [[UILabel alloc] initWithFrame:CGRectMake(145, 7, 20, 30)];
         femaleLabel.textColor = [UIColor colorWithRed:0xA7/255.0 green:0xA7/255.0 blue:0xA7/255.0 alpha:1.0];
         femaleLabel.font = [UIFont systemFontOfSize:18];
         femaleLabel.textAlignment = NSTextAlignmentCenter;
         femaleLabel.text = @"F";
         [cell.contentView addSubview:femaleLabel];
         
-        UIImageView *femaleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(170, 15, 13, 20)];
+        UIImageView *femaleImageView = [[UIImageView alloc] initWithFrame:CGRectMake(170, 12, 13, 20)];
         [femaleImageView setImage:[UIImage imageNamed:@"register_female"]];
         [cell.contentView addSubview:femaleImageView];
     }
