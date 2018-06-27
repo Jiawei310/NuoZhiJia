@@ -56,22 +56,24 @@
 
 //tableView需要实现的代理方法
 #pragma mark - UITableViewDelegate,UITableViewDataSource
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH*4/5, SCREENHEIGHT/20)];
-    customView.backgroundColor=[UIColor colorWithRed:0xed/255.0 green:0xee/255.0 blue:0xee/255.0 alpha:1];
-    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    headerLabel.backgroundColor = [UIColor clearColor];
-    headerLabel.highlightedTextColor = [UIColor whiteColor];
-    headerLabel.font = [UIFont boldSystemFontOfSize:20];
-    headerLabel.textAlignment=NSTextAlignmentCenter;
-    headerLabel.frame =CGRectMake(0, 0, SCREENWIDTH*4/5, SCREENHEIGHT/20);
-    
-    headerLabel.text = self.titile;
-    
-    [customView addSubview:headerLabel];
-    return customView;
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return self.titile;
 }
+//-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    UIView *customView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH*4/5, SCREENHEIGHT/20)];
+//    customView.backgroundColor=[UIColor colorWithRed:0xed/255.0 green:0xee/255.0 blue:0xee/255.0 alpha:1];
+//    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+//    headerLabel.backgroundColor = [UIColor clearColor];
+//    headerLabel.highlightedTextColor = [UIColor whiteColor];
+//    headerLabel.textAlignment=NSTextAlignmentCenter;
+//    headerLabel.frame =CGRectMake(0, 0, SCREENWIDTH*4/5, SCREENHEIGHT/20);
+//
+//    headerLabel.text = self.titile;
+//
+//    [customView addSubview:headerLabel];
+//    return customView;
+//}
 
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 30;
@@ -116,6 +118,7 @@
     if (self.selectViewBlock) {
         self.selectViewBlock(indexPath.row);
     }
+    [self hideView];
     
     
     //    if ([self.delegate respondsToSelector:@selector(selectIndex:)]) {

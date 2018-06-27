@@ -88,6 +88,8 @@
     NSString *htmlStr =  @"<h4 align=\"center\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TERMS OF SERVICE & PRIVACY POLICY</h4>    <p>INNOVATIVE NEUROLOGICAL DEVICES LLC, the makers of Cervella, take your privacy seriously. Before continuing, please read and understand our policies.</p>    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I confirm I am 18 years old or older.</p>    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I agree to the<a href=\"https://cervella.us/terms-of-service\">Terms of Service</a> and <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>. I consent to the collection, processing, and disclosure of my de-identified treatment activity data by INNOVATIVE NEUROLOGICAL DEVICES LLC as described in the <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>. I have the right to withdraw my consent at any time as described in the <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>.</p>    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I give my permission to receive marketing communications from INNOVATIVE NEUROLOGICAL DEVICES LLC about products and services that may be of interest to me. I understand that I have the right to opt-out from marketing communications at any time per the <a href=\"https://cervella.us/privacy-policy\">Privacy Policy</a>.</p>";
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithData:[htmlStr dataUsingEncoding:NSUnicodeStringEncoding] options:@{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType} documentAttributes:nil error:nil];
     self.textView.attributedText = str;
+    self.textView.font = [UIFont systemFontOfSize:14];
+    self.textView.contentOffset = CGPointMake(0, 0);
     
     _provisionBtn1 = [UIButton buttonWithType:UIButtonTypeCustom];
     _provisionBtn1.backgroundColor = [UIColor blueColor];
@@ -109,22 +111,22 @@
     [_provisionBtn3 addTarget:self action:@selector(provisionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.textView addSubview:_provisionBtn3];
     if (SCREENHEIGHT == 568) {
-        _provisionBtn1.frame = CGRectMake(10, 99, 14, 14);
-        _provisionBtn2.frame = CGRectMake(10, 127, 14, 14);
-        _provisionBtn3.frame = CGRectMake(10, 232, 14, 14);
+        _provisionBtn1.frame = CGRectMake(10, 122, 14, 14);
+        _provisionBtn2.frame = CGRectMake(10, 150, 14, 14);
+        _provisionBtn3.frame = CGRectMake(10, 278, 14, 14);
     } else if (SCREENHEIGHT == 667) {
-        _provisionBtn1.frame = CGRectMake(10, 99 , 14, 14);
-        _provisionBtn2.frame = CGRectMake(10, 127, 14, 14);
-        _provisionBtn3.frame = CGRectMake(10, 217, 14, 14);
+        _provisionBtn1.frame = CGRectMake(10, 105 , 14, 14);
+        _provisionBtn2.frame = CGRectMake(10, 133, 14, 14);
+        _provisionBtn3.frame = CGRectMake(10, 245, 14, 14);
     } else if (SCREENHEIGHT == 736) {
-        _provisionBtn1.frame = CGRectMake(10, 84, 14, 14);
-        _provisionBtn2.frame = CGRectMake(10, 111, 14, 14);
-        _provisionBtn3.frame = CGRectMake(10, 200, 14, 14);
+        _provisionBtn1.frame = CGRectMake(10, 105, 14, 14);
+        _provisionBtn2.frame = CGRectMake(10, 133, 14, 14);
+        _provisionBtn3.frame = CGRectMake(10, 245, 14, 14);
     }
     else if (SCREENHEIGHT == 812) {
-        _provisionBtn1.frame = CGRectMake(10, 99, 14, 14);
-        _provisionBtn2.frame = CGRectMake(10, 127, 14, 14);
-        _provisionBtn3.frame = CGRectMake(10, 217, 14, 14);
+        _provisionBtn1.frame = CGRectMake(10, 105, 14, 14);
+        _provisionBtn2.frame = CGRectMake(10, 132, 14, 14);
+        _provisionBtn3.frame = CGRectMake(10, 246, 14, 14);
     }
     
 }
@@ -155,12 +157,13 @@
 
 #pragma mark - UITextViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
-    if (URL) {
-        WebViewController *webVC = [[WebViewController alloc] init];
-        webVC.url = URL;
-        [self.navigationController pushViewController:webVC animated:YES];
-    }
-    return NO;
+//    if (URL) {
+//        WebViewController *webVC = [[WebViewController alloc] init];
+//        webVC.url = URL;
+//        [self.navigationController pushViewController:webVC animated:YES];
+//    }
+//    return NO;
+    return YES;
 }
 
 #pragma loginTableView -- delegate
@@ -233,6 +236,7 @@
     }
     else
     {
+        //性别和控件反的
         _maleBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _maleBtn.tag = 11;
         _maleBtn.backgroundColor = [UIColor whiteColor];
@@ -299,7 +303,7 @@
             _month = [[_birthTextField.text substringWithRange:NSMakeRange(5, _birthTextField.text.length-6)] integerValue];
         }
         
-        self.datePicker = [[DatePickerView alloc] initWithFrame:CGRectMake(0, 359*Rate_NAV_H, 375*Rate_NAV_W, 248*Rate_NAV_H) Year:_year Month:_month];
+        self.datePicker = [[DatePickerView alloc] initWithFrame:CGRectMake(0, 359*Rate_NAV_H, 375*Rate_NAV_W, 248*Rate_NAV_H) Year:_year Month:_month ];
         [self showDatePicker];
     }
 }
@@ -366,46 +370,41 @@
     if (_acountTextField.text.length == 0)
     {
         //提示账号不可为空
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"请提供有效的电子邮件地址");
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Cell-phone number cannot be empyt,please check and re-enter.");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
     }
-    else if (_passwordTextField.text.length < 6 && _passwordTextField.text.length > 0)
+    else if (_passwordTextField.text.length < 6)
     {
         //提示密码过短
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Password should have 6-18 numbers");
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Password length should have at least 6 numbers.");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
     }
-    else if (_passwordTextField.text.length == 0)
+    else if(_emailTextField.text.length == 0 || ![self isEmailAddress:_emailTextField.text])
     {
-        //提示密码过短
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Password must be entered");
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            jxt_dismissHUD();
-        });
-    }
-    else if(_emailTextField.text.length == 0)
-    {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Email must be entered");
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Email format incorrect,please re-try. ");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
     }
     else if(_birthTextField.text.length == 0)
     {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Please select Date of birth");
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Please select Date of birth.");
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            jxt_dismissHUD();
+        });
+    }
+    else if (!_femaleBtn.selected && !_maleBtn) {
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Please select a gender.");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
     }
     else if (!self.provisionBtn1.selected || !self.provisionBtn2.selected) {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"请同意协议");
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            jxt_dismissHUD();
-        });
+       
     }
     else
     {
@@ -498,6 +497,13 @@
     app2.window.rootViewController = rootVC;
     
     [app2.window makeKeyAndVisible];
+}
+
+//邮箱
+- (BOOL)isEmailAddress:(NSString *)str{
+    NSString *emailRegex = @"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",emailRegex];
+    return [pre evaluateWithObject:str];
 }
 
 - (void)didReceiveMemoryWarning {

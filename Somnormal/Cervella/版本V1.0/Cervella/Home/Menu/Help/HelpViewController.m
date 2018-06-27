@@ -112,12 +112,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row==0)
-    {
-        ShowLinkViewController *vc = [[ShowLinkViewController alloc] init];
-        vc.title = helpArray[indexPath.row];
-        vc.linkStr = @"https://cervella.us/manual";
-        [self.navigationController pushViewController:vc animated:YES];
+    if (indexPath.row==0) {
+//    {
+//        ShowLinkViewController *vc = [[ShowLinkViewController alloc] init];
+//        vc.title = helpArray[indexPath.row];
+//        vc.linkStr = @"https://cervella.us/manual";
+//        [self.navigationController pushViewController:vc animated:YES];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cervella.us/manual"]];
+
     }
     if (indexPath.row == 1)
     {
@@ -149,10 +151,12 @@
     }
     else if (indexPath.row==5)
     {
-        ShowLinkViewController *vc = [[ShowLinkViewController alloc] init];
-        vc.title = helpArray[indexPath.row];
-        vc.linkStr = @"https://cervella.us/shop";
-        [self.navigationController pushViewController:vc animated:YES];
+//        ShowLinkViewController *vc = [[ShowLinkViewController alloc] init];
+//        vc.title = helpArray[indexPath.row];
+//        vc.linkStr = @"https://cervella.us/shop";
+//        [self.navigationController pushViewController:vc animated:YES];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cervella.us/shop"]];
+
     }
     else if (indexPath.row==6)
     {

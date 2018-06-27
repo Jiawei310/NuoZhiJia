@@ -86,7 +86,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+//    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"MineInfoCell"];
     UITableViewCell *cell = [[UITableViewCell alloc] init];
+
     
     UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(15*Rate_NAV_H, 0, 80*Rate_NAV_W, 50)];
     textLabel.font = [UIFont systemFontOfSize:16*Rate_NAV_H];
@@ -94,16 +96,20 @@
     
     if (indexPath.row == 0)
     {
-        textLabel.text = @"Name";
+        textLabel.text = @"Username";
         
         _nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(100*Rate_NAV_W, 0, 240*Rate_NAV_W, 50)];
         _nameTextField.font = [UIFont systemFontOfSize:16*Rate_NAV_H];
         _nameTextField.textAlignment = NSTextAlignmentRight;
         _nameTextField.text = _patientInfo.PatientName;
         _nameTextField.tag = 1;
-        _nameTextField.delegate = self;
+//        _nameTextField.delegate = self;
+        _nameTextField.enabled = NO;
         
         [cell.contentView addSubview:_nameTextField];
+        
+//        cell.textLabel.text = @"Username";
+//        cell.detailTextLabel.text = _patientInfo.PatientName;
     }
     else if (indexPath.row == 1)
     {
@@ -145,59 +151,57 @@
         {
             _emailTextField.text=_patientInfo.Email;
         }
-        else if ([_patientInfo.Email isEqualToString:@"(null)"])
-        {
-            _emailTextField.placeholder=@"Not filled";
-        }
         else
         {
-            _emailTextField.placeholder=@"Not filled";
+            _emailTextField.text=@"Not filled";
         }
         _emailTextField.tag = 6;
-        _emailTextField.delegate = self;
+//        _emailTextField.delegate = self;
+        _emailTextField.enabled = NO;
+
         
         [cell.contentView addSubview:_emailTextField];
     }
     return cell;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row==1) {
-        //选择性别
-        self.sexPicker = [[SexPickerView alloc] initWith:_sexLabel.text];
-        [self showSexPicker];
-    }
-    else if (indexPath.row==2) {
-        //调用选择生日按钮的点击事件方法
-        NSInteger year = 0;
-        NSInteger month = 0;
-        if (_birthLabel.text.length == 0 || _birthLabel.text == nil)
-        {
-            NSDate *EndDate = [NSDate date];
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM"];
-            NSString *endTime = [dateFormatter stringFromDate:EndDate];
-            
-            year = [[endTime substringWithRange:NSMakeRange(0, 4)] integerValue];
-            month = [[endTime substringWithRange:NSMakeRange(5, 2)] integerValue];
-        }
-        else
-        {
-            year = [[_birthLabel.text substringWithRange:NSMakeRange(0, 4)] integerValue];
-            if (_birthLabel.text.length < 7)
-            {
-                month = 1;
-            }
-            else if (_birthLabel.text.length == 7)
-            {
-                month = [[_birthLabel.text substringWithRange:NSMakeRange(5, 2)] integerValue];
-            }
-        }
-        self.datePicker = [[DatePickerView alloc] initWithFrame:CGRectMake(0, 359*Rate_NAV_H, 375*Rate_NAV_W, 248*Rate_NAV_H) Year:year Month:month];
-        [self showDatePicker];
-    }
-}
+//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if (indexPath.row==1) {
+//        //选择性别
+//        self.sexPicker = [[SexPickerView alloc] initWith:_sexLabel.text];
+//        [self showSexPicker];
+//    }
+//    else if (indexPath.row==2) {
+//        //调用选择生日按钮的点击事件方法
+//        NSInteger year = 0;
+//        NSInteger month = 0;
+//        if (_birthLabel.text.length == 0 || _birthLabel.text == nil)
+//        {
+//            NSDate *EndDate = [NSDate date];
+//            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//            [dateFormatter setDateFormat:@"yyyy-MM"];
+//            NSString *endTime = [dateFormatter stringFromDate:EndDate];
+//
+//            year = [[endTime substringWithRange:NSMakeRange(0, 4)] integerValue];
+//            month = [[endTime substringWithRange:NSMakeRange(5, 2)] integerValue];
+//        }
+//        else
+//        {
+//            year = [[_birthLabel.text substringWithRange:NSMakeRange(0, 4)] integerValue];
+//            if (_birthLabel.text.length < 7)
+//            {
+//                month = 1;
+//            }
+//            else if (_birthLabel.text.length == 7)
+//            {
+//                month = [[_birthLabel.text substringWithRange:NSMakeRange(5, 2)] integerValue];
+//            }
+//        }
+//        self.datePicker = [[DatePickerView alloc] initWithFrame:CGRectMake(0, 359*Rate_NAV_H, 375*Rate_NAV_W, 248*Rate_NAV_H) Year:year Month:month];
+//        [self showDatePicker];
+//    }
+//}
 
 /** 显示出生年月选择器 */
 - (void)showDatePicker

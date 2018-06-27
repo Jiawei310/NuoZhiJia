@@ -236,9 +236,9 @@
     self.timeView.isCanSelect = YES;
 
     self.timeSelectView = [[SelectView alloc] init];
-    self.timeSelectView.titile = @"请选择";
+    self.timeSelectView.titile = @"Selector";
     self.timeSelectView.items = TimeSelectors;
-    self.timeSelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 150);
+    self.timeSelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 270);
     self.timeSelectView.selectViewBlock = ^(NSInteger index) {
         //设置时间长度
         weakSelf.timeSelector = index;
