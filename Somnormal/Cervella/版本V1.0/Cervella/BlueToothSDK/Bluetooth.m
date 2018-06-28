@@ -97,10 +97,10 @@
 
 - (void)scanTimerAction {
     [self stopTimer];
-    NSError *error = [[NSError alloc] initWithDomain:@"连接时间超时"
+    NSError *error = [[NSError alloc] initWithDomain:@"Connect overtime"
                                                 code:999
-                                            userInfo:@{NSLocalizedDescriptionKey:@"连接时间超时",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"检查手机蓝牙，靠近设备",
+                                            userInfo:@{NSLocalizedDescriptionKey:@"Connect overtime",
+                                                       NSLocalizedRecoverySuggestionErrorKey:@"Make sure Cervella unit is nearby and is sufficiently charged.",
                                                        }];
     
     if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
@@ -227,10 +227,10 @@
             break;
     }
     if (central.state != CBManagerStatePoweredOn) {
-        NSError *error = [[NSError alloc] initWithDomain:@"搜索超时"
+        NSError *error = [[NSError alloc] initWithDomain:@"Search overtime"
                                                     code:999
-                                                userInfo:@{NSLocalizedDescriptionKey:@"搜索超时",
-                                                           NSLocalizedRecoverySuggestionErrorKey:@"检查手机蓝牙，靠近设备",
+                                                userInfo:@{NSLocalizedDescriptionKey:@"Search overtime",
+                                                           NSLocalizedRecoverySuggestionErrorKey:@"Make sure Cervella unit is nearby and is sufficiently charged.",
                                                            }];
         [self cleanData];
         [self stopTimer];
@@ -441,17 +441,17 @@
         if(self.equipment.battery <= 5)
         {
             //NSLog(@"电池电量小于百分之5，设备无法正常工作，请先充电");
-            errorE = [[NSError alloc] initWithDomain:@"电量低于5%"
+            errorE = [[NSError alloc] initWithDomain:@"Battery power is less than 5%."
                                                 code:920
-                                            userInfo:@{NSLocalizedDescriptionKey:@"电量低于5%",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"尽快给设备充电，以免影响您的使用"
+                                            userInfo:@{NSLocalizedDescriptionKey:@"Battery power is less than 5%.",
+                                                       NSLocalizedRecoverySuggestionErrorKey:@"Please charge device prompyly."
                                                        }];
         } else if ( self.equipment.battery <= 20) {
             //NSLog(@"电池电量小于百分之20，请及时给设备充电");
-            errorE = [[NSError alloc] initWithDomain:@"电量低于20%"
+            errorE = [[NSError alloc] initWithDomain:@"Battery power is less than 20%."
                                                 code:920
-                                            userInfo:@{NSLocalizedDescriptionKey:@"电量低于20%",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"尽快给设备充电，以免影响您的使用",
+                                            userInfo:@{NSLocalizedDescriptionKey:@"Battery power is less than 20%.",
+                                                       NSLocalizedRecoverySuggestionErrorKey:@"Please charge device prompyly.",
                                                        }];
         }
         if (error) {

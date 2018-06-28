@@ -10,7 +10,7 @@
 
 #define colorSliderWidth (self.frame.size.width/10.0 - colorSliderd_d)
 #define colorSliderHeight (colorSliderWidth * 2.0)
-#define colorSliderd_d 14.0
+#define colorSliderd_d 10.0
 
 
 @protocol ColorsSliderViewDelegate <NSObject>
