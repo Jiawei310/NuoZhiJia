@@ -18,7 +18,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.title = @"Use Instructions";
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     //添加返回按钮
@@ -38,18 +37,24 @@
     _scrollView.contentOffset=CGPointMake(0, 0);
     _scrollView.bounces=NO;
     
-    UIImageView  *imageview_one=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
-    [imageview_one setImage:[UIImage imageNamed:@"use1.png"]];
-    UIImageView *imageview_two=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH, 0, SCREENWIDTH, SCREENHEIGHT)];
-    [imageview_two setImage:[UIImage imageNamed:@"use2.png"]];
-    UIImageView *imageview_three=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 2, 0, SCREENWIDTH, SCREENHEIGHT)];
-    [imageview_three setImage:[UIImage imageNamed:@"use3.png"]];
-    UIImageView  *imageview_foure=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 3, 0, SCREENWIDTH, SCREENHEIGHT)];
-    [imageview_foure setImage:[UIImage imageNamed:@"use4.png"]];
-    UIImageView *imageview_five=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 4, 0, SCREENWIDTH, SCREENHEIGHT)];
-    [imageview_five setImage:[UIImage imageNamed:@"use5.png"]];
-    UIImageView *imageview_six=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 5, 0, SCREENWIDTH, SCREENHEIGHT)];
-    [imageview_six setImage:[UIImage imageNamed:@"use6.png"]];
+    UIImage *image = [UIImage imageNamed:@"use1.png"];
+    UIImageView  *imageview_one=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];
+    [imageview_one setImage:image];
+    UIImageView *imageview_two=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];\
+    image = [UIImage imageNamed:@"use2.png"];
+    [imageview_two setImage:image];
+    UIImageView *imageview_three=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 2, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];
+    image = [UIImage imageNamed:@"use3.png"];
+    [imageview_three setImage:image];
+    UIImageView  *imageview_foure=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 3, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];
+    image = [UIImage imageNamed:@"use4.png"];
+    [imageview_foure setImage:image];
+    UIImageView *imageview_five=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 4, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];
+    image = [UIImage imageNamed:@"use5.png"];
+    [imageview_five setImage:image];
+    UIImageView *imageview_six=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 5, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];
+    image = [UIImage imageNamed:@"use6.png"];
+    [imageview_six setImage:image];
     
     [_scrollView addSubview:imageview_one];
     [_scrollView addSubview:imageview_two];

@@ -85,13 +85,10 @@
     //注册解绑通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(freeBluetoothInfo) name:@"Free" object:nil];
     //注册切换用户通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(freeBluetoothInfo) name:@"ChangeUser" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeUser) name:@"ChangeUser" object:nil];
     
     //默认参数
     [self defaultData];
-    
-    //数据库读取治疗数据
-//    [self initTreatInfo];
     
     /**************强度***************/
     [self addSectionOne];
@@ -115,44 +112,6 @@
 }
 
 #pragma  mark - init
-- (void)initTreatInfo {
-    //数据库读取治疗数据
-    dbOpration = [[DataBaseOpration alloc] init];
-    NSArray *treatInfoArray = [dbOpration getTreatDataFromDataBase];
-    [dbOpration closeDataBase];
-    
-    TreatInfo *treatInfo = nil;
-    if (_patientInfo != nil)
-    {
-        NSMutableArray *treatInfoAtPatientID = [NSMutableArray array];
-        for (TreatInfo *tmp in treatInfoArray)
-        {
-            if ([tmp.PatientID isEqualToString:_patientInfo.PatientID])
-            {
-                [treatInfoAtPatientID addObject:tmp];
-            }
-        }
-        //读取最后治疗数据，更改设施
-        if (treatInfoAtPatientID.count > 0) {
-            treatInfo = [treatInfoAtPatientID objectAtIndex:treatInfoAtPatientID.count-1];
-        }
-    }
-    
-    if (treatInfo) {
-        intensityLevel = [treatInfo.Strength integerValue];
-        
-        NSString *frequency = [NSString stringWithFormat:@"%@Hz",treatInfo.Frequency];
-        if ([FrequencySelectors containsObject:frequency]) {
-            self.frequencySelector = [FrequencySelectors indexOfObject:frequency];
-        }
-        
-        if ([TimeSelectorsInteger containsObject:treatInfo.Time]) {
-            self.timeSelector = [TimeSelectorsInteger indexOfObject:treatInfo.Time];
-        }
-        self.timeDuration = [TimeSelectorsInteger[self.timeSelector] integerValue];
-    }
-}
-
 - (void)defaultData {
     intensityLevel = 1;
     self.frequencySelector = 2;
@@ -294,6 +253,8 @@
     }
     self.bluetoothStatusView.timers = self.timeDuration;
     self.bluetoothStatusView.statusType = StatusTypeNone;
+    self.bluetoothStatusView.isCanTap = YES;
+    
     __weak typeof (*&self) weakSelf = self;
     self.bluetoothStatusView.bluetoothStatusViewBlock = ^(StatusType statusType) {
         if (statusType == StatusTypeNone) {
@@ -303,6 +264,7 @@
                     if ([weakSelf.bluetoothInfo.peripheralIdentify isEqualToString:[eq.peripheral.identifier UUIDString]]) {
                         //链接蓝牙设备
                         [weakSelf.bluetooth connectEquipment:eq];
+                        weakSelf.bluetoothStatusView.isCanTap = NO;
                         break;
                     }
                 }
@@ -314,6 +276,7 @@
                     for (Equipment *equipmemt in weakSelf.bluetooth.equipments) {
                         if ([[eq.peripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
                             [weakSelf.bluetooth connectEquipment:equipmemt];
+                            weakSelf.bluetoothStatusView.isCanTap = NO;
                             break;
                         }
                     }
@@ -393,7 +356,8 @@
 - (void)showError:(NSError *)error {
     if (error) {
         //提出警告
-        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:error.localizedDescription preferredStyle:(UIAlertControllerStyleAlert)];
+        NSString *str = [NSString stringWithFormat:@"%@\n%@",error.localizedDescription, error.localizedRecoverySuggestion];
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"Kindly Reminder" message:str preferredStyle:(UIAlertControllerStyleAlert)];
         UIAlertAction *alert = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *  action) {
             
         }];
@@ -416,17 +380,21 @@
 
 //解除绑定
 - (void)freeBluetoothInfo {
-    self.bluetoothStatusView.statusType = StatusTypeNone;
-
-    //停止治疗
-    [self.bluetooth endWork];
     if (self.bluetooth.equipment) {
         [self.bluetooth stopConnectEquipment:self.bluetooth.equipment];
     }
-    //停止倒计时
-    [countDownTimer invalidate];
+    [self blueStopWorkUI];
+    self.bluetoothStatusView.statusType = StatusTypeNone;
+}
+
+- (void)changeUser {
+    if (self.bluetooth.equipment) {
+        [self.bluetooth stopConnectEquipment:self.bluetooth.equipment];
+    }
+    [self blueStopWorkUI];
     
     [self defaultData];
+    self.bluetoothStatusView.statusType = StatusTypeNone;
 }
 
 #pragma mark -- BluetoothDelegate
@@ -436,6 +404,8 @@
 }
 
 - (void)connectState:(ConnectState)connectState Error:(NSError *)error {
+    self.bluetoothStatusView.isCanTap = YES;
+
     if (connectState == ConnectStateNormal) { //正常链接成功
         self.bluetoothStatusView.statusType = StatusTypeStart;
         self.bluetoothStatusView.timers = self.timeDuration;
@@ -487,7 +457,7 @@
 - (void)saveTreatInfo {
 //    存储治疗数据到数据库
 //    初始化数据库
-    if (self.timeDuration - timeRemaining > 60 || _patientInfo.PatientID!=nil )  {
+    if (self.timeDuration - timeRemaining > 60 && _patientInfo.PatientID!=nil )  {
         NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
         
         dbOpration=[[DataBaseOpration alloc] init];
@@ -508,6 +478,9 @@
         treatInfoTmp.CureTime = [NSString stringWithFormat:@"%.ld", (self.timeDuration - timeRemaining)/60];
         [dbOpration insertTreatInfo:treatInfoTmp];
         [dbOpration closeDataBase];
+        
+        NSNotification *notification = [NSNotification notificationWithName:@"SaveTreatInfo" object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
     }
 }
 

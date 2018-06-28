@@ -123,14 +123,14 @@
         }
         else
         {
-            percentLabel.text=@"Not Connected";
+            percentLabel.text=@"UnConnected";
         }
     }
     else
     {
         [turnBtn setTitle:@"Search for Cervella" forState:UIControlStateNormal];
 
-        percentLabel.text=@"Not Connected";
+        percentLabel.text=@"UnConnected";
     }
   
     [self setupLayer];

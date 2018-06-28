@@ -100,9 +100,8 @@
     NSError *error = [[NSError alloc] initWithDomain:@"连接时间超时"
                                                 code:999
                                             userInfo:@{NSLocalizedDescriptionKey:@"连接时间超时",
-                                                       NSLocalizedFailureReasonErrorKey:@"设备可能不在身边",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"检查设备",
-                                                       NSLocalizedRecoveryOptionsErrorKey:@[@"靠近自己",@"重启设备", @"蓝牙是否打开"]}];
+                                                       NSLocalizedRecoverySuggestionErrorKey:@"检查手机蓝牙，靠近设备",
+                                                       }];
     
     if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
         _connectSate = ConnectStateNone;
@@ -230,10 +229,9 @@
     if (central.state != CBManagerStatePoweredOn) {
         NSError *error = [[NSError alloc] initWithDomain:@"搜索超时"
                                                     code:999
-                                                userInfo:@{NSLocalizedDescriptionKey:@"搜索超时，检查蓝牙，靠近设备",
-                                                           NSLocalizedFailureReasonErrorKey:@"蓝牙未开，设备不在身边",
-                                                           NSLocalizedRecoverySuggestionErrorKey:@"检查设备蓝牙",
-                                                           NSLocalizedRecoveryOptionsErrorKey:@[@"检查设备蓝牙",@"靠近设备"]}];
+                                                userInfo:@{NSLocalizedDescriptionKey:@"搜索超时",
+                                                           NSLocalizedRecoverySuggestionErrorKey:@"检查手机蓝牙，靠近设备",
+                                                           }];
         [self cleanData];
         [self stopTimer];
         if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
@@ -293,7 +291,6 @@
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
     NSLog(@"didFailToConnectPeripheral : %@", error.localizedDescription);
-    NSLog(@"设备已被连接");
     //连接失败
     if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
         _connectSate = ConnectStateError;
@@ -447,17 +444,15 @@
             errorE = [[NSError alloc] initWithDomain:@"电量低于5%"
                                                 code:920
                                             userInfo:@{NSLocalizedDescriptionKey:@"电量低于5%",
-                                                       NSLocalizedFailureReasonErrorKey:@"电量低于5%",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"尽快给设备充电，以免影响您的使用",
-                                                       NSLocalizedRecoveryOptionsErrorKey:@[@"尽快给设备充电，以免影响您的使用"]}];
+                                                       NSLocalizedRecoverySuggestionErrorKey:@"尽快给设备充电，以免影响您的使用"
+                                                       }];
         } else if ( self.equipment.battery <= 20) {
             //NSLog(@"电池电量小于百分之20，请及时给设备充电");
             errorE = [[NSError alloc] initWithDomain:@"电量低于20%"
                                                 code:920
                                             userInfo:@{NSLocalizedDescriptionKey:@"电量低于20%",
-                                                       NSLocalizedFailureReasonErrorKey:@"电量低于20%",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"及时给设备充电，以免影响您的使用",
-                                                       NSLocalizedRecoveryOptionsErrorKey:@[@"及时给设备充电，以免影响您的使用"]}];
+                                                       NSLocalizedRecoverySuggestionErrorKey:@"尽快给设备充电，以免影响您的使用",
+                                                       }];
         }
         if (error) {
             if ([self.delegate respondsToSelector:@selector(battery:Error:)]) {

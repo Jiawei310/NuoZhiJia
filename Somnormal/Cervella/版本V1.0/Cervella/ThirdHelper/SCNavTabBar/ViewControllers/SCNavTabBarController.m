@@ -67,6 +67,7 @@
     // Do any additional setup after loading the view.
     _currentIndex = 1;
 
+    self.navTabBar.frame = CGRectMake(DOT_COORDINATE, DOT_COORDINATE, SCREEN_WIDTH, self.navTabBar.navTabBarHeight);
     [self viewConfig];
 }
 
@@ -151,13 +152,13 @@
     if (pop)
     {
         [UIView animateWithDuration:0.5f animations:^{
-             self.navTabBar.frame = CGRectMake( self.navTabBar.frame.origin.x,  self.navTabBar.frame.origin.y,  self.navTabBar.frame.size.width, height + NAV_TAB_BAR_HEIGHT);
+             self.navTabBar.frame = CGRectMake( self.navTabBar.frame.origin.x,  self.navTabBar.frame.origin.y,  self.navTabBar.frame.size.width, height + self.navTabBar.navTabBarHeight);
         }];
     }
     else
     {
         [UIView animateWithDuration:0.5f animations:^{
-             self.navTabBar.frame = CGRectMake( self.navTabBar.frame.origin.x,  self.navTabBar.frame.origin.y,  self.navTabBar.frame.size.width, NAV_TAB_BAR_HEIGHT);
+             self.navTabBar.frame = CGRectMake( self.navTabBar.frame.origin.x,  self.navTabBar.frame.origin.y,  self.navTabBar.frame.size.width, self.navTabBar.navTabBarHeight);
         }];
     }
     [ self.navTabBar refresh];
@@ -165,7 +166,7 @@
 
 - (SCNavTabBar *)navTabBar {
     if (!_navTabBar) {
-        _navTabBar = [[SCNavTabBar alloc] initWithFrame:CGRectMake(DOT_COORDINATE, DOT_COORDINATE, SCREEN_WIDTH, NAV_TAB_BAR_HEIGHT)];
+        _navTabBar = [[SCNavTabBar alloc] init];
         _navTabBar.delegate = self;
         _navTabBar.backgroundColor = _navTabBar.backgroundColor ? _navTabBar.backgroundColor : NavTabbarColor;
     }

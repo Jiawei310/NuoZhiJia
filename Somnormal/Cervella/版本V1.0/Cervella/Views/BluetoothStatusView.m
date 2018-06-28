@@ -57,8 +57,15 @@
 }
 
 - (void)tapGestureAction {
-    if (self.bluetoothStatusViewBlock) {
-        self.bluetoothStatusViewBlock(self.statusType);
+    if (self.isCanTap) {
+        if (self.bluetoothStatusViewBlock) {
+            self.bluetoothStatusViewBlock(self.statusType);
+        }
+    } else {
+        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Connecting");
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            jxt_dismissHUD();
+        });
     }
 }
 
@@ -78,10 +85,10 @@
 - (CAShapeLayer *)backLayer {
     if (!_backLayer) {
         _backLayer = [CAShapeLayer layer];
-        CGRect rect = CGRectMake(2.5, 2.5, self.frame.size.width - 5, self.frame.size.height - 5);
+        CGRect rect = CGRectMake(4, 4, self.frame.size.width - 8, self.frame.size.height - 8);
         UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:rect];
         _backLayer.strokeColor = [UIColor colorWithRed:69/255.0 green:137/255.0 blue:211/255.0 alpha:1].CGColor;
-        _backLayer.lineWidth = 1;
+        _backLayer.lineWidth = 2;
         _backLayer.fillColor = [UIColor clearColor].CGColor;
         _backLayer.lineCap = kCALineCapRound;
         _backLayer.path = path.CGPath;
@@ -94,9 +101,9 @@
         _progressLayer = [CAShapeLayer layer];
         _progressLayer.fillColor = [UIColor clearColor].CGColor;
         _progressLayer.strokeColor = [UIColor greenColor].CGColor;
-        _progressLayer.lineWidth = 5;
+        _progressLayer.lineWidth = 8;
         _progressLayer.lineCap = kCALineCapRound;
-        CGRect rect = CGRectMake(2.5, 2.5, self.frame.size.width - 5, self.frame.size.height - 5);
+        CGRect rect = CGRectMake(4.0, 4.0, self.frame.size.width - 8.0, self.frame.size.height - 8.0);
         UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:rect];
         _progressLayer.path = path.CGPath;
     }

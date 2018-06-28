@@ -41,6 +41,7 @@
 
 @property (nonatomic, assign)   BOOL        isNavTabBarImage;            // Default value: NO
 @property (nonatomic, strong)   NSArray     *itemImages;                // all items' title
+@property (nonatomic, assign)   CGFloat     navTabBarHeight;           //导航栏高度
 
 @property (nonatomic, strong)   UIColor     *lineColor;                 // set the underscore color
 @property (nonatomic, strong)   UIImage     *arrowImage;                // set arrow button's image

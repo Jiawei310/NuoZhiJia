@@ -78,19 +78,38 @@
         self.dayArray = [NSMutableArray array];
         
         [self addYearArrayValues];
-        self.yearIndex = yearIndex - 1900;
+        if (yearIndex == 0)
+        {
+            self.yearIndex = self.year - 1900;
+        }
+        else
+        {
+            self.yearIndex = yearIndex - 1900;
+        }
         
         [self addMonthArrayValues];
         self.monthIndex = monthIndex - 1;
+        if (monthIndex == 0 || monthIndex > 11)
+        {
+            self.monthIndex = self.month - 1;
+        }
+        else
+        {
+            self.monthIndex = monthIndex - 1;
+        }
         
         [self addDayArrayValues];
-        self.dayIndex = dayIndex -1;
+        if (dayIndex == 0) {
+            self.dayIndex = self.day - 1;
+        } else {
+            self.dayIndex = dayIndex - 1;
+        }
         
         self.datePickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 44*Rate_NAV_H, 375*Rate_NAV_W, 200*Rate_NAV_H)];
         self.datePickerView.tag = 1;
         self.datePickerView.delegate = self;
         self.datePickerView.dataSource = self;
-        [self addSubview:_datePickerView];
+        [self addSubview:self.datePickerView];
         
         [self.datePickerView selectRow:self.yearIndex inComponent:0 animated:YES];
         [self.datePickerView selectRow:self.monthIndex inComponent:1 animated:YES];

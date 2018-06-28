@@ -29,7 +29,7 @@
                     </constraints>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yfl-xe-dbl">
-                    <rect key="frame" x="98" y="450" width="125.5" height="37"/>
+                    <rect key="frame" x="97" y="511" width="126" height="37"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="125.5" id="e6P-1L-B0q"/>
                         <constraint firstAttribute="height" constant="37" id="vJK-J0-bL3"/>
@@ -42,11 +42,11 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Okp-cj-24M" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="T6d-LW-uev"/>
-                <constraint firstItem="Yfl-xe-dbl" firstAttribute="top" secondItem="Okp-cj-24M" secondAttribute="bottom" constant="250" id="esL-LI-LuZ"/>
-                <constraint firstItem="Yfl-xe-dbl" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="rxL-xp-kbi"/>
-                <constraint firstAttribute="trailing" secondItem="Okp-cj-24M" secondAttribute="trailing" id="x8t-s6-tXG"/>
-                <constraint firstItem="Okp-cj-24M" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="zcK-WM-1fV"/>
+                <constraint firstAttribute="trailing" secondItem="Okp-cj-24M" secondAttribute="trailing" id="9HN-MW-4sB"/>
+                <constraint firstItem="Okp-cj-24M" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="TEQ-0i-oeM"/>
+                <constraint firstAttribute="bottom" secondItem="Yfl-xe-dbl" secondAttribute="bottom" constant="20" id="lFX-CD-7GG"/>
+                <constraint firstItem="Okp-cj-24M" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="r1U-67-yp5"/>
+                <constraint firstItem="Yfl-xe-dbl" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="rnP-i8-CSi"/>
             </constraints>
         </view>
     </objects>

@@ -65,7 +65,7 @@
         [_arrowButton addGestureRecognizer:tapGestureRecognizer];
     }
 
-    _navgationTabBar = [[UIScrollView alloc] initWithFrame:CGRectMake(DOT_COORDINATE, DOT_COORDINATE, functionButtonX, NAV_TAB_BAR_HEIGHT)];
+    _navgationTabBar = [[UIScrollView alloc] initWithFrame:CGRectMake(DOT_COORDINATE, DOT_COORDINATE, functionButtonX, self.navTabBarHeight)];
     _navgationTabBar.showsHorizontalScrollIndicator = NO;
     [self addSubview:_navgationTabBar];
     
@@ -74,7 +74,7 @@
 
 - (void)showLineWithButtonWidth:(CGFloat)width
 {
-    _line = [[UIView alloc] initWithFrame:CGRectMake(2.0f, NAV_TAB_BAR_HEIGHT - 3.0f, width - 4.0f, 3.0f)];
+    _line = [[UIView alloc] initWithFrame:CGRectMake(2.0f, self.navTabBarHeight - 3.0f, width - 4.0f, 3.0f)];
     _line.backgroundColor = UIColorWithRGBA(20.0f, 80.0f, 200.0f, 0.7f);
     [_navgationTabBar addSubview:_line];
 }
@@ -85,16 +85,9 @@
     for (NSInteger index = 0; index < self.itemCount; index++)
     {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        if (SCREENHEIGHT == 568) {
-            button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue] + 18, NAV_TAB_BAR_HEIGHT);
-        } else if (SCREENHEIGHT == 667) {
-            button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue], NAV_TAB_BAR_HEIGHT);
-
-        } else if (SCREENHEIGHT == 736) {
-            button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue] - 12.0, NAV_TAB_BAR_HEIGHT);
-        }
-        else if (SCREENHEIGHT == 812) {
-            button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue], NAV_TAB_BAR_HEIGHT);
+        button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue] + 18, self.navTabBarHeight);
+        if (SCREENHEIGHT == 736) {
+            button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue] + 10, self.navTabBarHeight);
         }
         if (self.isNavTabBarImage) {
             [button setImage:[UIImage imageNamed:self.itemImages[index][normalImage]] forState:UIControlStateNormal];
@@ -167,7 +160,7 @@
 {
     CGFloat buttonX = DOT_COORDINATE;
     CGFloat buttonY = ITEM_HEIGHT;
-    CGFloat maxHeight = SCREEN_HEIGHT - STATUS_BAR_HEIGHT - NAVIGATION_BAR_HEIGHT - NAV_TAB_BAR_HEIGHT;
+    CGFloat maxHeight = SCREEN_HEIGHT - STATUS_BAR_HEIGHT - NAVIGATION_BAR_HEIGHT - self.navTabBarHeight;
     for (NSInteger index = 0; index < [_itemBtnsWidth count]; index++)
     {
         buttonX += [_itemBtnsWidth[index] floatValue];

@@ -58,7 +58,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTreatInfo) name:@"SaveTreatInfo" object:nil];
+
     UILabel *dateOne_Label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH*2/7, SCREENHEIGHT/20)];
     dateOne_Label.text=@"Date：";
     dateOne_Label.textAlignment=NSTextAlignmentCenter;
@@ -158,13 +159,14 @@
     
     [self.view addSubview:DataTableView];
     
+    treatInfoAtPatientID=[NSMutableArray array];
+
     dbOpration=[[DataBaseOpration alloc] init];
     treatInfoArray=[dbOpration getTreatDataFromDataBase];
     [dbOpration closeDataBase];
-    
-    treatInfoAtPatientID=[NSMutableArray array];
     //最近一周内的治疗数据
     [self putTreatDataToArray];
+    
     //服务器上获取治疗数据
     [self getCureDataFromServer];
     
@@ -203,10 +205,24 @@
     }
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 //返回按钮点击事件
 - (void)backLoginClick:(UIButton *)sender
 {
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)reloadTreatInfo {
+    dbOpration=[[DataBaseOpration alloc] init];
+    treatInfoArray=[dbOpration getTreatDataFromDataBase];
+    [dbOpration closeDataBase];
+    
+    [treatInfoAtPatientID removeAllObjects];
+    //最近一周内的治疗数据
+    [self putTreatDataToArray];
+    [DataTableView reloadData];
 }
 
 //下载服务器上的治疗数据

@@ -114,17 +114,23 @@
     else if (indexPath.row == 1)
     {
         textLabel.text = @"Sex";
-        _sexLabel = [[UILabel alloc] initWithFrame:CGRectMake(313*Rate_NAV_W, 0, 27*Rate_NAV_W, 50)];
+        _sexLabel = [[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH - 110,
+                                                              0,
+                                                              80,
+                                                              50)];
         _sexLabel.userInteractionEnabled = YES;
         _sexLabel.textAlignment = NSTextAlignmentRight;
         _sexLabel.font=[UIFont systemFontOfSize:16*Rate_NAV_H];
         if (_patientInfo.PatientSex.length>0)
         {
-            _sexLabel.text=_patientInfo.PatientSex;
+            _sexLabel.text=@"Male";
+            if ([_patientInfo.PatientSex isEqualToString:@"男"] || [_patientInfo.PatientSex isEqualToString:@"Female"]) {
+                _sexLabel.text = @"Female";
+            }
         }
         
         [cell.contentView addSubview:_sexLabel];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else if (indexPath.row == 2)
     {
@@ -138,7 +144,7 @@
         }
         
         [cell.contentView addSubview:_birthLabel];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else if (indexPath.row == 3)
     {

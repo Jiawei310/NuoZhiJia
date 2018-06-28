@@ -30,6 +30,8 @@
 @property (nonatomic, strong) DatePickerView *datePicker; // 日期选择器
 @property (nonatomic, assign) NSInteger year;
 @property (nonatomic, assign) NSInteger month;
+@property (nonatomic, assign) NSInteger day;
+
 
 @property (strong, nonatomic) UIButton *maleBtn;
 @property (strong, nonatomic) UIButton *femaleBtn;
@@ -286,24 +288,17 @@
     //点击cell，判断是第四个cell时底部谈起日期选择
     if (indexPath.row == 3)
     {
-        if ([_birthTextField.text isEqualToString:@"Birthday"])
-        {
-            _birthTextField.text = @"请在底部选择";
-            NSDate *EndDate = [NSDate date];
-            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-            [dateFormatter setDateFormat:@"yyyy-MM"];
-            NSString *endTime = [dateFormatter stringFromDate:EndDate];
-            
-            _year = [[endTime substringWithRange:NSMakeRange(0, 4)] integerValue];
-            _month = [[endTime substringWithRange:NSMakeRange(5, _birthTextField.text.length-6)] integerValue];
-        }
-        else if ([_birthTextField.text containsString:@"年"])
+        if (_birthTextField.text.length > 0)
         {
             _year = [[_birthTextField.text substringWithRange:NSMakeRange(0, 4)] integerValue];
             _month = [[_birthTextField.text substringWithRange:NSMakeRange(5, _birthTextField.text.length-6)] integerValue];
+            if (_birthTextField.text.length > 8) {
+                _day = [[_birthTextField.text substringWithRange:NSMakeRange(8, 2)] integerValue];
+            }
+
         }
-        
-        self.datePicker = [[DatePickerView alloc] initWithFrame:CGRectMake(0, 359*Rate_NAV_H, 375*Rate_NAV_W, 248*Rate_NAV_H) Year:_year Month:_month ];
+        self.datePicker = [[DatePickerView alloc] initWith:_year Month:_month Day:_day];
+//=        self.datePicker = [[DatePickerView alloc] initWithFrame:CGRectMake(0, 359*Rate_NAV_H, 375*Rate_NAV_W, 248*Rate_NAV_H) Year:_year Month:_month ];
         [self showDatePicker];
     }
 }

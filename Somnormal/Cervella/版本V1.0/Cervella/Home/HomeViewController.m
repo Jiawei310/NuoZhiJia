@@ -88,6 +88,16 @@
 
     navTabBarController.navTabBar.isNavTabBarImage = YES;
     navTabBarController.navTabBar.itemImages = @[homeImageDict, assessImageDict, meImageDict];
+    if (SCREENHEIGHT == 568) {
+        navTabBarController.navTabBar.navTabBarHeight = 44.0;
+    } else if (SCREENHEIGHT == 667) {
+        navTabBarController.navTabBar.navTabBarHeight = 60.0;
+    } else if (SCREENHEIGHT == 736) {
+        navTabBarController.navTabBar.navTabBarHeight = 60.0;
+    }
+    else if (SCREENHEIGHT == 812) {
+        navTabBarController.navTabBar.navTabBarHeight = 60.0;
+    }
     [navTabBarController addParentController:self];
     
     dbOpration=[[DataBaseOpration alloc] init];
