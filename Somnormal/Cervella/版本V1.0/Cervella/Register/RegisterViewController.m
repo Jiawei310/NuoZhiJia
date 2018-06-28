@@ -404,8 +404,8 @@
     else
     {
         _patientInfo.PatientID = _acountTextField.text;
+        _patientInfo.PatientName = _acountTextField.text;
         _patientInfo.PatientPwd = _passwordTextField.text;
-        _patientInfo.PatientName = _passwordTextField.text;
         _patientInfo.Birthday = _birthTextField.text;
         _patientInfo.Email = _emailTextField.text;
         _patientInfo.PatientSex = @"Male";
