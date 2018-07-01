@@ -152,7 +152,7 @@
         else
         {
             //提示输入不一致
-            jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Two password is not consistent.Please check and re-enter");
+            jxt_showTextHUDTitleMessage(@"", @"Two password is not consistent.Please check and re-enter");
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 jxt_dismissHUD();
             });
@@ -161,7 +161,7 @@
     else
     {
         //提示输入密码过短
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Password length should have at least 6 numbers.Please check and re-enter");
+        jxt_showTextHUDTitleMessage(@"", @"Password length should have at least 6 numbers.Please check and re-enter");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -255,7 +255,7 @@
                 [dataBaseOpration closeDataBase];
                 
                 //提示修改成功
-                jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Modified successful");
+                jxt_showTextHUDTitleMessage(@"", @"Modified successful");
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     jxt_dismissHUD();
                 });

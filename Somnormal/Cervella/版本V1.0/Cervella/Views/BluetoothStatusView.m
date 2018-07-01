@@ -8,7 +8,7 @@
 
 #import "BluetoothStatusView.h"
 #import <QuartzCore/QuartzCore.h>
-
+#define line_W 4
 @interface BluetoothStatusView ()
 {
     UIView *_backView;
@@ -62,7 +62,7 @@
             self.bluetoothStatusViewBlock(self.statusType);
         }
     } else {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Connecting");
+        jxt_showTextHUDTitleMessage(@"", @"Connecting");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -85,10 +85,10 @@
 - (CAShapeLayer *)backLayer {
     if (!_backLayer) {
         _backLayer = [CAShapeLayer layer];
-        CGRect rect = CGRectMake(4, 4, self.frame.size.width - 8, self.frame.size.height - 8);
+        CGRect rect = CGRectMake(line_W * 2, line_W * 2, self.frame.size.width - line_W * 4, self.frame.size.height - line_W * 4);
         UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:rect];
         _backLayer.strokeColor = [UIColor colorWithRed:69/255.0 green:137/255.0 blue:211/255.0 alpha:1].CGColor;
-        _backLayer.lineWidth = 2;
+        _backLayer.lineWidth = line_W;
         _backLayer.fillColor = [UIColor clearColor].CGColor;
         _backLayer.lineCap = kCALineCapRound;
         _backLayer.path = path.CGPath;
@@ -101,9 +101,9 @@
         _progressLayer = [CAShapeLayer layer];
         _progressLayer.fillColor = [UIColor clearColor].CGColor;
         _progressLayer.strokeColor = [UIColor greenColor].CGColor;
-        _progressLayer.lineWidth = 8;
+        _progressLayer.lineWidth = line_W * 2;
         _progressLayer.lineCap = kCALineCapRound;
-        CGRect rect = CGRectMake(4.0, 4.0, self.frame.size.width - 8.0, self.frame.size.height - 8.0);
+        CGRect rect = CGRectMake(line_W * 2, line_W * 2, self.frame.size.width - line_W * 4, self.frame.size.height - line_W * 4);
         UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:rect];
         _progressLayer.path = path.CGPath;
     }
@@ -140,8 +140,8 @@
     
     self.timeLab.frame = CGRectMake(5, (self.frame.size.height - 30)/2.0, self.frame.size.width - 10, 30);
     if (statusType == StatusTypeNone) {
-        //Unpaired
-        self.timeLab.text = @"Unpaired";
+        //Touch to Pair
+        self.timeLab.text = @"Touch to Pair";
         self.startLab.hidden = YES;
     }
     else if (statusType == StatusTypeStart) {

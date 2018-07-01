@@ -9,6 +9,8 @@
 #import "ColorsSliderView.h"
 @interface ColorsSliderView ()
 @property (nonatomic, strong) NSArray *btnsArr;
+@property (nonatomic, strong) NSArray *imgsArr;
+
 @end
 
 @implementation ColorsSliderView
@@ -26,7 +28,10 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     for (UIButton *btn in self.btnsArr) {
-        btn.frame = CGRectMake(colorSliderd_d * btn.tag + colorSliderWidth * (btn.tag-1), 0, colorSliderWidth, colorSliderHeight);
+        btn.frame = CGRectMake(colorSliderd_d * btn.tag + colorSliderWidth * (btn.tag-1),
+                               0,
+                               colorSliderWidth,
+                               colorSliderHeight);
     }
 }
 
@@ -58,22 +63,25 @@
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             btn.tag = k;
             [btn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
-            [btn setBackgroundImage:[UIImage imageNamed:@"ces_ball_grey"] forState:UIControlStateNormal];
+            [btn setImage:[UIImage imageNamed:@"ces_ball_grey"] forState:UIControlStateNormal];
             if (k <= 3) {
-                [btn setBackgroundImage:[UIImage imageNamed:@"ces_ball_green"] forState:UIControlStateSelected];
+                [btn setImage:[UIImage imageNamed:@"ces_ball_green"] forState:UIControlStateSelected];
             } else if (k <= 6) {
-                [btn setBackgroundImage:[UIImage imageNamed:@"ces_ball_yellow"] forState:UIControlStateSelected];
+                [btn setImage:[UIImage imageNamed:@"ces_ball_yellow"] forState:UIControlStateSelected];
             } else if (k <= 8) {
-                [btn setBackgroundImage:[UIImage imageNamed:@"ces_ball_orange"] forState:UIControlStateSelected];
+                [btn setImage:[UIImage imageNamed:@"ces_ball_orange"] forState:UIControlStateSelected];
             } else if (k <= 10) {
-                [btn setBackgroundImage:[UIImage imageNamed:@"ces_ball_red"] forState:UIControlStateSelected];
+                [btn setImage:[UIImage imageNamed:@"ces_ball_red"] forState:UIControlStateSelected];
             }
+            //top left bottom right
+            [btn setImageEdgeInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
             [arr addObject:btn];
         }
         _btnsArr = arr;
     }
     return _btnsArr;
 }
+
 
 - (void)setLevel:(NSInteger)level {
     _level = level;

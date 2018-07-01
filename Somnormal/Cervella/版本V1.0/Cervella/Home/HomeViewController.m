@@ -21,7 +21,7 @@
 
 #import "TreatDataViewController.h"
 #import "MyInfoViewController.h"
-
+#import "AES.h"
 
 @interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -93,7 +93,7 @@
     } else if (SCREENHEIGHT == 667) {
         navTabBarController.navTabBar.navTabBarHeight = 60.0;
     } else if (SCREENHEIGHT == 736) {
-        navTabBarController.navTabBar.navTabBarHeight = 60.0;
+        navTabBarController.navTabBar.navTabBarHeight = 65.0;
     }
     else if (SCREENHEIGHT == 812) {
         navTabBarController.navTabBar.navTabBarHeight = 60.0;
@@ -114,6 +114,10 @@
         [self sendEvaluateDataToSevice];
         [self sendTreatDataToSevice];
     });
+    
+    NSLog(@"128加密：%@",[AES AES128EncryptStrig:@"nuozhijia"]);
+    NSLog(@"128解密：%@",[AES AES128DecryptString:[AES AES128EncryptStrig:@"nuozhijia"]]);
+
 }
 
 

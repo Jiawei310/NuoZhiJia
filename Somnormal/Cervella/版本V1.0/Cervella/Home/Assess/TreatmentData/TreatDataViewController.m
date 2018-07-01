@@ -35,15 +35,19 @@
     NSInteger year;
     NSInteger month;
     NSInteger day;
+    
     NSInteger monthBegainIndex;
     NSInteger yearBegainIndex;
     NSInteger dayBegainIndex;
-    NSInteger monthEndIndex;
+    
     NSInteger yearEndIndex;
+    NSInteger monthEndIndex;
     NSInteger dayEndIndex;
+    
     NSInteger monthBegainSelectIndex;
     NSInteger yearBegainSelectIndex;
     NSInteger dayBegainSelectIndex;
+    
     NSInteger monthEndSelectIndex;
     NSInteger yearEndSelectIndex;
     NSInteger dayEndSelectIndex;
@@ -512,9 +516,11 @@
             dayString=[NSString stringWithFormat:@"%@",[_endDateDayArray objectAtIndex:dayEndSelectIndex]];
         }
         EndTime=[NSString stringWithFormat:@"%@-%@-%@",yearString,monthString,dayString];
+        
         NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         NSString *nowTime=[dateFormatter stringFromDate:[NSDate date]];
+        
         if ([self getIntervalTimeFrom:[self stringToDate:EndTime] toDate:[self stringToDate:nowTime]]>=0)
         {
             if([self getIntervalTimeFrom:[self stringToDate:dateOne_Button.titleLabel.text] toDate:[self stringToDate:EndTime]]>=0)
@@ -690,11 +696,6 @@
                     NSString *dayStr=[NSString stringWithFormat:@"%d",i];
                     [_begainDateDayArray addObject:dayStr];
                 }
-                //                if (!(dayBegainIndex<30))
-                //                {
-                //                    dayBegainIndex=29;
-                //                    dayBegainSelectIndex=29;
-                //                }
             }
         }
         else//平年
@@ -725,11 +726,6 @@
                     NSString *dayStr=[NSString stringWithFormat:@"%d",i];
                     [_begainDateDayArray addObject:dayStr];
                 }
-                //                if (!(dayBegainIndex<30))
-                //                {
-                //                    dayBegainIndex=29;
-                //                    dayBegainSelectIndex=29;
-                //                }
             }
         }
         [PickerView reloadComponent:2];
@@ -780,11 +776,6 @@
                     NSString *dayStr=[NSString stringWithFormat:@"%d",i];
                     [_endDateDayArray addObject:dayStr];
                 }
-                //                if (!(dayEndIndex<30))
-                //                {
-                //                    dayEndIndex=29;
-                //                    dayEndSelectIndex=29;
-                //                }
             }
         }
         else//平年
@@ -815,11 +806,7 @@
                     NSString *dayStr=[NSString stringWithFormat:@"%d",i];
                     [_endDateDayArray addObject:dayStr];
                 }
-                //                if (!(dayEndIndex<30))
-                //                {
-                //                    dayEndIndex=29;
-                //                    dayEndSelectIndex=29;
-                //                }
+                
             }
         }
         [PickerView reloadComponent:2];

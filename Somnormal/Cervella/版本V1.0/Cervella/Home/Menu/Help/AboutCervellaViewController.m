@@ -22,14 +22,75 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *titleLab = [[UILabel alloc] init];
+    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
+    titleLab.text = self.title;
+    titleLab.textColor = [UIColor whiteColor];
+    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
+    self.title = nil;
+    
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.translucent=YES;
+    //添加返回按钮
+    UIButton *backLogin = [UIButton buttonWithType:UIButtonTypeSystem];
+    backLogin.frame = CGRectMake(12, 30, 23, 23);
+    [backLogin setImage:[UIImage imageNamed:@"btn_back"] forState:UIControlStateNormal];
+    [backLogin addTarget:self action:@selector(backLoginClick:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backLoginItem = [[UIBarButtonItem alloc] initWithCustomView:backLogin];
+    //添加fixedButton是为了让backLoginItem往左边靠拢
+    UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedButton.width = -10;
+    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem, titleBtnItem];
+    
     
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.frame = CGRectMake(0, 64.0, self.view.frame.size.width, self.view.frame.size.height - 64);
     imageView.image = [UIImage imageNamed:@"about"];
     [self.view addSubview:imageView];
+    
+    UIButton *linkBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    linkBtn.backgroundColor = [UIColor redColor];
+    [linkBtn addTarget:self action:@selector(linkBtnAction) forControlEvents:UIControlEventTouchUpInside];
+
+    UIButton *emailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    emailBtn.backgroundColor = [UIColor blueColor];
+    [emailBtn addTarget:self action:@selector(emailBtnAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:linkBtn];
+    [self.view addSubview:emailBtn];
+    
+    if (SCREENHEIGHT == 568) {
+        linkBtn.frame = CGRectMake(30, 390, SCREENWIDTH - 60, 30);
+        emailBtn.frame = CGRectMake(30, 425, SCREENWIDTH - 60, 30);
+    } else if (SCREENHEIGHT == 667) {
+        linkBtn.frame = CGRectMake(30, 445, SCREENWIDTH - 60, 40);
+        emailBtn.frame = CGRectMake(30, 490, SCREENWIDTH - 60, 40);
+    } else if (SCREENHEIGHT == 736) {
+        linkBtn.frame = CGRectMake(30, 500, SCREENWIDTH - 60, 40);
+        emailBtn.frame = CGRectMake(30, 545, SCREENWIDTH - 60, 40);
+    }
+    else if (SCREENHEIGHT == 812) {
+        linkBtn.frame = CGRectMake(30, 548, SCREENWIDTH - 60, 44);
+        emailBtn.frame = CGRectMake(30, 598, SCREENWIDTH - 60, 44);
+    }
 }
 
+//返回按钮点击事件
+- (void)backLoginClick:(UIButton *)sender
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)linkBtnAction {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.cervella.us"]];
+}
+
+- (void)emailBtnAction {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"mailto://support@cervella.us"]];
+}
 
 
 #pragma mark - get

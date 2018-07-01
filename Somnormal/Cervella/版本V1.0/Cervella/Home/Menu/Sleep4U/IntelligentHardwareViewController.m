@@ -30,7 +30,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.title = @"Pairing";
+//    self.title = @"Pairing";
+    
+    UILabel *titleLab = [[UILabel alloc] init];
+    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
+    titleLab.text = @"Pairing";
+    titleLab.textColor = [UIColor whiteColor];
+    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
+
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent=YES;
@@ -44,7 +51,7 @@
     //添加fixedButton是为了让backLoginItem往左边靠拢
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedButton.width = -10;
-    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
+    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem, titleBtnItem];
     
     /**************UI*************/
     //圆环
@@ -123,14 +130,14 @@
         }
         else
         {
-            percentLabel.text=@"UnConnected";
+            percentLabel.text=@"Touch to connect";
         }
     }
     else
     {
         [turnBtn setTitle:@"Search for Cervella" forState:UIControlStateNormal];
 
-        percentLabel.text=@"UnConnected";
+        percentLabel.text=@"Touch to connect";
     }
   
     [self setupLayer];

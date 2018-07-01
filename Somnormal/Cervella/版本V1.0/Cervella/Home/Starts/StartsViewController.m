@@ -357,7 +357,7 @@
     if (error) {
         //提出警告
         NSString *str = [NSString stringWithFormat:@"%@\n%@",error.localizedDescription, error.localizedRecoverySuggestion];
-        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"Kindly Reminder" message:str preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"" message:str preferredStyle:(UIAlertControllerStyleAlert)];
         UIAlertAction *alert = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *  action) {
             
         }];
@@ -409,6 +409,11 @@
     if (connectState == ConnectStateNormal) { //正常链接成功
         self.bluetoothStatusView.statusType = StatusTypeStart;
         self.bluetoothStatusView.timers = self.timeDuration;
+        //Pairing successful!
+        jxt_showTextHUDTitleMessage(@"", @"Pairing successful!");
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            jxt_dismissHUD();
+        });
         //保存设备
         [self saveConnectEquiment];
         //上传服务器硬件设备

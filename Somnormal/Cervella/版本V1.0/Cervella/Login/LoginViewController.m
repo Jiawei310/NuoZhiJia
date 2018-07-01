@@ -92,16 +92,9 @@
 - (void)doLogin
 {
     //判断账号密码，之后再加入NSUserDefault当中，便于之后直接进入
-    if(_acountTextField.text.length == 0)
+    if(_acountTextField.text.length == 0 || _passwordTextField.text.length == 0)
     {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Username number cannot be empty,please check and re-enter.");
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            jxt_dismissHUD();
-        });
-    }
-    else if(_passwordTextField.text.length == 0)
-    {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Password number cannot be empty,please check and re-enter.");
+        jxt_showTextHUDTitleMessage(@"", @"Please enter Username and Password first");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -136,7 +129,7 @@
     //判断输入的账号在后台有没有，有的话再判断有没有绑定邮箱
     if (_acountTextField.text.length == 0)
     {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Username number cannot be empty,please check and re-enter.");
+        jxt_showTextHUDTitleMessage(@"", @"Username number cannot be empty,please check and re-enter.");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -194,7 +187,7 @@
         }
         else
         {
-            [JXTAlertView showToastViewWithTitle:@"Kindly Reminder" message:@"Username number is wrong,please check and re-enter." duration:2 dismissCompletion:^(NSInteger buttonIndex) {
+            [JXTAlertView showToastViewWithTitle:@"" message:@"Username number is wrong,please check and re-enter." duration:2 dismissCompletion:^(NSInteger buttonIndex) {
             }];
         }
         //将之前“忘记密码”按钮设置成用户可点击

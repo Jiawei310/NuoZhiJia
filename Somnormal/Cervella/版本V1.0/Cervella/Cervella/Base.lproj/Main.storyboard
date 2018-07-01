@@ -192,7 +192,7 @@
                                     <constraint firstAttribute="height" constant="40" id="dyn-eo-eY4"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="Find Now">
+                                <state key="normal" title="Proceed">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>

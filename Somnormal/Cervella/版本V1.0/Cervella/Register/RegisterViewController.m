@@ -113,22 +113,22 @@
     [_provisionBtn3 addTarget:self action:@selector(provisionButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.textView addSubview:_provisionBtn3];
     if (SCREENHEIGHT == 568) {
-        _provisionBtn1.frame = CGRectMake(10, 122, 14, 14);
-        _provisionBtn2.frame = CGRectMake(10, 150, 14, 14);
-        _provisionBtn3.frame = CGRectMake(10, 278, 14, 14);
+        _provisionBtn1.frame = CGRectMake(10, 122, 16, 16);
+        _provisionBtn2.frame = CGRectMake(10, 150, 16, 16);
+        _provisionBtn3.frame = CGRectMake(10, 278, 16, 16);
     } else if (SCREENHEIGHT == 667) {
-        _provisionBtn1.frame = CGRectMake(10, 105 , 14, 14);
-        _provisionBtn2.frame = CGRectMake(10, 133, 14, 14);
-        _provisionBtn3.frame = CGRectMake(10, 245, 14, 14);
+        _provisionBtn1.frame = CGRectMake(10, 105 , 16, 16);
+        _provisionBtn2.frame = CGRectMake(10, 133, 16, 16);
+        _provisionBtn3.frame = CGRectMake(10, 245, 16, 16);
     } else if (SCREENHEIGHT == 736) {
-        _provisionBtn1.frame = CGRectMake(10, 105, 14, 14);
-        _provisionBtn2.frame = CGRectMake(10, 133, 14, 14);
-        _provisionBtn3.frame = CGRectMake(10, 245, 14, 14);
+        _provisionBtn1.frame = CGRectMake(10, 105, 16, 16);
+        _provisionBtn2.frame = CGRectMake(10, 133, 16, 16);
+        _provisionBtn3.frame = CGRectMake(10, 245, 16, 16);
     }
     else if (SCREENHEIGHT == 812) {
-        _provisionBtn1.frame = CGRectMake(10, 105, 14, 14);
-        _provisionBtn2.frame = CGRectMake(10, 132, 14, 14);
-        _provisionBtn3.frame = CGRectMake(10, 246, 14, 14);
+        _provisionBtn1.frame = CGRectMake(10, 105, 16, 16);
+        _provisionBtn2.frame = CGRectMake(10, 132, 16, 16);
+        _provisionBtn3.frame = CGRectMake(10, 246, 16, 16);
     }
     
 }
@@ -230,7 +230,7 @@
         
         _birthTextField = [[UITextField alloc] initWithFrame:CGRectMake(70, 2, 230, 40)];
         _birthTextField.font = [UIFont systemFontOfSize:18];
-        _birthTextField.placeholder = @"Birthday";
+        _birthTextField.placeholder = @"Birthdate";
         _birthTextField.userInteractionEnabled = NO;
         _birthTextField.keyboardType = UIKeyboardTypeASCIICapable;
 
@@ -243,8 +243,9 @@
         _maleBtn.tag = 11;
         _maleBtn.backgroundColor = [UIColor whiteColor];
         _maleBtn.frame = CGRectMake(20, 12, 20, 20);
-        [_maleBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateNormal];
-        _maleBtn.selected = YES;
+        [_maleBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
+        [_maleBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
+
         [_maleBtn addTarget:self action:@selector(genderSelect:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:_maleBtn];
         
@@ -264,6 +265,7 @@
         _femaleBtn.backgroundColor = [UIColor whiteColor];
         _femaleBtn.frame = CGRectMake(120, 12, 20, 20);
         [_femaleBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
+        [_femaleBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateSelected];
         [_femaleBtn addTarget:self action:@selector(genderSelect:) forControlEvents:UIControlEventTouchUpInside];
         [cell.contentView addSubview:_femaleBtn];
         
@@ -297,8 +299,8 @@
             }
 
         }
-        self.datePicker = [[DatePickerView alloc] initWith:_year Month:_month Day:_day];
-//=        self.datePicker = [[DatePickerView alloc] initWithFrame:CGRectMake(0, 359*Rate_NAV_H, 375*Rate_NAV_W, 248*Rate_NAV_H) Year:_year Month:_month ];
+//        self.datePicker = [[DatePickerView alloc] initWith:_year Month:_month Day:_day];
+        self.datePicker = [[DatePickerView alloc] initWithFrame:CGRectMake(0, 359*Rate_NAV_H, 375*Rate_NAV_W, 248*Rate_NAV_H) Year:_year Month:_month ];
         [self showDatePicker];
     }
 }
@@ -324,39 +326,14 @@
 
 - (void)genderSelect:(UIButton *)sender
 {
-    if (sender.tag == 11)
+    sender.selected = !sender.selected;
+    if (sender == _maleBtn && _maleBtn.selected)
     {
-        if (_maleBtn.selected)
-        {
-            [_maleBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
-            [_femaleBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateNormal];
-            _maleBtn.selected = NO;
-            _femaleBtn.selected = YES;
-        }
-        else
-        {
-            [_maleBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateNormal];
-            [_femaleBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
-            _maleBtn.selected = YES;
-            _femaleBtn.selected = NO;
-        }
+        _femaleBtn.selected = NO;
     }
-    else
+    if (sender == _femaleBtn && _femaleBtn.selected)
     {
-        if (_femaleBtn.selected)
-        {
-            [_maleBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateNormal];
-            [_femaleBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
-            _maleBtn.selected = YES;
-            _femaleBtn.selected = NO;
-        }
-        else
-        {
-            [_maleBtn setImage:[UIImage imageNamed:@"unselected"] forState:UIControlStateNormal];
-            [_femaleBtn setImage:[UIImage imageNamed:@"selected"] forState:UIControlStateNormal];
-            _maleBtn.selected = NO;
-            _femaleBtn.selected = YES;
-        }
+        _maleBtn.selected = NO;
     }
 }
 
@@ -365,7 +342,7 @@
     if (_acountTextField.text.length == 0)
     {
         //提示账号不可为空
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Cell-phone number cannot be empyt,please check and re-enter.");
+        jxt_showTextHUDTitleMessage(@"", @"Username cannot be empyt,please check and re-enter.");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -373,27 +350,27 @@
     else if (_passwordTextField.text.length < 6)
     {
         //提示密码过短
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Password length should have at least 6 numbers.");
+        jxt_showTextHUDTitleMessage(@"", @"Password length should have at least 6 numbers.");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
     }
     else if(_emailTextField.text.length == 0 || ![self isEmailAddress:_emailTextField.text])
     {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Email format incorrect,please re-try. ");
+        jxt_showTextHUDTitleMessage(@"", @"Email format incorrect,please re-try. ");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
     }
     else if(_birthTextField.text.length == 0)
     {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Please select Date of birth.");
+        jxt_showTextHUDTitleMessage(@"", @"Please select Date of birth.");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
     }
     else if (!_femaleBtn.selected && !_maleBtn) {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Please select a gender.");
+        jxt_showTextHUDTitleMessage(@"", @"Please select a gender.");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -459,7 +436,7 @@
             
             [self changeRoot];
         } else {
-            jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"密码输入错误，请重新输入");
+            jxt_showTextHUDTitleMessage(@"", @"密码输入错误，请重新输入");
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 jxt_dismissHUD();
             });

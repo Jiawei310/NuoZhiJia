@@ -29,7 +29,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.title = @"Search for Cervella";
+//    self.title = @"Search for Cervella";
+    UILabel *titleLab = [[UILabel alloc] init];
+    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
+    titleLab.text = @"Search for Cervella";
+    titleLab.textColor = [UIColor whiteColor];
+    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
+
+    
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent=YES;
@@ -44,7 +51,7 @@
     //添加fixedButton是为了让backLoginItem往左边靠拢
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedButton.width = -10;
-    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
+    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem,titleBtnItem];
     
     [_scanButton setBackgroundColor:[UIColor colorWithRed:0x25/255.0 green:0x7e/255.0 blue:0xd6/255.0 alpha:1]];
     [self.scanButton setTitle:@"Search Again" forState:UIControlStateNormal];

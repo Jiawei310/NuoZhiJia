@@ -482,7 +482,7 @@
     if ((_tableListTag==1 && questionIndex!=0 && questionIndex!=1 && questionIndex!=2 && questionIndex!=3 && [[resultArray objectAtIndex:questionIndex] intValue]==4) || (_tableListTag!=1 && [[resultArray objectAtIndex:questionIndex] intValue]==4))
     {
         //提示答完这题才可进入下一题
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Please answer the current question first");
+        jxt_showTextHUDTitleMessage(@"", @"Please answer the current question first");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });

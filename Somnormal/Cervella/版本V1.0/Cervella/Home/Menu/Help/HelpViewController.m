@@ -43,10 +43,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.title = @"Help";
+//    self.title = @"Help";
+    
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent=YES;
+    
+    UILabel *titleLab = [[UILabel alloc] init];
+    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
+    titleLab.text = @"Help";
+    titleLab.textColor = [UIColor whiteColor];
+    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
+    
+    
     //添加返回按钮
     UIButton *backLogin = [UIButton buttonWithType:UIButtonTypeSystem];
     backLogin.frame = CGRectMake(12, 30, 23, 23);
@@ -56,7 +65,7 @@
     //添加fixedButton是为了让backLoginItem往左边靠拢
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedButton.width = -10;
-    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
+    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem, titleBtnItem];
     
     [self.view addSubview:self.deviceLab];
     
@@ -71,7 +80,7 @@
     _helpTableView.delegate=self;
     _helpTableView.dataSource=self;
     
-    helpArray = @[@"Owner’s Manual",@"Quick Start Guide",@"Precautions",@"FAQs",@"Operation",@"Consumables and Accessories Ordering",@"About Cervella"];
+    helpArray = @[@"Quick Start Guide",@"Owner’s Manual",@"Precautions",@"FAQs",@"Operation",@"Consumables and Accessories Ordering",@"About Cervella"];
 
     NSString *plistPath=[[NSBundle mainBundle] pathForResource:@"HelpInfo" ofType:@"plist"];
     NSDictionary *helpInfoDic=[[NSDictionary alloc] initWithContentsOfFile:plistPath];
@@ -118,14 +127,14 @@
 //        vc.title = helpArray[indexPath.row];
 //        vc.linkStr = @"https://cervella.us/manual";
 //        [self.navigationController pushViewController:vc animated:YES];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cervella.us/manual"]];
-
-    }
-    if (indexPath.row == 1)
-    {
+        
         MethodViewController *vc = [[MethodViewController alloc] init];
         vc.title = helpArray[indexPath.row];
         [self.navigationController pushViewController:vc animated:YES];
+    }
+    if (indexPath.row == 1)
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://cervella.us/manual"]];
     }
     else if (indexPath.row==2)
     {
@@ -161,6 +170,7 @@
     else if (indexPath.row==6)
     {
         AboutCervellaViewController *vc = [[AboutCervellaViewController alloc] init];
+        vc.title = helpArray[indexPath.row];
         [self.navigationController pushViewController:vc animated:YES];
     }
 }

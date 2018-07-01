@@ -42,7 +42,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"Password Recovery";
+    self.title = @"Get Back Password";
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
@@ -195,7 +195,7 @@
     }
     else
     {
-        jxt_showTextHUDTitleMessage(@"Kindly Reminder", @"Verification code input error.Please check and re-enter");
+        jxt_showTextHUDTitleMessage(@"", @"Verification code input error.Please check and re-enter");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });

@@ -40,7 +40,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    self.title = @"My Information";
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent=NO;
@@ -327,7 +326,7 @@
 
 - (IBAction)exitBtnClick:(UIButton *)sender
 {
-    [JXTAlertView showAlertViewWithTitle:@"" message:@"是否切换用户？" cancelButtonTitle:@"是" otherButtonTitle:@"否" cancelButtonBlock:^(NSInteger buttonIndex) {
+    [JXTAlertView showAlertViewWithTitle:@"" message:@"Confirm Log Out" cancelButtonTitle:@"Yes" otherButtonTitle:@"No" cancelButtonBlock:^(NSInteger buttonIndex) {
         
         //切换账号
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PatientID"];

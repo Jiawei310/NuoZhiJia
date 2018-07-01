@@ -21,6 +21,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    UILabel *titleLab = [[UILabel alloc] init];
+    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
+    titleLab.text = self.title;
+    titleLab.textColor = [UIColor whiteColor];
+    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
+
+    self.title = nil;
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -34,7 +41,7 @@
     //添加fixedButton是为了让backLoginItem往左边靠拢
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedButton.width = -10;
-    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
+    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem, titleBtnItem];
     
     commonTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT) style:UITableViewStylePlain];
     //自动计算cell高度
