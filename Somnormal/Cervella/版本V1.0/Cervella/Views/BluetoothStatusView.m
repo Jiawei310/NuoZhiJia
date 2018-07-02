@@ -16,6 +16,7 @@
     CAShapeLayer *_progressLayer;
     
     UITapGestureRecognizer *_tapGesture;
+    BluetoothInfo *_bluetoothInfo;
 }
 @property (nonatomic, strong) UILabel *timeLab;
 @property (nonatomic, strong) UILabel *startLab;
@@ -141,7 +142,12 @@
     self.timeLab.frame = CGRectMake(5, (self.frame.size.height - 30)/2.0, self.frame.size.width - 10, 30);
     if (statusType == StatusTypeNone) {
         //Touch to Pair
-        self.timeLab.text = @"Touch to Pair";
+        if (self.bluetoothInfo) {
+            self.timeLab.text = @"Touch to Connect";
+        }
+        else {
+            self.timeLab.text = @"Touch to Pair";
+        }
         self.startLab.hidden = YES;
     }
     else if (statusType == StatusTypeStart) {
@@ -171,6 +177,19 @@
     self.timeLab.text = [NSString stringWithFormat:@"%.2ld:%.2ld", _timers/60, _timers%60];
 }
 
+- (BluetoothInfo *)bluetoothInfo {
+    //从数据库读取之前绑定设备
+    _bluetoothInfo = nil;
+    DataBaseOpration *dataBaseOpration = [[DataBaseOpration alloc] init];
+    NSArray *bluetoothInfoArray=[dataBaseOpration getBluetoothDataFromDataBase];
+    
+    if (bluetoothInfoArray.count>0)
+    {
+        _bluetoothInfo = [bluetoothInfoArray objectAtIndex:0];
+    }
+    [dataBaseOpration closeDataBase];
+    return _bluetoothInfo;
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

@@ -116,36 +116,30 @@
     UILabel *label_date=[[UILabel alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/20, SCREENWIDTH/4, SCREENHEIGHT/20)];
     label_date.text=@"Date";
     label_date.textAlignment=NSTextAlignmentCenter;
-    UILabel *label_frequency=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/4, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
-    label_frequency.text=@"Level";
+    
+    UILabel *label_frequency=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/4 - 5, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
+    label_frequency.text=@"Intensity";
     label_frequency.textAlignment=NSTextAlignmentCenter;
-    UILabel *label_strength=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*2/5, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
-    label_strength.text=@"Freq.";
+    
+    UILabel *label_strength=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*2/5 + 2, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
+    label_strength.text=@"Freq";
     label_strength.textAlignment=NSTextAlignmentCenter;
-    UILabel *label_startTime=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
+    
+    UILabel *label_startTime=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5 + 2, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
     label_startTime.text=@"Start";
     label_startTime.textAlignment=NSTextAlignmentCenter;
+    
     UILabel *label_cureTime=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*4/5, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
     label_cureTime.text=@"Duration";
     label_cureTime.textAlignment=NSTextAlignmentCenter;
     UIView *viewTwo=[[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/10, SCREENWIDTH, 1)];
     viewTwo.backgroundColor=[UIColor blackColor];
-    if (SCREENWIDTH==320)
-    {
-        label_date.font=[UIFont systemFontOfSize:15];
-        label_frequency.font=[UIFont systemFontOfSize:15];
-        label_strength.font=[UIFont systemFontOfSize:15];
-        label_startTime.font=[UIFont systemFontOfSize:15];
-        label_cureTime.font=[UIFont systemFontOfSize:15];
-    }
-    else
-    {
-        label_date.font=[UIFont systemFontOfSize:17];
-        label_frequency.font=[UIFont systemFontOfSize:17];
-        label_strength.font=[UIFont systemFontOfSize:17];
-        label_startTime.font=[UIFont systemFontOfSize:17];
-        label_cureTime.font=[UIFont systemFontOfSize:17];
-    }
+    
+//    label_date.font=[UIFont systemFontOfSize:15];
+//    label_frequency.font=[UIFont systemFontOfSize:15];
+//    label_strength.font=[UIFont systemFontOfSize:15];
+//    label_startTime.font=[UIFont systemFontOfSize:15];
+//    label_cureTime.font=[UIFont systemFontOfSize:15];
     
     [self.view addSubview:viewOne];
     [self.view addSubview:label_date];
@@ -324,26 +318,26 @@
     static NSString *identify=@"EvaluateDataCell";
     
     UITableViewCell *cell=[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.row%2==0)
     {
-        //    159,199,247
-        cell.backgroundColor=[UIColor colorWithRed:0xad/255.0 green:0xd8/255.0 blue:0xe6/255.0 alpha:1];
+        cell.backgroundColor=[UIColor colorWithRed:159/255.0 green:199/255.0 blue:247/255.0 alpha:1];
     }
     else if (indexPath.row%2==1)
     {
-        cell.backgroundColor=[UIColor colorWithRed:0xff/255.0 green:0xa5/255.0 blue:0x00/255.0 alpha:1];
+//        cell.backgroundColor=[UIColor colorWithRed:0xff/255.0 green:0xa5/255.0 blue:0x00/255.0 alpha:1];
     }
     
     UILabel *dateLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH/4, 30)];
     dateLabel.textAlignment=NSTextAlignmentCenter;
     
-    UILabel *strengthLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/4, 0, SCREENWIDTH/5, 30)];
+    UILabel *strengthLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/4 - 5, 0, SCREENWIDTH/5, 30)];
     strengthLabel.textAlignment=NSTextAlignmentCenter;
     
-    UILabel *frequencyLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*2/5, 0, SCREENWIDTH/5, 30)];
+    UILabel *frequencyLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*2/5 + 2, 0, SCREENWIDTH/5, 30)];
     frequencyLabel.textAlignment=NSTextAlignmentCenter;
     
-    UILabel *startTimeLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5, 0, SCREENWIDTH/5, 30)];
+    UILabel *startTimeLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5 + 2, 0, SCREENWIDTH/5, 30)];
     startTimeLabel.textAlignment=NSTextAlignmentCenter;
     
     UILabel *cureTimeLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*4/5, 0, SCREENWIDTH/5, 30)];
@@ -556,12 +550,14 @@
     for (int i=0; i<treatInfoArray.count; i++)
     {
         TreatInfo *tmpTreatInfo=[treatInfoArray objectAtIndex:i];
-        NSString *tmpStringDate=[tmpTreatInfo.BeginTime substringWithRange:NSMakeRange(0, 10)];
-        NSInteger tmpOne=[self getIntervalTimeFrom:[self stringToDate:BegainTime] toDate:[self stringToDate:tmpStringDate]];
-        NSInteger tmpTwo=[self getIntervalTimeFrom:[self stringToDate:tmpStringDate] toDate:[self stringToDate:EndTime]];
-        if (tmpOne>=0 && tmpTwo>=0 && [tmpTreatInfo.PatientID isEqualToString:_patientInfo.PatientID])
-        {
-            [treatInfoAtPatientID addObject:tmpTreatInfo];
+        if (tmpTreatInfo.BeginTime.length > 10) {
+            NSString *tmpStringDate=[tmpTreatInfo.BeginTime substringWithRange:NSMakeRange(0, 10)];
+            NSInteger tmpOne=[self getIntervalTimeFrom:[self stringToDate:BegainTime] toDate:[self stringToDate:tmpStringDate]];
+            NSInteger tmpTwo=[self getIntervalTimeFrom:[self stringToDate:tmpStringDate] toDate:[self stringToDate:EndTime]];
+            if (tmpOne>=0 && tmpTwo>=0 && [tmpTreatInfo.PatientID isEqualToString:_patientInfo.PatientID])
+            {
+                [treatInfoAtPatientID addObject:tmpTreatInfo];
+            }
         }
     }
     if (treatInfoAtPatientID.count>0)
@@ -983,11 +979,12 @@
 //12进制时间
 - (NSString *)dateToTime:(NSString *)dateStr {
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
     NSDate *date = [dateFormatter dateFromString:dateStr];
     
     [dateFormatter setDateFormat:@"hh:mmaa"];
     dateFormatter.locale=[[NSLocale alloc]initWithLocaleIdentifier:@"en_US"];
+
     return [dateFormatter stringFromDate:date];
 }
 

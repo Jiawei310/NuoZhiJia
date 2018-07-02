@@ -211,6 +211,7 @@
     [dataBaseOpration closeDataBase];
     return _bluetoothInfo;
 }
+
 #pragma mark setter and getter
 - (Bluetooth *)bluetooth {
     if (!_bluetooth) {

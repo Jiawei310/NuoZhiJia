@@ -44,6 +44,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent=NO;
     
+    
     interfaceModel = [[InterfaceModel alloc] init];
     interfaceModel.delegate = self;
     
@@ -133,7 +134,7 @@
     }
     else if (indexPath.row == 2)
     {
-        textLabel.text = @"Birthday";
+        textLabel.text = @"Birthdate";
         _birthLabel = [[UILabel alloc] initWithFrame:CGRectMake(100*Rate_NAV_W, 0, 240*Rate_NAV_W, 50)];
         _birthLabel.textAlignment = NSTextAlignmentRight;
         _birthLabel.font=[UIFont systemFontOfSize:16*Rate_NAV_H];

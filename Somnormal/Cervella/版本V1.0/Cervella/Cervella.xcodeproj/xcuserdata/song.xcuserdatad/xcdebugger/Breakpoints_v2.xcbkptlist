@@ -9,22 +9,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Model/&#x63a5;&#x53e3;/InterfaceModel.m"
-            timestampString = "552113802.605185"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "497"
-            endingLineNumber = "497"
-            landmarkName = "-parser:didEndElement:namespaceURI:qualifiedName:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "Home/Menu/Help/AboutCervellaViewController.m"
             timestampString = "552142381.120831"
             startingColumnNumber = "9223372036854775807"
@@ -42,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Home/Assess/TreatmentData/TreatDataViewController.m"
-            timestampString = "552142381.1209"
+            timestampString = "552243989.724051"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "524"
-            endingLineNumber = "524"
-            landmarkName = "-determineButtonClick:"
+            startingLineNumber = "436"
+            endingLineNumber = "436"
+            landmarkName = "-handletapPressGesture:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

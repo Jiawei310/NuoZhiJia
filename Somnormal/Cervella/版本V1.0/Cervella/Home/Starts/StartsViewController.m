@@ -71,6 +71,11 @@
     NSDate *beginDate;
     NSDate *endDate;
     
+    BOOL isWear;
+    
+    //当前治疗
+    NSTimer *saveTreatInfoTimer;
+    TreatInfo *treatInfoTmp;
     
 }
 @synthesize webData,soapResults,xmlParser,elementFound,matchingElement,conn;
@@ -109,6 +114,7 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [countDownTimer invalidate];
+    [saveTreatInfoTimer invalidate];
 }
 
 #pragma  mark - init
@@ -117,19 +123,21 @@
     self.frequencySelector = 2;
     self.timeSelector =  2;
     self.timeDuration = [TimeSelectorsInteger[self.timeSelector] integerValue];
+    treatInfoTmp = nil;
 }
 
 /***************强度**************/
 -(void)addSectionOne
 {
-    UIImageView *intensityView=[[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT/30, SCREENWIDTH/15, CES_SCREENH_HEIGHT/21)];
+    UIImageView *intensityView=[[UIImageView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12, CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT/30 - 5, 30, 30)];
     [intensityView setImage:[UIImage imageNamed:@"ces_strength"]];
     
-    UILabel *electricLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/12+SCREENWIDTH/10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT/30, SCREENWIDTH/2, CES_SCREENH_HEIGHT/16)];
+    UILabel *electricLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/12+SCREENWIDTH/10 + 10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT/30 - 5, SCREENWIDTH/2, 40)];
+    electricLabel.font = [UIFont systemFontOfSize:20];
     electricLabel.text=@"Intensity Level";
     
-    intensityLevelLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH-SCREENWIDTH/4, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT/30, SCREENWIDTH/8, CES_SCREENH_HEIGHT/16)];
-    
+    intensityLevelLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH-SCREENWIDTH/4, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT/30 - 5 , SCREENWIDTH/8, 40)];
+    intensityLevelLabel.font = [UIFont systemFontOfSize:20];
     intensityLevelLabel.textColor = [UIColor redColor];
     intensityLevelLabel.text = [NSString stringWithFormat:@"%ld",(long)intensityLevel];
     [self.view addSubview:intensityView];
@@ -145,12 +153,21 @@
 
 #pragma mark - ColorsSliderViewDelegate
 - (void)selectIndex:(NSInteger)index {
-    intensityLevel = index;
-    intensityLevelLabel.text = [NSString stringWithFormat:@"%ld",(long)intensityLevel];
-    
-    //设置电流强度
-    if (self.bluetooth.connectSate == ConnectStateNormal) {
-        [self.bluetooth changeLevel:intensityLevel];
+    if (self.bluetooth.equipment) {
+        if (colorsSliderView.level < index) {
+            colorsSliderView.level = colorsSliderView.level + 1;
+        }
+        else if (colorsSliderView.level > index) {
+            colorsSliderView.level = colorsSliderView.level - 1;
+        }
+        
+        intensityLevel = colorsSliderView.level;
+        intensityLevelLabel.text = [NSString stringWithFormat:@"%ld",(long)intensityLevel];
+        
+        //设置电流强度
+        if (self.bluetooth.connectSate == ConnectStateNormal) {
+            [self.bluetooth changeLevel:intensityLevel];
+        }
     }
 }
 
@@ -159,11 +176,11 @@
 {
     self.frequencyView = [[ImageTitleDetialView alloc] init];
     self.frequencyView.frame = CGRectMake(SCREENWIDTH/12,
-                                     CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60,
+                                     CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60 - 20,
                                      SCREENWIDTH - 60,
-                                     50.0f);
+                                     60);
     self.frequencyView.items = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":FrequencySelectors[self.frequencySelector]}];
-    self.frequencyView.isCanSelect = YES;
+    self.frequencyView.isCanSelect = NO;
     
     self.frequencySelectView = [[SelectView alloc] init];
     self.frequencySelectView.titile = @"请选择";
@@ -171,12 +188,14 @@
     self.frequencySelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 150);
     __weak typeof (*&self) weakSelf = self;
    self.frequencySelectView.selectViewBlock = ^(NSInteger index) {
-        weakSelf.frequencySelector = index;
-        weakSelf.frequencyView.items = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":FrequencySelectors[weakSelf.frequencySelector]}];
-        //设置频率
-        if (weakSelf.bluetooth.connectSate == ConnectStateNormal) {
-            [weakSelf.bluetooth changeWorkModel:weakSelf.frequencySelector];
-        }
+       if (weakSelf.bluetooth.equipment) {
+           weakSelf.frequencySelector = index;
+           weakSelf.frequencyView.items = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":FrequencySelectors[weakSelf.frequencySelector]}];
+           //设置频率
+           if (weakSelf.bluetooth.connectSate == ConnectStateNormal) {
+               [weakSelf.bluetooth changeWorkModel:weakSelf.frequencySelector];
+           }
+       }
     };
     
     self.frequencyView.imageTitleDetailViewBlock = ^() {
@@ -188,10 +207,10 @@
     
     self.timeView = [[ImageTitleDetialView alloc] init];
     self.timeView.frame = CGRectMake(SCREENWIDTH/12,
-                                CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60 + 50,
+                                self.frequencyView.frame.origin.y + self.frequencyView.frame.size.height,
                                 SCREENWIDTH - 60,
-                                50.0f);
-    self.timeView.items = @[@{@"image":@"time",@"title":@"Time",@"detail":TimeSelectors[self.timeSelector]}];
+                                60);
+    self.timeView.items = @[@{@"image":@"time",@"title":@"Duration",@"detail":TimeSelectors[self.timeSelector]}];
     self.timeView.isCanSelect = YES;
 
     self.timeSelectView = [[SelectView alloc] init];
@@ -216,40 +235,40 @@
     [self.view addSubview:weakSelf.timeView];
     
     UIView *lineTopView = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12,
-                                                                   CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60,
+                                                                   self.frequencyView.frame.origin.y,
                                                                    SCREENWIDTH - 60,
                                                                    1.5)];
     lineTopView.backgroundColor = [UIColor grayColor];
     [self.view addSubview:lineTopView];
     
     UIView *lineCenterView = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12,
-                                                                   CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60 + 50,
+                                                                   self.timeView.frame.origin.y,
                                                                    SCREENWIDTH - 60,
                                                                    0.5)];
     lineCenterView.backgroundColor = [UIColor grayColor];
     [self.view addSubview:lineCenterView];
     
     UIView *linebottomView = [[UIView alloc] initWithFrame:CGRectMake(SCREENWIDTH/12,
-                                                                      CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60 + 100,
+                                                                      self.timeView.frame.origin.y + 54.0,
                                                                       SCREENWIDTH - 60,
                                                                       0.5)];
     linebottomView.backgroundColor = [UIColor grayColor];
-    [self.view addSubview:linebottomView];
+//    [self.view addSubview:linebottomView];
 }
 
 /***************第四部分**************/
 -(void)addSectionThree
 {
     if (SCREENHEIGHT == 568) {
-        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 120)/2.0, SCREENHEIGHT - 260.0f, 120, 120)];
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 160)/2.0, SCREENHEIGHT - 280, 160, 160)];
 
     } else if (SCREENHEIGHT == 667) {
-        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 150)/2.0, SCREENHEIGHT - 300.0f, 150, 150)];
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 180)/2.0, SCREENHEIGHT - 330.0f, 180, 180)];
 
     } else if (SCREENHEIGHT == 736) {
-        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 180)/2.0, SCREENHEIGHT - 350.0f, 180, 180)];
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 190)/2.0, SCREENHEIGHT - 360.0f, 190, 190)];
     } else if (SCREENHEIGHT == 812) {
-        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 180)/2.0, SCREENHEIGHT - 400.0f, 180, 180)];
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 190)/2.0, SCREENHEIGHT - 410.0f, 190, 190)];
     }
     self.bluetoothStatusView.timers = self.timeDuration;
     self.bluetoothStatusView.statusType = StatusTypeNone;
@@ -274,7 +293,7 @@
                 bindViewController.bindFlag=@"1";
                 bindViewController.bindViewControllerSelectEquiment = ^(Equipment *eq) {
                     for (Equipment *equipmemt in weakSelf.bluetooth.equipments) {
-                        if ([[eq.peripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
+                        if ([[equipmemt.peripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
                             [weakSelf.bluetooth connectEquipment:equipmemt];
                             weakSelf.bluetoothStatusView.isCanTap = NO;
                             break;
@@ -304,13 +323,15 @@
     timeRemaining = self.timeDuration;
     self.bluetoothStatusView.statusType = StatusTypeStop;
     self.bluetoothStatusView.timers = self.timeDuration;
-    
+    treatInfoTmp =  nil;
     //开始治疗
     [self.bluetooth startWork];
     //倒计时
     [self timeCountDown];
+    //定时保存治疗数据
+    [self initTreatInfoTimer];
     
-    beginDate = [NSDate new];
+    beginDate = [NSDate date];
 }
 //停止治疗UI
 - (void)blueStopWorkUI {
@@ -318,13 +339,14 @@
     [self.bluetooth endWork];
     //停止倒计时
     [countDownTimer invalidate];
+    [saveTreatInfoTimer invalidate];
     
     //保存治疗数据到数据库
-    endDate = [NSDate new];
+    endDate = [NSDate date];
     [self saveTreatInfo];
     beginDate = nil;
     endDate = nil;
-    
+    treatInfoTmp = nil;
     //UI
     self.frequencyView.isCanSelect = YES;
     self.timeView.isCanSelect = YES;
@@ -337,6 +359,10 @@
 //倒计时
 - (void)timeCountDown {
     countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
+}
+//定时保存治疗数据
+- (void)initTreatInfoTimer {
+    saveTreatInfoTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(saveTreatInfo) userInfo:nil repeats:YES];
 }
 
 //倒计时处理
@@ -367,17 +393,6 @@
 }
 
 #pragma mark 通知
-////BindViewController选择返回蓝牙信息
-//- (void)sendBluetoothInfoValue:(NSNotification *)notification
-//{
-//    Equipment *eq = [notification.userInfo objectForKey:@"BLEInfo"];
-//    for (Equipment *equipmemt in self.scanednEquipments) {
-//        if ([[eq.peripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
-//            [self.bluetooth connectEquipment:equipmemt];
-//        }
-//    }
-//}
-
 //解除绑定
 - (void)freeBluetoothInfo {
     if (self.bluetooth.equipment) {
@@ -385,6 +400,7 @@
     }
     [self blueStopWorkUI];
     self.bluetoothStatusView.statusType = StatusTypeNone;
+    _bluetooth = nil;
 }
 
 - (void)changeUser {
@@ -395,6 +411,8 @@
     
     [self defaultData];
     self.bluetoothStatusView.statusType = StatusTypeNone;
+    _bluetooth = nil;
+
 }
 
 #pragma mark -- BluetoothDelegate
@@ -427,13 +445,22 @@
 - (void)wearState:(WearState)wearState Error:(NSError *)error {
     if (wearState == WearStateNormal) {
         NSLog(@"WearStateNormal");
+        if (!isWear) {
+            [countDownTimer setFireDate:[NSDate date]];
+            [saveTreatInfoTimer setFireDate:[NSDate date]];
+        }
+        isWear = YES;
     }
     else {
-        //停止治疗
-        [self blueStopWorkUI];
-        
-        //提出警告
-        [self showError:error];
+        //暂停倒计时
+        if (isWear) {
+            [countDownTimer setFireDate:[NSDate distantFuture]];
+            [saveTreatInfoTimer setFireDate:[NSDate distantFuture]];
+
+            //提出警告
+            [self showError:error];
+        }
+        isWear = NO;
     }
 }
 
@@ -463,26 +490,49 @@
 //    存储治疗数据到数据库
 //    初始化数据库
     if (self.timeDuration - timeRemaining > 60 && _patientInfo.PatientID!=nil )  {
-        NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-        
         dbOpration=[[DataBaseOpration alloc] init];
-        
-        TreatInfo *treatInfoTmp=[[TreatInfo alloc] init];
-        treatInfoTmp.PatientID=_patientInfo.PatientID;
-        
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        treatInfoTmp.Date=[dateFormatter stringFromDate:beginDate];
-        
-        treatInfoTmp.Strength = [NSString stringWithFormat:@"%ld",(long)intensityLevel];
-        treatInfoTmp.Frequency = [FrequencySelectors[_frequencySelector] stringByReplacingOccurrencesOfString:@"Hz" withString:@""];
-        treatInfoTmp.Time = TimeSelectorsInteger[_timeSelector];
-        
-        [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm"];
-        treatInfoTmp.BeginTime = [dateFormatter stringFromDate:beginDate];
-        treatInfoTmp.EndTime = [dateFormatter stringFromDate:endDate];
-        treatInfoTmp.CureTime = [NSString stringWithFormat:@"%.ld", (self.timeDuration - timeRemaining)/60];
-        [dbOpration insertTreatInfo:treatInfoTmp];
-        [dbOpration closeDataBase];
+        if (treatInfoTmp) {
+            NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+            treatInfoTmp.PatientID=_patientInfo.PatientID;
+            
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            treatInfoTmp.Date=[dateFormatter stringFromDate:beginDate];
+            
+            treatInfoTmp.Strength = [NSString stringWithFormat:@"%ld",(long)intensityLevel];
+            treatInfoTmp.Frequency = [FrequencySelectors[_frequencySelector] stringByReplacingOccurrencesOfString:@"Hz" withString:@""];
+            treatInfoTmp.Time = TimeSelectorsInteger[_timeSelector];
+            
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+            treatInfoTmp.BeginTime = [dateFormatter stringFromDate:beginDate];
+            treatInfoTmp.EndTime = @"";
+            
+            treatInfoTmp.CureTime = [NSString stringWithFormat:@"%.ld", (self.timeDuration - timeRemaining)/60];
+            //更新
+            [dbOpration updateTreatInfo:treatInfoTmp];
+            [dbOpration closeDataBase];
+        }
+        else {
+            treatInfoTmp=[[TreatInfo alloc] init];
+            
+            NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+            treatInfoTmp.PatientID=_patientInfo.PatientID;
+            
+            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            treatInfoTmp.Date=[dateFormatter stringFromDate:beginDate];
+            
+            treatInfoTmp.Strength = [NSString stringWithFormat:@"%ld",(long)intensityLevel];
+            treatInfoTmp.Frequency = [FrequencySelectors[_frequencySelector] stringByReplacingOccurrencesOfString:@"Hz" withString:@""];
+            treatInfoTmp.Time = TimeSelectorsInteger[_timeSelector];
+            
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+            treatInfoTmp.BeginTime = [dateFormatter stringFromDate:beginDate];
+            treatInfoTmp.EndTime = [dateFormatter stringFromDate:endDate];
+            
+            treatInfoTmp.CureTime = [NSString stringWithFormat:@"%.ld", (self.timeDuration - timeRemaining)/60];
+            //插入
+            [dbOpration insertTreatInfo:treatInfoTmp];
+            [dbOpration closeDataBase];
+        }
         
         NSNotification *notification = [NSNotification notificationWithName:@"SaveTreatInfo" object:nil userInfo:nil];
         [[NSNotificationCenter defaultCenter] postNotification:notification];

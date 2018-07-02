@@ -80,7 +80,6 @@
 		D06B8C561F0142EE00531D8E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D06B8C551F0142EE00531D8E /* AppDelegate.m */; };
 		D06B8C591F0142EE00531D8E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D06B8C581F0142EE00531D8E /* ViewController.m */; };
 		D06B8C5C1F0142EE00531D8E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D06B8C5A1F0142EE00531D8E /* Main.storyboard */; };
-		D06B8C5E1F0142EE00531D8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D06B8C5D1F0142EE00531D8E /* Assets.xcassets */; };
 		D06B8C611F0142EE00531D8E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D06B8C5F1F0142EE00531D8E /* LaunchScreen.storyboard */; };
 		D06B8C6C1F0142EE00531D8E /* SomnormalTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D06B8C6B1F0142EE00531D8E /* SomnormalTests.m */; };
 		D06B8C771F0142EE00531D8E /* SomnormalUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D06B8C761F0142EE00531D8E /* SomnormalUITests.m */; };
@@ -137,6 +136,7 @@
 		E412473320E8D6AB007D6BBA /* AES.m in Sources */ = {isa = PBXBuildFile; fileRef = E412473220E8D6AB007D6BBA /* AES.m */; };
 		E412473620E8D7A5007D6BBA /* NSData+AES128.m in Sources */ = {isa = PBXBuildFile; fileRef = E412473520E8D7A5007D6BBA /* NSData+AES128.m */; };
 		E412473920E8D873007D6BBA /* NSData+AES256.m in Sources */ = {isa = PBXBuildFile; fileRef = E412473820E8D873007D6BBA /* NSData+AES256.m */; };
+		E4B9485B20EA8571003DB05A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4B9485A20EA8571003DB05A /* Assets.xcassets */; };
 		E4E320CA20DF71E1005041A0 /* ShowLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E320C920DF71E1005041A0 /* ShowLinkViewController.m */; };
 		E905492D20D1078600F39334 /* ColorsSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492C20D1078600F39334 /* ColorsSliderView.m */; };
 		E905493020D11BFC00F39334 /* SelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492F20D11BFC00F39334 /* SelectView.m */; };
@@ -303,7 +303,6 @@
 		D06B8C571F0142EE00531D8E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		D06B8C581F0142EE00531D8E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D06B8C5B1F0142EE00531D8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D06B8C5D1F0142EE00531D8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D06B8C601F0142EE00531D8E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D06B8C621F0142EE00531D8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D06B8C671F0142EE00531D8E /* CervellaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CervellaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -393,6 +392,7 @@
 		E412473520E8D7A5007D6BBA /* NSData+AES128.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES128.m"; sourceTree = "<group>"; };
 		E412473720E8D873007D6BBA /* NSData+AES256.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+AES256.h"; sourceTree = "<group>"; };
 		E412473820E8D873007D6BBA /* NSData+AES256.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES256.m"; sourceTree = "<group>"; };
+		E4B9485A20EA8571003DB05A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4E320C820DF71E1005041A0 /* ShowLinkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowLinkViewController.h; sourceTree = "<group>"; };
 		E4E320C920DF71E1005041A0 /* ShowLinkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowLinkViewController.m; sourceTree = "<group>"; };
 		E905492B20D1078600F39334 /* ColorsSliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorsSliderView.h; sourceTree = "<group>"; };
@@ -842,10 +842,10 @@
 			children = (
 				D06B8C541F0142EE00531D8E /* AppDelegate.h */,
 				D06B8C551F0142EE00531D8E /* AppDelegate.m */,
+				E4B9485A20EA8571003DB05A /* Assets.xcassets */,
 				D06B8C571F0142EE00531D8E /* ViewController.h */,
 				D06B8C581F0142EE00531D8E /* ViewController.m */,
 				D06B8C5A1F0142EE00531D8E /* Main.storyboard */,
-				D06B8C5D1F0142EE00531D8E /* Assets.xcassets */,
 				D06B8C5F1F0142EE00531D8E /* LaunchScreen.storyboard */,
 				D06B8C621F0142EE00531D8E /* Info.plist */,
 				D06B8C511F0142EE00531D8E /* Supporting Files */,
@@ -1221,13 +1221,13 @@
 				D07B34831F135A930077B2F9 /* HelpViewController.xib in Resources */,
 				D04377DB1F04CA500061F279 /* MeViewController.xib in Resources */,
 				D07B34751F135A2A0077B2F9 /* AttentionList.plist in Resources */,
+				E4B9485B20EA8571003DB05A /* Assets.xcassets in Resources */,
 				D07B34741F135A2A0077B2F9 /* AttentionDetailViewController.xib in Resources */,
 				D07B346B1F135A040077B2F9 /* PrincipleViewController.xib in Resources */,
 				D07B34BE1F13887D0077B2F9 /* AnswerList.plist in Resources */,
 				D07B34771F135A2A0077B2F9 /* AttentionViewController.xib in Resources */,
 				D04377D11F04CA2B0061F279 /* StartsViewController.xib in Resources */,
 				D022E0DB1F0F3BC600D92F7C /* TreatDataViewController.xib in Resources */,
-				D06B8C5E1F0142EE00531D8E /* Assets.xcassets in Resources */,
 				D022E0E01F0F3BD800D92F7C /* AssessDataViewController.xib in Resources */,
 				D04377221F02688B0061F279 /* iHappySleep.db in Resources */,
 				D07B348D1F135ACA0077B2F9 /* ConfigRequireViewController.xib in Resources */,

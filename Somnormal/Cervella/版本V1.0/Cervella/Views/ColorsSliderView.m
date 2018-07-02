@@ -8,7 +8,6 @@
 
 #import "ColorsSliderView.h"
 @interface ColorsSliderView ()
-@property (nonatomic, strong) NSArray *btnsArr;
 @property (nonatomic, strong) NSArray *imgsArr;
 
 @end
@@ -18,8 +17,8 @@
 - (id)init {
     self = [super init];
     if (self) {
-        for (UIButton *btn in self.btnsArr) {
-            [self addSubview:btn];
+        for (UIImageView *imgV in self.imgsArr) {
+            [self addSubview:imgV];
         }
     }
     return self;
@@ -27,66 +26,68 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    for (UIButton *btn in self.btnsArr) {
-        btn.frame = CGRectMake(colorSliderd_d * btn.tag + colorSliderWidth * (btn.tag-1),
+    for (UIImageView *imgV in self.imgsArr) {
+        imgV.frame = CGRectMake(colorSliderd_d * imgV.tag + colorSliderWidth * (imgV.tag-1),
                                0,
                                colorSliderWidth,
                                colorSliderHeight);
     }
 }
 
-
-- (void)btnAction:(UIButton *)button {
-    if (_level < button.tag) {
-        _level = _level + 1;
-    }
-    else if (self.level > button.tag) {
-        _level = _level - 1;
-    }
-    for (UIButton *btn in self.btnsArr) {
-        if (btn.tag <= _level) {
-            btn.selected = YES;
-        } else {
-            btn.selected = NO;
-        }
-    }
-    
+- (void)tapAction:(UITapGestureRecognizer *)tap {
+    UIImageView *imageV = (UIImageView *)tap.view;
+//    if (_level < imageV.tag) {
+//        self.level = _level + 1;
+//    }
+//    else if (self.level > imageV.tag) {
+//        self.level = _level - 1;
+//    }
     if ([self.delegate respondsToSelector:@selector(selectIndex:)]) {
-        [self.delegate selectIndex:_level];
+        [self.delegate selectIndex:imageV.tag];
     }
 }
 
-- (NSArray *)btnsArr {
-    if (!_btnsArr) {
+
+- (NSArray *)imgsArr {
+    if (!_imgsArr) {
         NSMutableArray *arr = [NSMutableArray arrayWithCapacity:10];
         for (NSInteger k = 1; k <= 10; k++) {
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-            btn.tag = k;
-            [btn addTarget:self action:@selector(btnAction:) forControlEvents:UIControlEventTouchUpInside];
-            [btn setImage:[UIImage imageNamed:@"ces_ball_grey"] forState:UIControlStateNormal];
-            if (k <= 3) {
-                [btn setImage:[UIImage imageNamed:@"ces_ball_green"] forState:UIControlStateSelected];
-            } else if (k <= 6) {
-                [btn setImage:[UIImage imageNamed:@"ces_ball_yellow"] forState:UIControlStateSelected];
-            } else if (k <= 8) {
-                [btn setImage:[UIImage imageNamed:@"ces_ball_orange"] forState:UIControlStateSelected];
-            } else if (k <= 10) {
-                [btn setImage:[UIImage imageNamed:@"ces_ball_red"] forState:UIControlStateSelected];
-            }
-            //top left bottom right
-            [btn setImageEdgeInsets:UIEdgeInsetsMake(0, 5, 0, 5)];
-            [arr addObject:btn];
-        }
-        _btnsArr = arr;
-    }
-    return _btnsArr;
-}
+            UIImageView *imageV = [[UIImageView alloc] init];
+            imageV.userInteractionEnabled = YES;
+            imageV.image = [UIImage imageNamed:@"ces_ball_grey"];
 
+            imageV.tag = k;
+            
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapAction:)];
+            [imageV addGestureRecognizer:tap];
+            [arr addObject:imageV];
+        }
+        _imgsArr = arr;
+    }
+    return _imgsArr;
+}
 
 - (void)setLevel:(NSInteger)level {
     _level = level;
-    UIButton *btn = self.btnsArr[level];
-    [self btnAction:btn];
+//    UIButton *btn = self.btnsArr[level];
+//    [self btnAction:btn];
+    for (UIImageView *imgV in self.imgsArr) {
+        if (imgV.tag <= _level) {
+            if (imgV.tag <= 3) {
+                imgV.image = [UIImage imageNamed:@"ces_ball_green"];
+            } else if (imgV.tag <= 6) {
+                imgV.image = [UIImage imageNamed:@"ces_ball_yellow"];
+            } else if (imgV.tag <= 8) {
+                imgV.image = [UIImage imageNamed:@"ces_ball_orange"];
+
+            } else if (imgV.tag <= 10) {
+                imgV.image = [UIImage imageNamed:@"ces_ball_red"];
+            }
+        }
+        else {
+            imgV.image = [UIImage imageNamed:@"ces_ball_grey"];
+        }
+    }
 }
 
 

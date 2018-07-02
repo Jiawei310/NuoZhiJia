@@ -42,7 +42,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50;
+    return 60;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -53,12 +53,25 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:Identifier];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
+        UIImageView *imgV = [[UIImageView alloc] init];
+        imgV.frame = CGRectMake(0, 0, 60, 60);
+        imgV.tag = 10;
+        [cell.contentView addSubview:imgV];
+        
+        UILabel *titleLab = [[UILabel alloc] init];
+        titleLab.frame = CGRectMake(65, 0, 100, 60);
+        titleLab.font = [UIFont systemFontOfSize:18.0];
+        titleLab.tag = 11;
+        [cell.contentView addSubview:titleLab];
     }
     NSDictionary *dict = self.items[indexPath.row];
+    UIImageView *imgV = [cell.contentView viewWithTag:10];
+    imgV.image = [UIImage imageNamed:dict[@"image"]];
     
-    cell.imageView.image = [UIImage imageNamed:dict[@"image"]];
-    cell.textLabel.text = dict[@"title"];
+    UILabel *titleLab = [cell.contentView viewWithTag:11];
+    titleLab.text =  dict[@"title"];
     cell.detailTextLabel.text = dict[@"detail"];
+    cell.detailTextLabel.font = [UIFont systemFontOfSize:18];
     
     return cell;
 }
@@ -75,32 +88,13 @@
             jxt_dismissHUD();
         });
     }
-    
-//    if ([dict[@"title"] isEqualToString:@"Frequency"]) {
-//        self.selectView.items = FrequencyArr;
-//        [self.selectView showViewInView:self.superview];
-//    }
-//    else if ([dict[@"title"] isEqualToString:@"Time"]) {
-//        self.selectView.items = TimeArr;
-//        [self.selectView showViewInView:self.superview];
-//    }
-
 }
-
-//#pragma mark - SelectViewDelegate
-//- (void)selectIndex:(NSInteger)index {
-//    if ([self.delegate respondsToSelector:@selector(selectIndex:)]) {
-//        self.selector = index;
-//        [self.delegate selectIndex:index];
-//    }
-//}
 
 #pragma mark - get
 
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] init];
-        [_tableView.layer setCornerRadius:10.0];
         _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.delegate = self;

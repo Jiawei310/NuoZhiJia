@@ -29,10 +29,10 @@
                     </constraints>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yfl-xe-dbl">
-                    <rect key="frame" x="97" y="244" width="126" height="37"/>
+                    <rect key="frame" x="69" y="466" width="182" height="44"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="125.5" id="e6P-1L-B0q"/>
-                        <constraint firstAttribute="height" constant="37" id="vJK-J0-bL3"/>
+                        <constraint firstAttribute="width" constant="182" id="e6P-1L-B0q"/>
+                        <constraint firstAttribute="height" constant="44" id="vJK-J0-bL3"/>
                     </constraints>
                     <state key="normal" title="Button" image="btn_exit"/>
                     <connections>
@@ -43,7 +43,7 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="Okp-cj-24M" secondAttribute="trailing" id="9HN-MW-4sB"/>
-                <constraint firstItem="Yfl-xe-dbl" firstAttribute="top" secondItem="Okp-cj-24M" secondAttribute="bottom" constant="44" id="KkP-m2-lk0"/>
+                <constraint firstAttribute="bottom" secondItem="Yfl-xe-dbl" secondAttribute="bottom" constant="58" id="EPU-3G-qJk"/>
                 <constraint firstItem="Okp-cj-24M" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="TEQ-0i-oeM"/>
                 <constraint firstItem="Okp-cj-24M" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="r1U-67-yp5"/>
                 <constraint firstItem="Yfl-xe-dbl" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="rnP-i8-CSi"/>

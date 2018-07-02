@@ -85,14 +85,21 @@
     for (NSInteger index = 0; index < self.itemCount; index++)
     {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue] + 18, self.navTabBarHeight);
-        if (SCREENHEIGHT == 736) {
-            button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue] + 10, self.navTabBarHeight);
+        button.frame = CGRectMake(buttonX, DOT_COORDINATE, [widths[index] floatValue], self.navTabBarHeight);
+        ////top left bottom right
+        if (SCREENHEIGHT == 568) {
+            [button setImageEdgeInsets:UIEdgeInsetsMake(5, 36, 5, 36)];
+        } else if (SCREENHEIGHT == 667) {
+            [button setImageEdgeInsets:UIEdgeInsetsMake(8, 40, 8, 40)];
+        } else if (SCREENHEIGHT == 736) {
+            [button setImageEdgeInsets:UIEdgeInsetsMake(8, 44, 8, 44)];
+        }
+        else if (SCREENHEIGHT == 812) {
+            [button setImageEdgeInsets:UIEdgeInsetsMake(8, 41, 8, 41)];
         }
         if (self.isNavTabBarImage) {
             [button setImage:[UIImage imageNamed:self.itemImages[index][normalImage]] forState:UIControlStateNormal];
             [button setImage:[UIImage imageNamed:self.itemImages[index][selectedImage]] forState:UIControlStateSelected];
-            [button setImageEdgeInsets:UIEdgeInsetsMake(5, 45, 5, 45)];//top left bottom right
         } else {
             [button setTitle:_itemTitles[index] forState:UIControlStateNormal];
             button.titleLabel.font = [UIFont systemFontOfSize:23];
