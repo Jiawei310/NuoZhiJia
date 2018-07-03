@@ -23,7 +23,7 @@
 #define FrequencySelectors @[@"0.5Hz",@"1.5Hz",@"100Hz"]
 #define FrequencySelectorsInteger @[@"1",@"2",@"3"]
 
-#define TimeSelectors @[@"10min",@"20min",@"30min",@"40min",@"50min",@"60min"]
+#define TimeSelectors @[@"10Min",@"20Min",@"30Min",@"40Min",@"50Min",@"60Min"]
 #define TimeSelectorsInteger @[@"600",@"1200",@"1800",@"2400",@"3000",@"3600"]
 
 @interface StartsViewController ()<NSXMLParserDelegate,NSURLConnectionDelegate, ColorsSliderViewDelegate, BluetoothDelegate>
@@ -51,7 +51,6 @@
 @property (strong,nonatomic) SelectView *timeSelectView;
 @property (strong,nonatomic) BluetoothStatusView *bluetoothStatusView;
 
-
 @end
 
 @implementation StartsViewController
@@ -76,6 +75,10 @@
     //当前治疗
     NSTimer *saveTreatInfoTimer;
     TreatInfo *treatInfoTmp;
+    
+    //1分钟无治疗断掉
+    NSTimer *unConnectTimer;
+    
     
 }
 @synthesize webData,soapResults,xmlParser,elementFound,matchingElement,conn;
@@ -107,14 +110,13 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
     self.bluetooth.delegate = self;
-
-
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [countDownTimer invalidate];
     [saveTreatInfoTimer invalidate];
+    [unConnectTimer invalidate];
 }
 
 #pragma  mark - init
@@ -136,7 +138,7 @@
     electricLabel.font = [UIFont systemFontOfSize:20];
     electricLabel.text=@"Intensity Level";
     
-    intensityLevelLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH-SCREENWIDTH/4, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT/30 - 5 , SCREENWIDTH/8, 40)];
+    intensityLevelLabel=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH-SCREENWIDTH/4 + 10, CES_SCREENH_HEIGHT/30+CES_SCREENH_HEIGHT/30 - 5 , SCREENWIDTH/8, 40)];
     intensityLevelLabel.font = [UIFont systemFontOfSize:20];
     intensityLevelLabel.textColor = [UIColor redColor];
     intensityLevelLabel.text = [NSString stringWithFormat:@"%ld",(long)intensityLevel];
@@ -145,7 +147,7 @@
     [self.view addSubview:intensityLevelLabel];
     
     colorsSliderView = [[ColorsSliderView alloc] init];
-    colorsSliderView.frame = CGRectMake(40, SCREENHEIGHT/6.6, SCREENWIDTH - 80, 40);
+    colorsSliderView.frame = CGRectMake(40, SCREENHEIGHT/6.6 - 10, SCREENWIDTH - 80, 40);
     colorsSliderView.delegate = self;
     colorsSliderView.level = intensityLevel;
     [self.view addSubview:colorsSliderView];
@@ -176,7 +178,7 @@
 {
     self.frequencyView = [[ImageTitleDetialView alloc] init];
     self.frequencyView.frame = CGRectMake(SCREENWIDTH/12,
-                                     CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60 - 20,
+                                     CES_SCREENH_HEIGHT/25+CES_SCREENH_HEIGHT*5/16+CES_SCREENH_HEIGHT/60 - 48,
                                      SCREENWIDTH - 60,
                                      60);
     self.frequencyView.items = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":FrequencySelectors[self.frequencySelector]}];
@@ -260,15 +262,13 @@
 -(void)addSectionThree
 {
     if (SCREENHEIGHT == 568) {
-        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 160)/2.0, SCREENHEIGHT - 280, 160, 160)];
-
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 160)/2.0, SCREENHEIGHT - 300, 160, 160)];
     } else if (SCREENHEIGHT == 667) {
-        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 180)/2.0, SCREENHEIGHT - 330.0f, 180, 180)];
-
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 200)/2.0, SCREENHEIGHT - 360.0f, 200, 200)];
     } else if (SCREENHEIGHT == 736) {
-        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 190)/2.0, SCREENHEIGHT - 360.0f, 190, 190)];
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 200)/2.0, SCREENHEIGHT - 380.0f, 200, 200)];
     } else if (SCREENHEIGHT == 812) {
-        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 190)/2.0, SCREENHEIGHT - 410.0f, 190, 190)];
+        self.bluetoothStatusView = [[BluetoothStatusView alloc] initWithFrame:CGRectMake((SCREENWIDTH - 200)/2.0, SCREENHEIGHT - 440.0f, 200, 200)];
     }
     self.bluetoothStatusView.timers = self.timeDuration;
     self.bluetoothStatusView.statusType = StatusTypeNone;
@@ -284,6 +284,14 @@
                         //链接蓝牙设备
                         [weakSelf.bluetooth connectEquipment:eq];
                         weakSelf.bluetoothStatusView.isCanTap = NO;
+                        
+                        NSString *str = weakSelf.bluetoothInfo.deviceName;
+                        str = [str stringByReplacingOccurrencesOfString:@"Sleep4U" withString:@"Cervella"];
+                        NSString *alertStr = [NSString stringWithFormat:@"Attempting to connect to:%@", str];
+                        jxt_showTextHUDTitleMessage(@"Connecting to Cervella", alertStr);
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            jxt_dismissHUD();
+                        });
                         break;
                     }
                 }
@@ -332,6 +340,11 @@
     [self initTreatInfoTimer];
     
     beginDate = [NSDate date];
+    
+    //停止60分钟检测
+    [unConnectTimer invalidate];
+    unConnectTimer = nil;
+    
 }
 //停止治疗UI
 - (void)blueStopWorkUI {
@@ -354,6 +367,9 @@
     self.bluetoothStatusView.statusType = StatusTypeStart;
     self.bluetoothStatusView.timers = self.timeDuration;
     [self.bluetoothStatusView updateProgressWithPercent:0.001];
+    
+    //启动60分钟检查
+    [self initUnConnectTimer];
 }
 
 //倒计时
@@ -363,6 +379,11 @@
 //定时保存治疗数据
 - (void)initTreatInfoTimer {
     saveTreatInfoTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(saveTreatInfo) userInfo:nil repeats:YES];
+}
+
+//60秒没有治疗直接断开链接
+- (void)initUnConnectTimer {
+    unConnectTimer = [NSTimer scheduledTimerWithTimeInterval:60.0 target:self selector:@selector(unConnectEquiment) userInfo:nil repeats:NO];
 }
 
 //倒计时处理
@@ -378,6 +399,9 @@
     }
 }
 
+- (void)unConnectEquiment {
+    [self freeBluetoothInfo];
+}
 //显示错误
 - (void)showError:(NSError *)error {
     if (error) {
@@ -393,7 +417,7 @@
 }
 
 #pragma mark 通知
-//解除绑定
+//解除绑定 或 断开蓝牙
 - (void)freeBluetoothInfo {
     if (self.bluetooth.equipment) {
         [self.bluetooth stopConnectEquipment:self.bluetooth.equipment];
@@ -428,7 +452,7 @@
         self.bluetoothStatusView.statusType = StatusTypeStart;
         self.bluetoothStatusView.timers = self.timeDuration;
         //Pairing successful!
-        jxt_showTextHUDTitleMessage(@"", @"Pairing successful!");
+        jxt_showTextHUDTitleMessage(@"", @"Connect successful!");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -436,9 +460,15 @@
         [self saveConnectEquiment];
         //上传服务器硬件设备
         [self postBindDevice:self.bluetooth.equipment.deviceCode];
+        
+        //启动60分钟检查
+        [self initUnConnectTimer];
     }
     else {
         [self showError:error];
+
+        //链接异常断开蓝牙停止治疗
+        [self freeBluetoothInfo];
     }
 }
 
@@ -477,7 +507,11 @@
     BluetoothInfo *bluetoothInfo = [[BluetoothInfo alloc] init];
     bluetoothInfo.saveId = @"1";
     bluetoothInfo.peripheralIdentify = self.bluetooth.equipment.peripheral.identifier.UUIDString;
-    bluetoothInfo.deviceName = self.bluetooth.equipment.peripheral.name;
+    
+    NSString *str = self.bluetooth.equipment.peripheral.name;
+    str = [str stringByReplacingOccurrencesOfString:@"Sleep4U" withString:@"Cervella"];
+    bluetoothInfo.deviceName = str;
+    
     bluetoothInfo.deviceCode = self.bluetooth.equipment.deviceCode;
     bluetoothInfo.deviceElectric = [NSString stringWithFormat:@"%ld", self.bluetooth.equipment.battery];
     
@@ -495,14 +529,14 @@
             NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
             treatInfoTmp.PatientID=_patientInfo.PatientID;
             
-            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            [dateFormatter setDateFormat:@"yyyy.MM.dd"];
             treatInfoTmp.Date=[dateFormatter stringFromDate:beginDate];
             
             treatInfoTmp.Strength = [NSString stringWithFormat:@"%ld",(long)intensityLevel];
             treatInfoTmp.Frequency = [FrequencySelectors[_frequencySelector] stringByReplacingOccurrencesOfString:@"Hz" withString:@""];
             treatInfoTmp.Time = TimeSelectorsInteger[_timeSelector];
             
-            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+            [dateFormatter setDateFormat:@"yyyy.MM.dd HH:mm"];
             treatInfoTmp.BeginTime = [dateFormatter stringFromDate:beginDate];
             treatInfoTmp.EndTime = @"";
             
@@ -517,14 +551,14 @@
             NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
             treatInfoTmp.PatientID=_patientInfo.PatientID;
             
-            [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+            [dateFormatter setDateFormat:@"yyyy.MM.dd"];
             treatInfoTmp.Date=[dateFormatter stringFromDate:beginDate];
             
             treatInfoTmp.Strength = [NSString stringWithFormat:@"%ld",(long)intensityLevel];
             treatInfoTmp.Frequency = [FrequencySelectors[_frequencySelector] stringByReplacingOccurrencesOfString:@"Hz" withString:@""];
             treatInfoTmp.Time = TimeSelectorsInteger[_timeSelector];
             
-            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+            [dateFormatter setDateFormat:@"yyyy.MM.dd HH:mm"];
             treatInfoTmp.BeginTime = [dateFormatter stringFromDate:beginDate];
             treatInfoTmp.EndTime = [dateFormatter stringFromDate:endDate];
             

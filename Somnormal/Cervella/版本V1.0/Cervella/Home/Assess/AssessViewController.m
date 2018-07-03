@@ -77,7 +77,7 @@
     EndDate=[NSDate date];
     BegainDate=[EndDate initWithTimeIntervalSinceNow:-10*24*60*60];
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    [dateFormatter setDateFormat:@"yyyy.MM.dd"];
     BegainTime=[dateFormatter stringFromDate:BegainDate];
     EndTime=[dateFormatter stringFromDate:EndDate];
     

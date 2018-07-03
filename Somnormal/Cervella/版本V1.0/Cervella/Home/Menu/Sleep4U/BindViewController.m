@@ -137,7 +137,9 @@
     
     
     Equipment *eq = [arrayBLE objectAtIndex:indexPath.row];
-    nameLabel.text = eq.peripheral.name;
+    NSString *str = eq.peripheral.name;
+    str = [str stringByReplacingOccurrencesOfString:@"Sleep4U" withString:@"Cervella"];
+    nameLabel.text = str;
     
     NSString* uuid = [NSString stringWithFormat:@"%@",[eq.peripheral identifier]];
     uuid = [uuid substringFromIndex:[uuid length] - 13];

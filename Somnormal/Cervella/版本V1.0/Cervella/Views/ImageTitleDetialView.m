@@ -54,12 +54,12 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         UIImageView *imgV = [[UIImageView alloc] init];
-        imgV.frame = CGRectMake(0, 0, 60, 60);
+        imgV.frame = CGRectMake(0, 10, 40, 40);
         imgV.tag = 10;
         [cell.contentView addSubview:imgV];
         
         UILabel *titleLab = [[UILabel alloc] init];
-        titleLab.frame = CGRectMake(65, 0, 100, 60);
+        titleLab.frame = CGRectMake(52, 0, 100, 60);
         titleLab.font = [UIFont systemFontOfSize:18.0];
         titleLab.tag = 11;
         [cell.contentView addSubview:titleLab];
@@ -72,6 +72,7 @@
     titleLab.text =  dict[@"title"];
     cell.detailTextLabel.text = dict[@"detail"];
     cell.detailTextLabel.font = [UIFont systemFontOfSize:18];
+    cell.detailTextLabel.textColor = [UIColor colorWithRed:30/255.0 green:128/255.0 blue:211/255.0 alpha:1.0];
     
     return cell;
 }

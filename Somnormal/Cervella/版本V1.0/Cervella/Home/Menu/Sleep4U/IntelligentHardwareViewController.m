@@ -81,7 +81,7 @@
     [self.view.layer addSublayer:myLayer];
 
     percentLabel.textAlignment=NSTextAlignmentCenter;
-    percentLabel.font=[UIFont systemFontOfSize:20];
+    percentLabel.font=[UIFont systemFontOfSize:30];
     [myLayer addSublayer:percentLabel.layer];
     
     
@@ -89,7 +89,7 @@
     UILabel *batteryLab = [[UILabel alloc] init];
     batteryLab.frame = CGRectMake(30, myLayer.frame.size.height + myLayer.frame.origin.y + 15, SCREENWIDTH - 60, 30);
     batteryLab.textAlignment = NSTextAlignmentCenter;
-    batteryLab.text = @"Cervella Battery Level";
+    batteryLab.text = @"Cervella's Battery Level";
     [self.view addSubview:batteryLab];
     
     UIView *lineOne=[[UIView alloc] initWithFrame:CGRectMake(0, batteryLab.frame.origin.y + 40, SCREENWIDTH, 1)];
@@ -109,13 +109,13 @@
     
     //device num
     UILabel *deviceNumLab = [[UILabel alloc] init];
-    deviceNumLab.frame = CGRectMake(30, lineTwo.frame.size.height + lineTwo.frame.origin.y + 15, SCREENWIDTH - 60, 30);
+    deviceNumLab.frame = CGRectMake(15, lineTwo.frame.size.height + lineTwo.frame.origin.y + 15, SCREENWIDTH - 30, 15);
     deviceNumLab.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:deviceNumLab];
 
     if (self.isBind) {
         deviceNumLab.hidden = NO;
-        deviceNumLab.text = self.bluetoothInfo.deviceName;
+        deviceNumLab.text = [NSString stringWithFormat:@"Serial Number:%@",self.bluetoothInfo.deviceName];
     } else {
         deviceNumLab.hidden = YES;
     }
@@ -123,21 +123,21 @@
     /**************Data*************/
     if (self.isBind)
     {
-        [turnBtn setTitle:@"Unbind Cervella" forState:UIControlStateNormal];
+        [turnBtn setTitle:@"Unpair Cervella" forState:UIControlStateNormal];
         if (self.bluetooth.equipment)
         {
             percentLabel.text = [NSString stringWithFormat:@"%ld%%", self.bluetooth.equipment.battery];
         }
         else
         {
-            percentLabel.text=@"Touch to connect";
+            percentLabel.text=@"- -";
         }
     }
     else
     {
         [turnBtn setTitle:@"Search for Cervella" forState:UIControlStateNormal];
 
-        percentLabel.text=@"Touch to connect";
+        percentLabel.text=@"- -";
     }
   
     [self setupLayer];

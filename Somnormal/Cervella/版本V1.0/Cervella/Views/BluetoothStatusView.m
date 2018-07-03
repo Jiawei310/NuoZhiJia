@@ -88,7 +88,7 @@
         _backLayer = [CAShapeLayer layer];
         CGRect rect = CGRectMake(line_W * 2, line_W * 2, self.frame.size.width - line_W * 4, self.frame.size.height - line_W * 4);
         UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:rect];
-        _backLayer.strokeColor = [UIColor colorWithRed:69/255.0 green:137/255.0 blue:211/255.0 alpha:1].CGColor;
+        _backLayer.strokeColor = [UIColor colorWithRed:30/255.0 green:128/255.0 blue:211/255.0 alpha:1.0].CGColor;
         _backLayer.lineWidth = line_W;
         _backLayer.fillColor = [UIColor clearColor].CGColor;
         _backLayer.lineCap = kCALineCapRound;
@@ -102,7 +102,7 @@
         _progressLayer = [CAShapeLayer layer];
         _progressLayer.fillColor = [UIColor clearColor].CGColor;
         _progressLayer.strokeColor = [UIColor greenColor].CGColor;
-        _progressLayer.lineWidth = line_W * 2;
+        _progressLayer.lineWidth = line_W;
         _progressLayer.lineCap = kCALineCapRound;
         CGRect rect = CGRectMake(line_W * 2, line_W * 2, self.frame.size.width - line_W * 4, self.frame.size.height - line_W * 4);
         UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:rect];
@@ -123,6 +123,7 @@
         _timeLab = [[UILabel alloc] init];
         _timeLab.textAlignment = NSTextAlignmentCenter;
         _timeLab.textColor = [UIColor grayColor];
+        _timeLab.font = [UIFont systemFontOfSize:20];
     }
     return _timeLab;
 }
@@ -132,6 +133,7 @@
         _startLab = [[UILabel alloc] init];
         _startLab.textAlignment = NSTextAlignmentCenter;
         _startLab.textColor = [UIColor grayColor];
+        _startLab.font = [UIFont systemFontOfSize:20];
     }
     return _startLab;
 }
@@ -139,8 +141,13 @@
 - (void)setStatusType:(StatusType)statusType {
     _statusType = statusType;
     
-    self.timeLab.frame = CGRectMake(5, (self.frame.size.height - 30)/2.0, self.frame.size.width - 10, 30);
+    self.timeLab.frame = CGRectMake(5, (self.frame.size.height - 40)/2.0, self.frame.size.width - 10, 40);
+    self.timeLab.font = [UIFont systemFontOfSize:34];
+    self.startLab.font = [UIFont systemFontOfSize:30];
+
     if (statusType == StatusTypeNone) {
+        self.timeLab.font = [UIFont systemFontOfSize:20];
+        self.startLab.font = [UIFont systemFontOfSize:20];
         //Touch to Pair
         if (self.bluetoothInfo) {
             self.timeLab.text = @"Touch to Connect";
@@ -152,18 +159,20 @@
     }
     else if (statusType == StatusTypeStart) {
         self.startLab.hidden = NO;
+        self.timeLab.frame = CGRectMake(5, (self.frame.size.height - 40)/2.0 - 10, self.frame.size.width - 10, 40);
+
         self.startLab.frame = CGRectMake(24,
-                                         self.timeLab.frame.size.height + self.timeLab.frame.origin.y,
+                                         self.timeLab.frame.size.height + self.timeLab.frame.origin.y - 5,
                                          self.frame.size.width - 48,
                                          30);
         self.startLab.text = @"Start";
         self.timeLab.text = [NSString stringWithFormat:@"%.2ld:%.2ld", self.timers/60, self.timers%60];
-
     }
     else if (statusType == StatusTypeStop) {
         self.startLab.hidden = NO;
+        self.timeLab.frame = CGRectMake(5, (self.frame.size.height - 40)/2.0 - 10, self.frame.size.width - 10, 40);
         self.startLab.frame = CGRectMake(5,
-                                         self.timeLab.frame.size.height + self.timeLab.frame.origin.y,
+                                         self.timeLab.frame.size.height + self.timeLab.frame.origin.y - 5,
                                          self.frame.size.width - 10,
                                          30);
         self.startLab.text = @"Stop";

@@ -140,7 +140,11 @@
         _birthLabel.font=[UIFont systemFontOfSize:16*Rate_NAV_H];
         if (_patientInfo.Birthday.length > 0)
         {
-            _birthLabel.text = _patientInfo.Birthday;
+            NSString *str = _patientInfo.Birthday;
+            if ([str containsString:@"-"]) {
+                str = [str stringByReplacingOccurrencesOfString:@"-" withString:@"."];
+            }
+            _birthLabel.text = str;
         }
         
         [cell.contentView addSubview:_birthLabel];

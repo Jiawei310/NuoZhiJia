@@ -64,30 +64,30 @@
     // Do any additional setup after loading the view from its nib.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTreatInfo) name:@"SaveTreatInfo" object:nil];
 
-    UILabel *dateOne_Label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH*2/7, SCREENHEIGHT/20)];
+    UILabel *dateOne_Label=[[UILabel alloc] initWithFrame:CGRectMake(0, 10, SCREENWIDTH*2/7, SCREENHEIGHT/20)];
     dateOne_Label.text=@"Date：";
     dateOne_Label.textAlignment=NSTextAlignmentCenter;
     
     dateOne_Button=[UIButton buttonWithType:UIButtonTypeSystem];
     dateOne_Button.tag=1;
-    dateOne_Button.frame=CGRectMake(SCREENWIDTH*2/7, 0, SCREENWIDTH*2/7, SCREENHEIGHT/20);
+    dateOne_Button.frame=CGRectMake(SCREENWIDTH*2/7 - 10, 10, SCREENWIDTH*2/7, SCREENHEIGHT/20);
     EndDate=[NSDate date];
     BegainDate=[EndDate initWithTimeIntervalSinceNow:-6*24*60*60];
     NSLog(@"%@",BegainDate);
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    [dateFormatter setDateFormat:@"yyyy.MM.dd"];
     BegainTime=[dateFormatter stringFromDate:BegainDate];
     yearBegainIndex=[[BegainTime substringWithRange:NSMakeRange(0, 4)] integerValue]-1900;
     monthBegainIndex=[[BegainTime substringWithRange:NSMakeRange(5, 2)] integerValue]-1;
     dayBegainIndex=[[BegainTime substringWithRange:NSMakeRange(8, 2)] integerValue]-1;
     [dateOne_Button setTitle:BegainTime forState:UIControlStateNormal];
     [dateOne_Button addTarget:self action:@selector(chooseDateClick:) forControlEvents:UIControlEventTouchUpInside];
-    UILabel *dateTwo_Label=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*4/7, 0, SCREENWIDTH/7, SCREENHEIGHT/20)];
-    dateTwo_Label.text=@"To";
+    UILabel *dateTwo_Label=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*4/7- 5, 10, SCREENWIDTH/7, SCREENHEIGHT/20)];
+    dateTwo_Label.text=@"To：";
     dateTwo_Label.textAlignment=NSTextAlignmentCenter;
     dateTwo_Button=[UIButton buttonWithType:UIButtonTypeSystem];
     dateTwo_Button.tag=2;
-    dateTwo_Button.frame=CGRectMake(SCREENWIDTH*5/7, 0, SCREENWIDTH*2/7, SCREENHEIGHT/20);
+    dateTwo_Button.frame=CGRectMake(SCREENWIDTH*5/7 - 10, 10, SCREENWIDTH*2/7, SCREENHEIGHT/20);
     EndTime=[dateFormatter stringFromDate:EndDate];
     yearEndIndex=[[EndTime substringWithRange:NSMakeRange(0, 4)] integerValue]-1900;
     monthEndIndex=[[EndTime substringWithRange:NSMakeRange(5, 2)] integerValue]-1;
@@ -111,29 +111,33 @@
     [self.view addSubview:dateTwo_Button];
     
     //添加显示的菜单
-    UIView *viewOne=[[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/20, SCREENWIDTH, 1)];
-    viewOne.backgroundColor=[UIColor blackColor];
-    UILabel *label_date=[[UILabel alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/20, SCREENWIDTH/4, SCREENHEIGHT/20)];
+    UIView *viewOne=[[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/20 + 10, SCREENWIDTH, 1)];
+    viewOne.backgroundColor=[UIColor grayColor];
+    viewOne.alpha = 0.5;
+    
+    UILabel *label_date=[[UILabel alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/20+ 10, SCREENWIDTH/4 , SCREENHEIGHT/20)];
     label_date.text=@"Date";
     label_date.textAlignment=NSTextAlignmentCenter;
     
-    UILabel *label_frequency=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/4 - 5, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
+    UILabel *label_frequency=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH/4 - 5, SCREENHEIGHT/20 + 10, SCREENWIDTH/5, SCREENHEIGHT/20)];
     label_frequency.text=@"Intensity";
     label_frequency.textAlignment=NSTextAlignmentCenter;
     
-    UILabel *label_strength=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*2/5 + 2, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
+    UILabel *label_strength=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*2/5 + 2, SCREENHEIGHT/20 + 10, SCREENWIDTH/5, SCREENHEIGHT/20)];
     label_strength.text=@"Freq";
     label_strength.textAlignment=NSTextAlignmentCenter;
     
-    UILabel *label_startTime=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5 + 2, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
+    UILabel *label_startTime=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*3/5 + 2, SCREENHEIGHT/20 + 10, SCREENWIDTH/5, SCREENHEIGHT/20)];
     label_startTime.text=@"Start";
     label_startTime.textAlignment=NSTextAlignmentCenter;
     
-    UILabel *label_cureTime=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*4/5, SCREENHEIGHT/20, SCREENWIDTH/5, SCREENHEIGHT/20)];
+    UILabel *label_cureTime=[[UILabel alloc] initWithFrame:CGRectMake(SCREENWIDTH*4/5, SCREENHEIGHT/20 + 10, SCREENWIDTH/5, SCREENHEIGHT/20)];
     label_cureTime.text=@"Duration";
     label_cureTime.textAlignment=NSTextAlignmentCenter;
-    UIView *viewTwo=[[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/10, SCREENWIDTH, 1)];
-    viewTwo.backgroundColor=[UIColor blackColor];
+    UIView *viewTwo=[[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/10 + 10, SCREENWIDTH, 1)];
+    viewTwo.backgroundColor=[UIColor grayColor];
+    viewTwo.alpha = 0.5;
+
     
 //    label_date.font=[UIFont systemFontOfSize:15];
 //    label_frequency.font=[UIFont systemFontOfSize:15];
@@ -149,7 +153,7 @@
     [self.view addSubview:label_cureTime];
     [self.view addSubview:viewTwo];
     
-    DataTableView=[[UITableView alloc] initWithFrame:CGRectMake(0,SCREENHEIGHT/10, SCREENWIDTH, (SCREENHEIGHT*18/20)-65) style:UITableViewStylePlain];
+    DataTableView=[[UITableView alloc] initWithFrame:CGRectMake(0,SCREENHEIGHT/10 + 16, SCREENWIDTH, (SCREENHEIGHT*18/20)-49) style:UITableViewStylePlain];
     [DataTableView.tableHeaderView removeFromSuperview];
     DataTableView.tableFooterView=[[UIView alloc] init];
     DataTableView.delegate=self;
@@ -282,7 +286,7 @@
         for (TreatInfo *tmp in treatInfoArray)
         {
             NSDateFormatter *dateFormat=[[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat:@"YYYY-MM-dd"];
+            [dateFormat setDateFormat:@"YYYY.MM.dd"];
             NSDate *tmp_Date=[dateFormat dateFromString:tmp.Date];
             if ([tmp.PatientID isEqualToString:_patientInfo.PatientID])
             {
@@ -321,11 +325,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.row%2==0)
     {
-        cell.backgroundColor=[UIColor colorWithRed:159/255.0 green:199/255.0 blue:247/255.0 alpha:1];
-    }
-    else if (indexPath.row%2==1)
-    {
-//        cell.backgroundColor=[UIColor colorWithRed:0xff/255.0 green:0xa5/255.0 blue:0x00/255.0 alpha:1];
+        cell.backgroundColor=[UIColor colorWithRed:157.0/255.0 green:194.0/255.0 blue:200.0/255.0 alpha:1];
     }
     
     UILabel *dateLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH/4, 30)];
@@ -361,7 +361,12 @@
     }
     
     TreatInfo *tmp=[treatInfoAtPatientID objectAtIndex:indexPath.row];
-    dateLabel.text=[tmp.BeginTime substringWithRange:NSMakeRange(0, 10)];
+    
+    NSString *str = [tmp.BeginTime substringWithRange:NSMakeRange(0, 10)];
+    if ([str containsString:@"-"]) {
+        str = [str stringByReplacingOccurrencesOfString:@"-" withString:@"."];
+    }
+    dateLabel.text= str;
     strengthLabel.text=tmp.Strength;
     frequencyLabel.text = [NSString stringWithFormat:@"%@Hz", tmp.Frequency];
     startTimeLabel.text = [self dateToTime:tmp.BeginTime];
@@ -468,7 +473,7 @@
             dayString=[NSString stringWithFormat:@"%@",[_begainDateDayArray objectAtIndex:dayBegainSelectIndex]];
         }
         
-        BegainTime=[NSString stringWithFormat:@"%@-%@-%@",yearString,monthString,dayString];
+        BegainTime=[NSString stringWithFormat:@"%@.%@.%@",yearString,monthString,dayString];
         if ([self getIntervalTimeFrom:[self stringToDate:BegainTime] toDate:[self stringToDate:dateTwo_Button.titleLabel.text]]>=0)
         {
             [dateOne_Button setTitle:BegainTime forState:UIControlStateNormal];
@@ -509,10 +514,10 @@
         {
             dayString=[NSString stringWithFormat:@"%@",[_endDateDayArray objectAtIndex:dayEndSelectIndex]];
         }
-        EndTime=[NSString stringWithFormat:@"%@-%@-%@",yearString,monthString,dayString];
+        EndTime=[NSString stringWithFormat:@"%@.%@.%@",yearString,monthString,dayString];
         
         NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dateFormatter setDateFormat:@"yyyy.MM.dd"];
         NSString *nowTime=[dateFormatter stringFromDate:[NSDate date]];
         
         if ([self getIntervalTimeFrom:[self stringToDate:EndTime] toDate:[self stringToDate:nowTime]]>=0)
@@ -729,7 +734,7 @@
     else
     {
         NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dateFormatter setDateFormat:@"yyyy.MM.dd"];
         if (component == 0)
         {
             yearEndSelectIndex=row;
@@ -892,11 +897,11 @@
                     NSString *tmpStr=[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"];
                     if (tmpStr.length==16)
                     {
-                        tmp_treatInfo.BeginTime=[NSString stringWithFormat:@"%@-%@-%@ %@",[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(0, 4)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(5, 2)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(8, 2)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(11, 5)],nil];
+                        tmp_treatInfo.BeginTime=[NSString stringWithFormat:@"%@.%@.%@ %@",[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(0, 4)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(5, 2)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(8, 2)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(11, 5)],nil];
                     }
                     else
                     {
-                        tmp_treatInfo.BeginTime=[NSString stringWithFormat:@"%@-%@-%@ %@",[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(0, 4)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(5, 2)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(8, 2)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(11, 8)],nil];
+                        tmp_treatInfo.BeginTime=[NSString stringWithFormat:@"%@.%@.%@ %@",[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(0, 4)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(5, 2)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(8, 2)],[[[resultArray objectAtIndex:i] objectForKey:@"BeginTime"] substringWithRange:NSMakeRange(11, 8)],nil];
                     }
                     tmp_treatInfo.EndTime=[[resultArray objectAtIndex:i] objectForKey:@"EndTime"];
                     tmp_treatInfo.CureTime=[[resultArray objectAtIndex:i] objectForKey:@"CureTime"];
@@ -979,7 +984,7 @@
 //12进制时间
 - (NSString *)dateToTime:(NSString *)dateStr {
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+    [dateFormatter setDateFormat:@"yyyy.MM.dd HH:mm"];
     NSDate *date = [dateFormatter dateFromString:dateStr];
     
     [dateFormatter setDateFormat:@"hh:mmaa"];

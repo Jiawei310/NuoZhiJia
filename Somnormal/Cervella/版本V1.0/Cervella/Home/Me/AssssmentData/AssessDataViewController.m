@@ -122,7 +122,7 @@
     BegainDate=[EndDate initWithTimeIntervalSinceNow:-6*24*60*60];
     NSLog(@"%@",BegainDate);
     NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    [dateFormatter setDateFormat:@"yyyy.MM.dd"];
     BegainTime=[dateFormatter stringFromDate:BegainDate];
     yearBegainIndex=[[BegainTime substringWithRange:NSMakeRange(0, 4)] integerValue]-1900;
     monthBegainIndex=[[BegainTime substringWithRange:NSMakeRange(5, 2)] integerValue]-1;
@@ -293,7 +293,7 @@
         for (EvaluateInfo *tmp in evaluateData)
         {
             NSDateFormatter *dateFormat=[[NSDateFormatter alloc] init];
-            [dateFormat setDateFormat:@"YYYY-MM-dd"];
+            [dateFormat setDateFormat:@"yyyy.MM.dd"];
             NSDate *tmp_Date=[dateFormat dateFromString:tmp.Date];
             if ([tmp.ListFlag integerValue]==1 && [tmp.PatientID isEqualToString:_patientInfo.PatientID])
             {
@@ -792,7 +792,7 @@
         }
         EndTime=[NSString stringWithFormat:@"%@-%@-%@",yearString,monthString,dayString];
         NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dateFormatter setDateFormat:@"yyyy.MM.dd"];
         NSString *nowTime=[dateFormatter stringFromDate:[NSDate date]];
         if ([self getIntervalTimeFrom:[self stringToDate:EndTime] toDate:[self stringToDate:nowTime]]>=0)
         {
@@ -1037,7 +1037,7 @@
     else
     {
         NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        [dateFormatter setDateFormat:@"yyyy.MM.dd"];
         if (component == 0)
         {
             yearEndSelectIndex=row;

@@ -1073,7 +1073,7 @@
             tmpEvaluate.ListFlag=[NSString stringWithFormat:@"%ld",_tableListTag];
             
             NSDateFormatter *dateFormatterDate = [[NSDateFormatter alloc] init];
-            [dateFormatterDate setDateFormat:@"yyyy-MM-dd"];
+            [dateFormatterDate setDateFormat:@"yyyy.MM.dd"];
             NSString *strDate = [dateFormatterDate stringFromDate:[NSDate date]];
             tmpEvaluate.Date=strDate;
             
@@ -1185,7 +1185,7 @@
             NSDateFormatter *dateFormat=[[NSDateFormatter alloc] init];
             [dateFormat setDateStyle:NSDateFormatterMediumStyle];
             [dateFormat setTimeStyle:NSDateFormatterShortStyle];
-            [dateFormat setDateFormat:@"YYYY-MM-dd"];
+            [dateFormat setDateFormat:@"yyyy.MM.dd"];
             NSDate *myDate=[NSDate date];
             tmpEvaluate.Date=[dateFormat stringFromDate:myDate];
             
@@ -1297,7 +1297,7 @@
             NSDateFormatter *dateFormat=[[NSDateFormatter alloc] init];
             [dateFormat setDateStyle:NSDateFormatterMediumStyle];
             [dateFormat setTimeStyle:NSDateFormatterShortStyle];
-            [dateFormat setDateFormat:@"YYYY-MM-dd"];
+            [dateFormat setDateFormat:@"yyyy.MM.dd"];
             NSDate *myDate=[NSDate date];
             tmpEvaluate.Date=[dateFormat stringFromDate:myDate];
             
@@ -1409,7 +1409,7 @@
             NSDateFormatter *dateFormat=[[NSDateFormatter alloc] init];
             [dateFormat setDateStyle:NSDateFormatterMediumStyle];
             [dateFormat setTimeStyle:NSDateFormatterShortStyle];
-            [dateFormat setDateFormat:@"YYYY-MM-dd"];
+            [dateFormat setDateFormat:@"yyyy.MM.dd"];
             NSDate *myDate=[NSDate date];
             tmpEvaluate.Date=[dateFormat stringFromDate:myDate];
             

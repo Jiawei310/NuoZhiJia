@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 #define colorSliderWidth (self.frame.size.width/10.0 - colorSliderd_d)
-#define colorSliderHeight (colorSliderWidth * 2.0)
-#define colorSliderd_d 7.0
+#define colorSliderHeight (colorSliderWidth * 2.0) - 3.0
+#define colorSliderd_d 9.0
 
 
 @protocol ColorsSliderViewDelegate <NSObject>
