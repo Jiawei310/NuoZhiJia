@@ -152,13 +152,19 @@
 #pragma -- 邮件后台发送操作
 - (void)sendCodeOpration
 {
+//    E-mail login:    https://www.google.com/gmail/
+//    User Name:     support@cervella.us
+//Password:        CervellaRocks!
     SKPSMTPMessage *testMsg = [[SKPSMTPMessage alloc] init];
-    testMsg.relayHost = @"smtp.qiye.163.com";
     testMsg.requiresAuth = YES;
     testMsg.wantsSecure = YES; // smtp.gmail.com doesn't work without TLS!
     testMsg.delegate = self;
-    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
-    testMsg.pass = @"Sleep4U2016";
+//    testMsg.relayHost = @"smtp.qiye.163.com";
+//    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
+//    testMsg.pass = @"Sleep4U2016";
+    testMsg.relayHost = @"https://www.google.com/gmail/";
+    testMsg.login = @"support@cervella.us";
+    testMsg.pass = @"CervellaRocks!";
     
     testMsg.fromEmail = testMsg.login;
     testMsg.toEmail = _patientInfo.Email;

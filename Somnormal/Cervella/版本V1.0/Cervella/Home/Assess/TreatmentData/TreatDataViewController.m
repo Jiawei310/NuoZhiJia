@@ -325,7 +325,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.row%2==0)
     {
-        cell.backgroundColor=[UIColor colorWithRed:157.0/255.0 green:194.0/255.0 blue:200.0/255.0 alpha:1];
+        cell.backgroundColor=[UIColor colorWithRed:173.0/255.0 green:217.0/255.0 blue:230.0/255.0 alpha:1];
     }
     
     UILabel *dateLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH/4, 30)];
@@ -1002,7 +1002,7 @@
         {
             TreatInfo *index_One=[array objectAtIndex:i];
             TreatInfo *index_Two=[array objectAtIndex:i+1];
-            if ([index_One.BeginTime compare:index_Two.BeginTime]==NSOrderedDescending)
+            if ([index_One.Date compare:index_Two.Date]== NSOrderedAscending)
             {
                 [array exchangeObjectAtIndex:i withObjectAtIndex:i+1];
             }

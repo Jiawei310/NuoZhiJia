@@ -136,7 +136,6 @@
 		E412473320E8D6AB007D6BBA /* AES.m in Sources */ = {isa = PBXBuildFile; fileRef = E412473220E8D6AB007D6BBA /* AES.m */; };
 		E412473620E8D7A5007D6BBA /* NSData+AES128.m in Sources */ = {isa = PBXBuildFile; fileRef = E412473520E8D7A5007D6BBA /* NSData+AES128.m */; };
 		E412473920E8D873007D6BBA /* NSData+AES256.m in Sources */ = {isa = PBXBuildFile; fileRef = E412473820E8D873007D6BBA /* NSData+AES256.m */; };
-		E4B9485B20EA8571003DB05A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E4B9485A20EA8571003DB05A /* Assets.xcassets */; };
 		E4E320CA20DF71E1005041A0 /* ShowLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E320C920DF71E1005041A0 /* ShowLinkViewController.m */; };
 		E905492D20D1078600F39334 /* ColorsSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492C20D1078600F39334 /* ColorsSliderView.m */; };
 		E905493020D11BFC00F39334 /* SelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492F20D11BFC00F39334 /* SelectView.m */; };
@@ -148,6 +147,7 @@
 		E92D49A320D35B4B00C3026A /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92D49A220D35B4B00C3026A /* WebViewController.m */; };
 		E92D49A520D36FAB00C3026A /* Quick Start Guide.pdf in Resources */ = {isa = PBXBuildFile; fileRef = E92D49A420D36FAB00C3026A /* Quick Start Guide.pdf */; };
 		E92D49A820D384B400C3026A /* AboutCervellaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E92D49A720D384B400C3026A /* AboutCervellaViewController.m */; };
+		E973661020EC716F001835F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E973660F20EC716F001835F7 /* Assets.xcassets */; };
 		E9F6E9A220D2130A008DBB72 /* BluetoothStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9F6E9A120D2130A008DBB72 /* BluetoothStatusView.m */; };
 /* End PBXBuildFile section */
 
@@ -392,7 +392,6 @@
 		E412473520E8D7A5007D6BBA /* NSData+AES128.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES128.m"; sourceTree = "<group>"; };
 		E412473720E8D873007D6BBA /* NSData+AES256.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+AES256.h"; sourceTree = "<group>"; };
 		E412473820E8D873007D6BBA /* NSData+AES256.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES256.m"; sourceTree = "<group>"; };
-		E4B9485A20EA8571003DB05A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E4E320C820DF71E1005041A0 /* ShowLinkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowLinkViewController.h; sourceTree = "<group>"; };
 		E4E320C920DF71E1005041A0 /* ShowLinkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowLinkViewController.m; sourceTree = "<group>"; };
 		E905492B20D1078600F39334 /* ColorsSliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorsSliderView.h; sourceTree = "<group>"; };
@@ -415,6 +414,7 @@
 		E92D49A620D384B400C3026A /* AboutCervellaViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutCervellaViewController.h; sourceTree = "<group>"; };
 		E92D49A720D384B400C3026A /* AboutCervellaViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutCervellaViewController.m; sourceTree = "<group>"; };
 		E937B2C520C4DEEF00BDC5D8 /* Cervella-PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Cervella-PrefixHeader.pch"; sourceTree = "<group>"; };
+		E973660F20EC716F001835F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E9F6E9A020D2130A008DBB72 /* BluetoothStatusView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BluetoothStatusView.h; sourceTree = "<group>"; };
 		E9F6E9A120D2130A008DBB72 /* BluetoothStatusView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BluetoothStatusView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -842,7 +842,7 @@
 			children = (
 				D06B8C541F0142EE00531D8E /* AppDelegate.h */,
 				D06B8C551F0142EE00531D8E /* AppDelegate.m */,
-				E4B9485A20EA8571003DB05A /* Assets.xcassets */,
+				E973660F20EC716F001835F7 /* Assets.xcassets */,
 				D06B8C571F0142EE00531D8E /* ViewController.h */,
 				D06B8C581F0142EE00531D8E /* ViewController.m */,
 				D06B8C5A1F0142EE00531D8E /* Main.storyboard */,
@@ -1155,7 +1155,7 @@
 				TargetAttributes = {
 					D06B8C4D1F0142EE00531D8E = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = HB28NXLNG9;
+						DevelopmentTeam = P743Y6G5X5;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -1221,7 +1221,7 @@
 				D07B34831F135A930077B2F9 /* HelpViewController.xib in Resources */,
 				D04377DB1F04CA500061F279 /* MeViewController.xib in Resources */,
 				D07B34751F135A2A0077B2F9 /* AttentionList.plist in Resources */,
-				E4B9485B20EA8571003DB05A /* Assets.xcassets in Resources */,
+				E973661020EC716F001835F7 /* Assets.xcassets in Resources */,
 				D07B34741F135A2A0077B2F9 /* AttentionDetailViewController.xib in Resources */,
 				D07B346B1F135A040077B2F9 /* PrincipleViewController.xib in Resources */,
 				D07B34BE1F13887D0077B2F9 /* AnswerList.plist in Resources */,
@@ -1514,7 +1514,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = HB28NXLNG9;
+				DEVELOPMENT_TEAM = P743Y6G5X5;
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Cervella/Cervella-PrefixHeader.pch";
@@ -1537,7 +1537,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = HB28NXLNG9;
+				DEVELOPMENT_TEAM = P743Y6G5X5;
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Cervella/Cervella-PrefixHeader.pch";

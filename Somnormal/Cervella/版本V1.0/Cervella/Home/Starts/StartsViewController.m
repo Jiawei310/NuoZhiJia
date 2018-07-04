@@ -79,6 +79,8 @@
     //1分钟无治疗断掉
     NSTimer *unConnectTimer;
     
+    //蓝牙错误提示
+    UIAlertController *alertC;
     
 }
 @synthesize webData,soapResults,xmlParser,elementFound,matchingElement,conn;
@@ -170,6 +172,11 @@
         if (self.bluetooth.connectSate == ConnectStateNormal) {
             [self.bluetooth changeLevel:intensityLevel];
         }
+    } else {
+        jxt_showTextHUDTitleMessage(@"", @"Please connect to 'Cervella'");
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            jxt_dismissHUD();
+        });
     }
 }
 
@@ -185,7 +192,7 @@
     self.frequencyView.isCanSelect = NO;
     
     self.frequencySelectView = [[SelectView alloc] init];
-    self.frequencySelectView.titile = @"请选择";
+    self.frequencySelectView.titile = @"Frequency";
     self.frequencySelectView.items = FrequencySelectors;
     self.frequencySelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 150);
     __weak typeof (*&self) weakSelf = self;
@@ -201,9 +208,25 @@
     };
     
     self.frequencyView.imageTitleDetailViewBlock = ^() {
-        //显示电流强度选项
-        weakSelf.frequencySelectView.selector = weakSelf.frequencySelector;
-        [weakSelf.frequencySelectView showViewInView:weakSelf.view];
+        if (weakSelf.bluetooth.equipment) {
+            if (weakSelf.frequencyView.isCanSelect) {
+                //显示电流强度选项
+                weakSelf.frequencySelectView.selector = weakSelf.frequencySelector;
+                [weakSelf.frequencySelectView showViewInView:weakSelf.view];
+            }
+            else  {
+                jxt_showTextHUDTitleMessage(@"", @"Parameter cannot be changed during stimulation.Please stop the stimulation first.");
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    jxt_dismissHUD();
+                });
+            }
+        }
+        else {
+            jxt_showTextHUDTitleMessage(@"", @"Please connect to 'Cervella'");
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                jxt_dismissHUD();
+            });
+        }
     };
     [self.view addSubview:self.frequencyView];
     
@@ -213,10 +236,10 @@
                                 SCREENWIDTH - 60,
                                 60);
     self.timeView.items = @[@{@"image":@"time",@"title":@"Duration",@"detail":TimeSelectors[self.timeSelector]}];
-    self.timeView.isCanSelect = YES;
+    self.timeView.isCanSelect = NO;
 
     self.timeSelectView = [[SelectView alloc] init];
-    self.timeSelectView.titile = @"Selector";
+    self.timeSelectView.titile = @"Duration";
     self.timeSelectView.items = TimeSelectors;
     self.timeSelectView.frame = CGRectMake(0, 0, SCREENWIDTH - 60, 270);
     self.timeSelectView.selectViewBlock = ^(NSInteger index) {
@@ -230,9 +253,26 @@
     };
     
     self.timeView.imageTitleDetailViewBlock = ^() {
-        //显示时间选项
-        weakSelf.timeSelectView.selector  = weakSelf.timeSelector;
-        [weakSelf.timeSelectView showViewInView:weakSelf.view];
+        if (weakSelf.bluetooth.equipment) {
+            if (weakSelf.frequencyView.isCanSelect) {
+                //显示时间选项
+                weakSelf.timeSelectView.selector  = weakSelf.timeSelector;
+                [weakSelf.timeSelectView showViewInView:weakSelf.view];
+            }
+            else  {
+                jxt_showTextHUDTitleMessage(@"", @"Parameter cannot be changed during stimulation.Please stop the stimulation first.");
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    jxt_dismissHUD();
+                });
+            }
+        }
+        else {
+            jxt_showTextHUDTitleMessage(@"", @"Please connect to 'Cervella'");
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                jxt_dismissHUD();
+            });
+        }
+        
     };
     [self.view addSubview:weakSelf.timeView];
     
@@ -323,11 +363,14 @@
     
     [self.view addSubview:self.bluetoothStatusView];
 }
+
 //开始治疗UI
 - (void)blueStartWorkUI {
     //UI
+    //开始治疗时间和频率不可选择
     self.frequencyView.isCanSelect = NO;
     self.timeView.isCanSelect = NO;
+    
     timeRemaining = self.timeDuration;
     self.bluetoothStatusView.statusType = StatusTypeStop;
     self.bluetoothStatusView.timers = self.timeDuration;
@@ -361,8 +404,10 @@
     endDate = nil;
     treatInfoTmp = nil;
     //UI
+    //停止后频率和时间又可以选择
     self.frequencyView.isCanSelect = YES;
     self.timeView.isCanSelect = YES;
+    
     timeRemaining = self.timeDuration;
     self.bluetoothStatusView.statusType = StatusTypeStart;
     self.bluetoothStatusView.timers = self.timeDuration;
@@ -407,7 +452,7 @@
     if (error) {
         //提出警告
         NSString *str = [NSString stringWithFormat:@"%@\n%@",error.localizedDescription, error.localizedRecoverySuggestion];
-        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"" message:str preferredStyle:(UIAlertControllerStyleAlert)];
+        alertC = [UIAlertController alertControllerWithTitle:@"" message:str preferredStyle:(UIAlertControllerStyleAlert)];
         UIAlertAction *alert = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *  action) {
             
         }];
@@ -451,6 +496,11 @@
     if (connectState == ConnectStateNormal) { //正常链接成功
         self.bluetoothStatusView.statusType = StatusTypeStart;
         self.bluetoothStatusView.timers = self.timeDuration;
+        
+        //链接成功可选择频率和时间
+        self.frequencyView.isCanSelect = YES;
+        self.timeView.isCanSelect = YES;
+        
         //Pairing successful!
         jxt_showTextHUDTitleMessage(@"", @"Connect successful!");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -478,6 +528,11 @@
         if (!isWear) {
             [countDownTimer setFireDate:[NSDate date]];
             [saveTreatInfoTimer setFireDate:[NSDate date]];
+            
+            //戴上后会自动隐藏
+            if (alertC) {
+                [alertC dismissViewControllerAnimated:YES completion:nil];
+            }
         }
         isWear = YES;
     }
@@ -497,6 +552,12 @@
 //电池状态
 - (void)battery:(NSUInteger )battery Error:(NSError *)error {
     [self showError:error];
+}
+
+//充电状态
+- (void)chargeStatus:(NSUInteger )battery Error:(NSError *)error {
+    [self showError:error];
+    [self freeBluetoothInfo];
 }
 
 #pragma mark - DataBaseOpration

@@ -459,6 +459,20 @@
                 [self.delegate battery:self.equipment.battery Error:errorE];
             }
         }
+        
+        
+        //充电状态
+        if (self.equipment.chargeStatus == 2) {
+            errorE = [[NSError alloc] initWithDomain:@"Cervella is charging"
+                                                code:920
+                                            userInfo:@{NSLocalizedDescriptionKey:@"Cervella is charging, it can not work.",
+                                                       NSLocalizedRecoverySuggestionErrorKey:@"Please use it after charged.",
+                                                       }];
+            if ([self.delegate respondsToSelector:@selector(chargeStatus:Error:)]) {
+                [self.delegate chargeStatus:self.equipment.battery Error:errorE];
+            }
+        }
+        
     }
 }
 

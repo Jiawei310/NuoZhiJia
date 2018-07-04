@@ -122,11 +122,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row==0) {
-//    {
-//        ShowLinkViewController *vc = [[ShowLinkViewController alloc] init];
-//        vc.title = helpArray[indexPath.row];
-//        vc.linkStr = @"https://cervella.us/manual";
-//        [self.navigationController pushViewController:vc animated:YES];
         
         MethodViewController *vc = [[MethodViewController alloc] init];
         vc.title = helpArray[indexPath.row];

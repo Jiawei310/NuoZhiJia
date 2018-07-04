@@ -155,7 +155,7 @@
 - (NSMutableArray *)getTreatDataFromDataBase
 {
     _dataArray = [NSMutableArray array];
-    NSString *sql = [NSString stringWithFormat:@"select * from tbl_Treat"];
+    NSString *sql = [NSString stringWithFormat:@"select * from tbl_Treat order by Date DESC"];
     FMResultSet * rs = [_db executeQuery:sql];
     while ([rs next])
     {

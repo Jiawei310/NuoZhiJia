@@ -63,18 +63,18 @@
     [self.view addSubview:emailBtn];
     
     if (SCREENHEIGHT == 568) {
-        linkBtn.frame = CGRectMake(30, 390, SCREENWIDTH - 60, 30);
-        emailBtn.frame = CGRectMake(30, 425, SCREENWIDTH - 60, 30);
+        linkBtn.frame = CGRectMake(30, 358, SCREENWIDTH - 60, 30);
+        emailBtn.frame = CGRectMake(30, 390, SCREENWIDTH - 60, 30);
     } else if (SCREENHEIGHT == 667) {
-        linkBtn.frame = CGRectMake(30, 445, SCREENWIDTH - 60, 40);
-        emailBtn.frame = CGRectMake(30, 490, SCREENWIDTH - 60, 40);
+        linkBtn.frame = CGRectMake(30, 418, SCREENWIDTH - 60, 40);
+        emailBtn.frame = CGRectMake(30, 460, SCREENWIDTH - 60, 40);
     } else if (SCREENHEIGHT == 736) {
-        linkBtn.frame = CGRectMake(30, 500, SCREENWIDTH - 60, 40);
-        emailBtn.frame = CGRectMake(30, 545, SCREENWIDTH - 60, 40);
+        linkBtn.frame = CGRectMake(30, 460, SCREENWIDTH - 60, 40);
+        emailBtn.frame = CGRectMake(30, 505, SCREENWIDTH - 60, 40);
     }
     else if (SCREENHEIGHT == 812) {
-        linkBtn.frame = CGRectMake(30, 548, SCREENWIDTH - 60, 44);
-        emailBtn.frame = CGRectMake(30, 598, SCREENWIDTH - 60, 44);
+        linkBtn.frame = CGRectMake(30, 508, SCREENWIDTH - 60, 44);
+        emailBtn.frame = CGRectMake(30, 558, SCREENWIDTH - 60, 44);
     }
 }
 

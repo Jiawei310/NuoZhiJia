@@ -78,16 +78,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSDictionary *dict = self.items[indexPath.row];
-    if (self.isCanSelect) {
-        if (self.imageTitleDetailViewBlock) {
-            self.imageTitleDetailViewBlock();
-        }
-    } else {
-        jxt_showTextHUDTitleMessage(@"", @"Parameter cannot be changed during stimulation.Please stop the stimulation first.");
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            jxt_dismissHUD();
-        });
+    if (self.imageTitleDetailViewBlock) {
+        self.imageTitleDetailViewBlock();
     }
 }
 

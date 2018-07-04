@@ -29,12 +29,13 @@
                     </constraints>
                 </tableView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yfl-xe-dbl">
-                    <rect key="frame" x="69" y="466" width="182" height="44"/>
+                    <rect key="frame" x="10" y="466" width="300" height="44"/>
+                    <color key="backgroundColor" red="0.14509803921568626" green="0.49411764705882355" blue="0.83921568627450982" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="182" id="e6P-1L-B0q"/>
+                        <constraint firstAttribute="width" constant="300" id="e6P-1L-B0q"/>
                         <constraint firstAttribute="height" constant="44" id="vJK-J0-bL3"/>
                     </constraints>
-                    <state key="normal" title="Button" image="btn_exit"/>
+                    <state key="normal" title="Log Out"/>
                     <connections>
                         <action selector="exitBtnClick:" destination="-1" eventType="touchUpInside" id="NAe-Ly-Dwu"/>
                     </connections>
@@ -50,7 +51,4 @@
             </constraints>
         </view>
     </objects>
-    <resources>
-        <image name="btn_exit" width="251" height="74"/>
-    </resources>
 </document>

@@ -38,28 +38,34 @@
     fixedButton.width = -10;
     self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem,titleBtnItem];
     
-    _scrollView=[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT)];
+    _scrollView=[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT - 3)];
     _scrollView.pagingEnabled=YES;
     _scrollView.contentSize=CGSizeMake(SCREENWIDTH*6, 0);
     _scrollView.contentOffset=CGPointMake(0, 0);
     _scrollView.bounces=NO;
     
     UIImage *image = [UIImage imageNamed:@"use1.png"];
-    UIImageView  *imageview_one=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];
+    //image.size.height *SCREENWIDTH/image.size.width
+    CGFloat h = SCREENHEIGHT - 67;
+    if (SCREENHEIGHT == 812) {
+        h = SCREENHEIGHT - 88;
+    }
+    
+    UIImageView  *imageview_one=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREENWIDTH, h)];
     [imageview_one setImage:image];
-    UIImageView *imageview_two=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];\
+    UIImageView *imageview_two=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH, 0, SCREENWIDTH, h)];
     image = [UIImage imageNamed:@"use2.png"];
     [imageview_two setImage:image];
-    UIImageView *imageview_three=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 2, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];
+    UIImageView *imageview_three=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 2, 0, SCREENWIDTH, h)];
     image = [UIImage imageNamed:@"use3.png"];
     [imageview_three setImage:image];
-    UIImageView  *imageview_foure=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 3, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];
+    UIImageView  *imageview_foure=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 3, 0, SCREENWIDTH, h)];
     image = [UIImage imageNamed:@"use4.png"];
     [imageview_foure setImage:image];
-    UIImageView *imageview_five=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 4, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];
+    UIImageView *imageview_five=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 4, 0, SCREENWIDTH, h)];
     image = [UIImage imageNamed:@"use5.png"];
     [imageview_five setImage:image];
-    UIImageView *imageview_six=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 5, 0, SCREENWIDTH, image.size.height *SCREENWIDTH/image.size.width)];
+    UIImageView *imageview_six=[[UIImageView alloc]initWithFrame:CGRectMake(SCREENWIDTH * 5, 0, SCREENWIDTH, h)];
     image = [UIImage imageNamed:@"use6.png"];
     [imageview_six setImage:image];
     

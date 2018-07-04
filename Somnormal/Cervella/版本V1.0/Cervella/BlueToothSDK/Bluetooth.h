@@ -45,6 +45,9 @@ typedef NS_OPTIONS(NSUInteger, WearState) {
 - (void)wearState:(WearState )wearState Error:(NSError *)error;
 //电池状态
 - (void)battery:(NSUInteger )battery Error:(NSError *)error;
+//充电状态
+- (void)chargeStatus:(NSUInteger )battery Error:(NSError *)error;
+
 @end
 
 

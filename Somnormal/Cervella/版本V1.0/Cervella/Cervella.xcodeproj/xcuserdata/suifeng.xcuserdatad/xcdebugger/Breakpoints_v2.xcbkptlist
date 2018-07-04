@@ -89,13 +89,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Login/LoginViewController.m"
-            timestampString = "551675175.89429"
+            filePath = "ForgotPassword/ForgotPasswordViewController.m"
+            timestampString = "552369530.105471"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
-            landmarkName = "-sendValueBackToController:type:"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
+            landmarkName = "-sendCodeBtnClick:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -105,13 +105,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ForgotPassword/ForgotPasswordViewController.m"
-            timestampString = "551610853.766548"
+            filePath = "BlueToothSDK/Equipment.m"
+            timestampString = "552369530.10553"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "-sendCodeBtnClick:"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "-battery:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
