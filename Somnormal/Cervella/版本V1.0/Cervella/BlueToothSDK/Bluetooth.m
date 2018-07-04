@@ -301,7 +301,9 @@
 //蓝牙断开
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error
 {
-    [self.centralManager cancelPeripheralConnection:self.equipment.peripheral];
+    if (self.equipment.peripheral) {
+        [self.centralManager cancelPeripheralConnection:self.equipment.peripheral];
+    }
     
     [self cleanData];
     [self stopTimer];
@@ -462,7 +464,7 @@
         
         
         //充电状态
-        if (self.equipment.chargeStatus == 2) {
+        if (self.equipment.chargeStatus != 2) {
             errorE = [[NSError alloc] initWithDomain:@"Cervella is charging"
                                                 code:920
                                             userInfo:@{NSLocalizedDescriptionKey:@"Cervella is charging, it can not work.",

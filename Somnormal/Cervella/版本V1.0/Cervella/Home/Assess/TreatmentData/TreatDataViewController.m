@@ -137,13 +137,6 @@
     UIView *viewTwo=[[UIView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT/10 + 10, SCREENWIDTH, 1)];
     viewTwo.backgroundColor=[UIColor grayColor];
     viewTwo.alpha = 0.5;
-
-    
-//    label_date.font=[UIFont systemFontOfSize:15];
-//    label_frequency.font=[UIFont systemFontOfSize:15];
-//    label_strength.font=[UIFont systemFontOfSize:15];
-//    label_startTime.font=[UIFont systemFontOfSize:15];
-//    label_cureTime.font=[UIFont systemFontOfSize:15];
     
     [self.view addSubview:viewOne];
     [self.view addSubview:label_date];
@@ -152,12 +145,35 @@
     [self.view addSubview:label_startTime];
     [self.view addSubview:label_cureTime];
     [self.view addSubview:viewTwo];
-    
-    DataTableView=[[UITableView alloc] initWithFrame:CGRectMake(0,SCREENHEIGHT/10 + 16, SCREENWIDTH, (SCREENHEIGHT*18/20)-49) style:UITableViewStylePlain];
+    CGFloat h = 0.0;
+    if (SCREENHEIGHT == 568) {
+        h = SCREENHEIGHT - SCREENHEIGHT/10 - 124;
+        label_date.font=[UIFont systemFontOfSize:15];
+        label_frequency.font=[UIFont systemFontOfSize:15];
+        label_strength.font=[UIFont systemFontOfSize:15];
+        label_startTime.font=[UIFont systemFontOfSize:15];
+        label_cureTime.font=[UIFont systemFontOfSize:15];
+    } else if (SCREENHEIGHT == 667) {
+        h = SCREENHEIGHT - SCREENHEIGHT/10 - 140;
+    } else if (SCREENHEIGHT == 736) {
+        h = SCREENHEIGHT - SCREENHEIGHT/10 - 146;
+    }
+    else if (SCREENHEIGHT == 812) {
+        h = SCREENHEIGHT - SCREENHEIGHT/10 - 176;
+    }
+    DataTableView=[[UITableView alloc] initWithFrame:CGRectMake(0,
+                                                                SCREENHEIGHT/10 + 16,
+                                                                SCREENWIDTH,
+                                                                h
+                                                                )
+                                               style:UITableViewStylePlain];
     [DataTableView.tableHeaderView removeFromSuperview];
     DataTableView.tableFooterView=[[UIView alloc] init];
     DataTableView.delegate=self;
     DataTableView.dataSource=self;
+    
+                                                                
+    
     
     [self.view addSubview:DataTableView];
     

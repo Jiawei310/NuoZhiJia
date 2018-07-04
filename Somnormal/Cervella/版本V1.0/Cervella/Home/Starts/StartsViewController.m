@@ -245,7 +245,7 @@
     self.timeSelectView.selectViewBlock = ^(NSInteger index) {
         //设置时间长度
         weakSelf.timeSelector = index;
-        weakSelf.timeView.items = @[@{@"image":@"time",@"title":@"Time",@"detail":TimeSelectors[weakSelf.timeSelector]}];
+        weakSelf.timeView.items = @[@{@"image":@"time",@"title":@"Duration",@"detail":TimeSelectors[weakSelf.timeSelector]}];
         weakSelf.timeDuration = [TimeSelectorsInteger[index] integerValue];
         if (weakSelf.bluetoothStatusView.statusType == StatusTypeStart) {
             weakSelf.bluetoothStatusView.timers = weakSelf.timeDuration;
@@ -319,22 +319,30 @@
         if (statusType == StatusTypeNone) {
             //绑定过直接链接
             if (weakSelf.bluetoothInfo) {
-                for (Equipment *eq in weakSelf.bluetooth.equipments) {
-                    if ([weakSelf.bluetoothInfo.peripheralIdentify isEqualToString:[eq.peripheral.identifier UUIDString]]) {
-                        //链接蓝牙设备
-                        [weakSelf.bluetooth connectEquipment:eq];
-                        weakSelf.bluetoothStatusView.isCanTap = NO;
-                        
-                        NSString *str = weakSelf.bluetoothInfo.deviceName;
-                        str = [str stringByReplacingOccurrencesOfString:@"Sleep4U" withString:@"Cervella"];
-                        NSString *alertStr = [NSString stringWithFormat:@"Attempting to connect to:%@", str];
-                        jxt_showTextHUDTitleMessage(@"Connecting to Cervella", alertStr);
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            jxt_dismissHUD();
-                        });
-                        break;
+                if (weakSelf.bluetooth.equipments.count > 0) {
+                    for (Equipment *eq in weakSelf.bluetooth.equipments) {
+                        if ([weakSelf.bluetoothInfo.peripheralIdentify isEqualToString:[eq.peripheral.identifier UUIDString]]) {
+                            //链接蓝牙设备
+                            [weakSelf.bluetooth connectEquipment:eq];
+                            weakSelf.bluetoothStatusView.isCanTap = NO;
+                            
+                            NSString *str = weakSelf.bluetoothInfo.deviceName;
+                            str = [str stringByReplacingOccurrencesOfString:@"Sleep4U" withString:@"Cervella"];
+                            NSString *alertStr = [NSString stringWithFormat:@"Attempting to connect to:%@", str];
+                            jxt_showTextHUDTitleMessage(@"Connecting to Cervella", alertStr);
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                jxt_dismissHUD();
+                            });
+                            break;
+                        }
                     }
+                } else {
+                    jxt_showTextHUDTitleMessage(@"", @"Searching Cervella");
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        jxt_dismissHUD();
+                    });
                 }
+                
             } else {
                 //点击绑定设备
                 BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
@@ -375,7 +383,9 @@
     self.bluetoothStatusView.statusType = StatusTypeStop;
     self.bluetoothStatusView.timers = self.timeDuration;
     treatInfoTmp =  nil;
+    
     //开始治疗
+    [self.bluetooth changeLevel:intensityLevel];
     [self.bluetooth startWork];
     //倒计时
     [self timeCountDown];
