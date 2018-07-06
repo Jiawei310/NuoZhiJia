@@ -101,10 +101,13 @@
         _nameTextField = [[UITextField alloc] initWithFrame:CGRectMake(100*Rate_NAV_W, 0, 240*Rate_NAV_W, 50)];
         _nameTextField.font = [UIFont systemFontOfSize:16*Rate_NAV_H];
         _nameTextField.textAlignment = NSTextAlignmentRight;
-        _nameTextField.text = _patientInfo.PatientName;
         _nameTextField.tag = 1;
-//        _nameTextField.delegate = self;
         _nameTextField.enabled = NO;
+        _nameTextField.text = _patientInfo.PatientID;
+        
+        if (_patientInfo.PatientName.length > 0){
+            _nameTextField.text = _patientInfo.PatientName;
+        }
         
         [cell.contentView addSubview:_nameTextField];
         
@@ -123,9 +126,11 @@
         _sexLabel.font=[UIFont systemFontOfSize:16*Rate_NAV_H];
         if (_patientInfo.PatientSex.length>0)
         {
-            _sexLabel.text=@"Male";
-            if ([_patientInfo.PatientSex isEqualToString:@"男"] || [_patientInfo.PatientSex isEqualToString:@"Female"]) {
-                _sexLabel.text = @"Female";
+            _sexLabel.text=@"M";
+            if ([_patientInfo.PatientSex isEqualToString:@"男"] ||
+                [_patientInfo.PatientSex isEqualToString:@"Female"] ||
+                [_patientInfo.PatientSex isEqualToString:@"F"]) {
+                _sexLabel.text = @"F";
             }
         }
         

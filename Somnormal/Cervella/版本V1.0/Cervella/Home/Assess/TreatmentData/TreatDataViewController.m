@@ -997,16 +997,25 @@
     return outputDate;
 }
 
-//12进制时间
+//12进制时间PM AM
 - (NSString *)dateToTime:(NSString *)dateStr {
-    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy.MM.dd HH:mm"];
-    NSDate *date = [dateFormatter dateFromString:dateStr];
+    NSString *str = @"";
+    if ([dateStr containsString:@"AM"] || [dateStr containsString:@"PM"]) {
+        str = [dateStr substringWithRange:NSMakeRange(10, dateStr.length - 10)];
+        str = [str stringByReplacingOccurrencesOfString:@"/" withString:@""];
+    }
+    else {
+        NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy.MM.dd HH:mm"];
+        NSDate *date = [dateFormatter dateFromString:dateStr];
+        
+        [dateFormatter setDateFormat:@"hh:mmaa"];
+        dateFormatter.locale=[[NSLocale alloc]initWithLocaleIdentifier:@"en_US"];
+        
+        str = [dateFormatter stringFromDate:date];
+    }
     
-    [dateFormatter setDateFormat:@"hh:mmaa"];
-    dateFormatter.locale=[[NSLocale alloc]initWithLocaleIdentifier:@"en_US"];
-
-    return [dateFormatter stringFromDate:date];
+    return str;
 }
 
 //冒泡排序
