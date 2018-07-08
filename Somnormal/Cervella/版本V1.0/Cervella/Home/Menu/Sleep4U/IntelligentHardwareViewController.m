@@ -130,7 +130,7 @@
         }
         else
         {
-            percentLabel.text=@"- -";
+            percentLabel.text=@"0%";
         }
     }
     else

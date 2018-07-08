@@ -152,16 +152,25 @@
 #pragma -- 邮件后台发送操作
 - (void)sendCodeOpration
 {
-//    E-mail login:    https://www.google.com/gmail/
-//    User Name:     support@cervella.us
-//Password:        CervellaRocks!
+    //  E-mail login:https://www.google.com/gmail/
+    //  User Name:support@cervella.us
+    //  Password:CervellaRocks!
+    
+    //    testMsg.relayHost = @"smtp.qiye.163.com";
+    //    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
+    //    testMsg.pass = @"Sleep4U2016";
+    
+    //卢博士卢义强：
+    //账号：LRHcare@yahoo.com
+    //密码：ncc201807
+    //yahoo 的邮箱服务器
+    
+    
     SKPSMTPMessage *testMsg = [[SKPSMTPMessage alloc] init];
     testMsg.requiresAuth = YES;
     testMsg.wantsSecure = YES; // smtp.gmail.com doesn't work without TLS!
     testMsg.delegate = self;
-//    testMsg.relayHost = @"smtp.qiye.163.com";
-//    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
-//    testMsg.pass = @"Sleep4U2016";
+
     testMsg.relayHost = @"https://www.google.com/gmail/";
     testMsg.login = @"support@cervella.us";
     testMsg.pass = @"CervellaRocks!";

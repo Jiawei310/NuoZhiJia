@@ -464,14 +464,14 @@
                     
                     if ([description isEqualToString:@"账号不存在！"])
                     {
-                        [JXTAlertView showToastViewWithTitle:@"温馨提示" message:@"账号不存在，请检查后重新输入" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
-                            NSLog(@"关闭");
+                        [JXTAlertView showToastViewWithTitle:@"" message:@"username error!" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
+                            NSLog(@"OK");
                         }];
                     }
                     else if ([state isEqualToString:@"NO"] && [description isEqualToString:@"密码错误！"])
                     {
-                        [JXTAlertView showToastViewWithTitle:@"温馨提示" message:@"密码错误！" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
-                            NSLog(@"关闭");
+                        [JXTAlertView showToastViewWithTitle:@"" message:@"password error!" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
+                            NSLog(@"OK");
                         }];
                     }
                 }
@@ -480,8 +480,8 @@
             {
                 if ([description isEqualToString:@"账号不存在！"])
                 {
-                    [JXTAlertView showToastViewWithTitle:@"温馨提示" message:@"账号不存在，请检查后重新输入" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
-                        NSLog(@"关闭");
+                    [JXTAlertView showToastViewWithTitle:@"" message:@"username error!" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
+                        NSLog(@"OK");
                     }];
                     
                     [self.delegate sendValueBackToController:nil type:InterfaceModelBackTypeAccountNotExist];
@@ -525,8 +525,8 @@
             }
             else if ([verifyState isEqualToString:@"NO"])
             {
-                [JXTAlertView showToastViewWithTitle:@"温馨提示" message:verifyDescription duration:2 dismissCompletion:^(NSInteger buttonIndex) {
-                    NSLog(@"关闭");
+                [JXTAlertView showToastViewWithTitle:@"" message:verifyDescription duration:2 dismissCompletion:^(NSInteger buttonIndex) {
+                    NSLog(@"OK");
                 }];
             }
         }

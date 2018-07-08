@@ -21,7 +21,8 @@
 
 #import "TreatDataViewController.h"
 #import "MyInfoViewController.h"
-#import "AES.h"
+
+#import "AESCipher.h"
 
 @interface HomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -122,12 +123,7 @@
         [self sendEvaluateDataToSevice];
         [self sendTreatDataToSevice];
     });
-    
-    NSLog(@"128加密：%@",[AES AES128EncryptStrig:@"nuozhijia"]);
-    NSLog(@"128解密：%@",[AES AES128DecryptString:[AES AES128EncryptStrig:@"nuozhijia"]]);
-
 }
-
 
 #pragma mark - 右侧导航菜单栏
 -(void)addMenuView

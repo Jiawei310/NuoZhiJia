@@ -489,7 +489,7 @@
             dayString=[NSString stringWithFormat:@"%@",[_begainDateDayArray objectAtIndex:dayBegainSelectIndex]];
         }
         
-        BegainTime=[NSString stringWithFormat:@"%@.%@.%@",yearString,monthString,dayString];
+        BegainTime=[NSString stringWithFormat:@"%@.%.2ld.%.2ld",yearString,[monthString integerValue],[dayString integerValue]];
         if ([self getIntervalTimeFrom:[self stringToDate:BegainTime] toDate:[self stringToDate:dateTwo_Button.titleLabel.text]]>=0)
         {
             [dateOne_Button setTitle:BegainTime forState:UIControlStateNormal];
@@ -530,7 +530,7 @@
         {
             dayString=[NSString stringWithFormat:@"%@",[_endDateDayArray objectAtIndex:dayEndSelectIndex]];
         }
-        EndTime=[NSString stringWithFormat:@"%@.%@.%@",yearString,monthString,dayString];
+        EndTime=[NSString stringWithFormat:@"%@.%.2ld.%.2ld",yearString,[monthString integerValue],[dayString integerValue]];
         
         NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy.MM.dd"];
@@ -984,7 +984,7 @@
 -(NSDate *)stringToDate:(NSString *)dateString
 {
     NSDateFormatter *inputForMatter=[[NSDateFormatter alloc] init];
-    [inputForMatter setDateFormat:@"yyyy/MM/dd"];
+    [inputForMatter setDateFormat:@"yyyy.MM.dd"];
     NSDate *inputDate=[inputForMatter dateFromString:dateString];
     return inputDate;
 }
@@ -992,7 +992,7 @@
 -(NSString *)dateToString:(NSDate *)stringDate
 {
     NSDateFormatter *outputForMatter=[[NSDateFormatter alloc] init];
-    [outputForMatter setDateFormat:@"yyyy/MM/dd"];
+    [outputForMatter setDateFormat:@"yyyy.MM.dd"];
     NSString *outputDate=[outputForMatter stringFromDate:stringDate];
     return outputDate;
 }
@@ -1027,7 +1027,7 @@
         {
             TreatInfo *index_One=[array objectAtIndex:i];
             TreatInfo *index_Two=[array objectAtIndex:i+1];
-            if ([index_One.Date compare:index_Two.Date]== NSOrderedAscending)
+            if ([index_One.BeginTime compare:index_Two.BeginTime]== NSOrderedAscending)
             {
                 [array exchangeObjectAtIndex:i withObjectAtIndex:i+1];
             }

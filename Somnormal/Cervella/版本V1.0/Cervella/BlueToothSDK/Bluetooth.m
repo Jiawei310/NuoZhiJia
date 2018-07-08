@@ -281,8 +281,17 @@
         if (!self.equipment.deviceCode) {
             //读取设备信息
             [self readAndSendDeviceInfo];
+            
+            
+            //检测阻抗，时候正确佩戴
+            [self.checkElectricTimer fire];
+            //检测电量
+            [self.readBatteryTimer fire];
+            
             //读取电量
             [self readBattery];
+            //读取耳夹状态
+            [self detectionPersecondsForImpedance];
         }
     }
 }

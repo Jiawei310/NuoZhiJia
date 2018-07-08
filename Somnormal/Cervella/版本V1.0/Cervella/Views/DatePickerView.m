@@ -236,14 +236,14 @@
         }
         
         NSString *birthMonth = [NSString stringWithFormat:@"%02ld",(long)[[self.monthArray objectAtIndex:self.monthIndex] integerValue]];
-        NSString *birthday=[NSString stringWithFormat:@"%@-%@",[self.yearArray objectAtIndex:self.yearIndex],birthMonth];
+        NSString *birthday=[NSString stringWithFormat:@"%@.%@",[self.yearArray objectAtIndex:self.yearIndex],birthMonth];
         self.gotoSrceenOrderBlock(birthday);
     }
     else
     {
         NSString *birthMonth = [NSString stringWithFormat:@"%02ld",(long)[[self.monthArray objectAtIndex:self.monthIndex] integerValue]];
         NSString *birthDay = [NSString stringWithFormat:@"%02ld",(long)[[self.dayArray objectAtIndex:self.dayIndex] integerValue]];
-        NSString *birthday=[NSString stringWithFormat:@"%@-%@-%@",[self.yearArray objectAtIndex:self.yearIndex],birthMonth,birthDay];
+        NSString *birthday=[NSString stringWithFormat:@"%@.%@.%@",[self.yearArray objectAtIndex:self.yearIndex],birthMonth,birthDay];
         self.gotoSrceenOrderBlock(birthday);
     }
 }

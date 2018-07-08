@@ -20,6 +20,8 @@ typedef NS_ENUM(NSInteger, StatusType) {
 @property (nonatomic, assign) StatusType statusType;
 @property (nonatomic, assign) NSUInteger timers;//单位秒
 @property (nonatomic, assign) BOOL isCanTap;
+@property (nonatomic, assign) UIColor *textColor;
+
 @property (copy) void (^bluetoothStatusViewBlock)(StatusType);
 
 - (void)updateProgressWithPercent:(CGFloat )percent;

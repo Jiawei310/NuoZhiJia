@@ -133,9 +133,7 @@
 		D07B34C11F13887D0077B2F9 /* SleepTipsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = D07B34BD1F13887D0077B2F9 /* SleepTipsList.plist */; };
 		D07B34C51F13B1830077B2F9 /* UIButton+Common.m in Sources */ = {isa = PBXBuildFile; fileRef = D07B34C41F13B1830077B2F9 /* UIButton+Common.m */; };
 		D09E92541F14B257005D45C2 /* JustinMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D09E92531F14B257005D45C2 /* JustinMenu.m */; };
-		E412473320E8D6AB007D6BBA /* AES.m in Sources */ = {isa = PBXBuildFile; fileRef = E412473220E8D6AB007D6BBA /* AES.m */; };
-		E412473620E8D7A5007D6BBA /* NSData+AES128.m in Sources */ = {isa = PBXBuildFile; fileRef = E412473520E8D7A5007D6BBA /* NSData+AES128.m */; };
-		E412473920E8D873007D6BBA /* NSData+AES256.m in Sources */ = {isa = PBXBuildFile; fileRef = E412473820E8D873007D6BBA /* NSData+AES256.m */; };
+		E484C13220F0F8F200EA78E6 /* AESCipher.m in Sources */ = {isa = PBXBuildFile; fileRef = E484C13120F0F8F200EA78E6 /* AESCipher.m */; };
 		E4E320CA20DF71E1005041A0 /* ShowLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E4E320C920DF71E1005041A0 /* ShowLinkViewController.m */; };
 		E905492D20D1078600F39334 /* ColorsSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492C20D1078600F39334 /* ColorsSliderView.m */; };
 		E905493020D11BFC00F39334 /* SelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = E905492F20D11BFC00F39334 /* SelectView.m */; };
@@ -386,12 +384,8 @@
 		D07B34C41F13B1830077B2F9 /* UIButton+Common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Common.m"; sourceTree = "<group>"; };
 		D09E92521F14B257005D45C2 /* JustinMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JustinMenu.h; sourceTree = "<group>"; };
 		D09E92531F14B257005D45C2 /* JustinMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JustinMenu.m; sourceTree = "<group>"; };
-		E412473120E8D6AB007D6BBA /* AES.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AES.h; sourceTree = "<group>"; };
-		E412473220E8D6AB007D6BBA /* AES.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AES.m; sourceTree = "<group>"; };
-		E412473420E8D7A5007D6BBA /* NSData+AES128.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+AES128.h"; sourceTree = "<group>"; };
-		E412473520E8D7A5007D6BBA /* NSData+AES128.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES128.m"; sourceTree = "<group>"; };
-		E412473720E8D873007D6BBA /* NSData+AES256.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+AES256.h"; sourceTree = "<group>"; };
-		E412473820E8D873007D6BBA /* NSData+AES256.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES256.m"; sourceTree = "<group>"; };
+		E484C13020F0F8F200EA78E6 /* AESCipher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AESCipher.h; sourceTree = "<group>"; };
+		E484C13120F0F8F200EA78E6 /* AESCipher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AESCipher.m; sourceTree = "<group>"; };
 		E4E320C820DF71E1005041A0 /* ShowLinkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShowLinkViewController.h; sourceTree = "<group>"; };
 		E4E320C920DF71E1005041A0 /* ShowLinkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShowLinkViewController.m; sourceTree = "<group>"; };
 		E905492B20D1078600F39334 /* ColorsSliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorsSliderView.h; sourceTree = "<group>"; };
@@ -1063,12 +1057,8 @@
 		E412473020E8D684007D6BBA /* AES */ = {
 			isa = PBXGroup;
 			children = (
-				E412473120E8D6AB007D6BBA /* AES.h */,
-				E412473220E8D6AB007D6BBA /* AES.m */,
-				E412473420E8D7A5007D6BBA /* NSData+AES128.h */,
-				E412473520E8D7A5007D6BBA /* NSData+AES128.m */,
-				E412473720E8D873007D6BBA /* NSData+AES256.h */,
-				E412473820E8D873007D6BBA /* NSData+AES256.m */,
+				E484C13020F0F8F200EA78E6 /* AESCipher.h */,
+				E484C13120F0F8F200EA78E6 /* AESCipher.m */,
 			);
 			path = AES;
 			sourceTree = "<group>";
@@ -1266,7 +1256,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D04377D51F04CA3E0061F279 /* AssessViewController.m in Sources */,
-				E412473920E8D873007D6BBA /* NSData+AES256.m in Sources */,
 				D04377891F026E370061F279 /* SDWebImageDecoder.m in Sources */,
 				D07B34961F135AE80077B2F9 /* ClinicalUseViewController.m in Sources */,
 				D04377941F026E370061F279 /* UIView+WebCacheOperation.m in Sources */,
@@ -1284,7 +1273,6 @@
 				D04376EF1F0252060061F279 /* RegisterViewController.m in Sources */,
 				D07B34731F135A2A0077B2F9 /* AttentionDetailViewController.m in Sources */,
 				D04377881F026E370061F279 /* SDWebImageCompat.m in Sources */,
-				E412473620E8D7A5007D6BBA /* NSData+AES128.m in Sources */,
 				E905492D20D1078600F39334 /* ColorsSliderView.m in Sources */,
 				D04377A41F0344620061F279 /* SKPSMTPMessage.m in Sources */,
 				D04377B41F0386240061F279 /* DatePickerView.m in Sources */,
@@ -1330,7 +1318,6 @@
 				D043778D1F026E370061F279 /* SDWebImagePrefetcher.m in Sources */,
 				E91214C320D8F0A300E32D38 /* Equipment.m in Sources */,
 				E9F6E9A220D2130A008DBB72 /* BluetoothStatusView.m in Sources */,
-				E412473320E8D6AB007D6BBA /* AES.m in Sources */,
 				D022E0DF1F0F3BD800D92F7C /* AssessDataViewController.m in Sources */,
 				D07B34651F13596B0077B2F9 /* MethodViewController.m in Sources */,
 				D07B346A1F135A040077B2F9 /* PrincipleViewController.m in Sources */,
@@ -1355,6 +1342,7 @@
 				D04377B81F03A1250061F279 /* HomeViewController.m in Sources */,
 				D043771C1F02688B0061F279 /* DataBaseOpration.m in Sources */,
 				D07B348C1F135ACA0077B2F9 /* ConfigRequireViewController.m in Sources */,
+				E484C13220F0F8F200EA78E6 /* AESCipher.m in Sources */,
 				E92D49A320D35B4B00C3026A /* WebViewController.m in Sources */,
 				D04377D01F04CA2B0061F279 /* StartsViewController.m in Sources */,
 				D06B8C561F0142EE00531D8E /* AppDelegate.m in Sources */,

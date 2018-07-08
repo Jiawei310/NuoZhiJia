@@ -186,6 +186,13 @@
     self.timeLab.text = [NSString stringWithFormat:@"%.2ld:%.2ld", _timers/60, _timers%60];
 }
 
+- (void)setTextColor:(UIColor *)textColor {
+    _textColor = textColor;
+    
+    self.startLab.textColor = textColor;
+    self.timeLab.textColor = textColor;
+}
+
 - (BluetoothInfo *)bluetoothInfo {
     //从数据库读取之前绑定设备
     _bluetoothInfo = nil;

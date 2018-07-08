@@ -62,6 +62,7 @@
     ColorsSliderView *colorsSliderView;
     
     NSInteger timeRemaining;            //剩余时间
+    NSInteger timeCure;//治疗多长时间
     NSTimer *countDownTimer;
 
     
@@ -73,7 +74,6 @@
     BOOL isWear;
     
     //当前治疗
-    NSTimer *saveTreatInfoTimer;
     TreatInfo *treatInfoTmp;
     
     //1分钟无治疗断掉
@@ -117,12 +117,22 @@
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [countDownTimer invalidate];
-    [saveTreatInfoTimer invalidate];
     [unConnectTimer invalidate];
 }
 
 #pragma  mark - init
 - (void)defaultData {
+    _bluetoothInfo = nil;
+    DataBaseOpration *dataBaseOpration = [[DataBaseOpration alloc] init];
+    NSArray *bluetoothInfoArray=[dataBaseOpration getBluetoothDataFromDataBase];
+    
+    if (bluetoothInfoArray.count>0)
+    {
+        _bluetoothInfo = [bluetoothInfoArray objectAtIndex:0];
+    }
+    [dataBaseOpration closeDataBase];
+    
+    
     intensityLevel = 1;
     self.frequencySelector = 2;
     self.timeSelector =  2;
@@ -337,7 +347,10 @@
                         }
                     }
                 } else {
-                    jxt_showTextHUDTitleMessage(@"", @"Searching Cervella");
+                    NSString *str = weakSelf.bluetoothInfo.deviceName;
+                    str = [str stringByReplacingOccurrencesOfString:@"Sleep4U" withString:@"Cervella"];
+                    NSString *alertStr = [NSString stringWithFormat:@"Connecting to Cervella:%@", str];
+                    jxt_showTextHUDTitleMessage(@"", alertStr);
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         jxt_dismissHUD();
                     });
@@ -345,24 +358,25 @@
                 
             } else {
                 //点击绑定设备
-                BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
-                bindViewController.bindFlag=@"1";
-                bindViewController.bindViewControllerSelectEquiment = ^(Equipment *eq) {
-                    for (Equipment *equipmemt in weakSelf.bluetooth.equipments) {
-                        if ([[equipmemt.peripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
-                            [weakSelf.bluetooth connectEquipment:equipmemt];
-                            weakSelf.bluetoothStatusView.isCanTap = NO;
-                            break;
+                if (weakSelf.bluetoothStatusView.isCanTap) {
+                    BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
+                    bindViewController.bindFlag=@"1";
+                    bindViewController.bindViewControllerSelectEquiment = ^(Equipment *eq) {
+                        for (Equipment *equipmemt in weakSelf.bluetooth.equipments) {
+                            if ([[equipmemt.peripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
+                                [weakSelf.bluetooth connectEquipment:equipmemt];
+                                weakSelf.bluetoothStatusView.isCanTap = NO;
+                                break;
+                            }
                         }
-                    }
-                };
-                [weakSelf.navigationController pushViewController:bindViewController animated:YES];
+                    };
+                    [weakSelf.navigationController pushViewController:bindViewController animated:YES];
+                }
             }
 
         } else if (statusType == StatusTypeStart) {
             //点解开始治疗
             [weakSelf blueStartWorkUI];
-
         } else if (statusType == StatusTypeStop) {
             //点击结束
             [weakSelf blueStopWorkUI];
@@ -380,17 +394,15 @@
     self.timeView.isCanSelect = NO;
     
     timeRemaining = self.timeDuration;
+    timeCure = 0;
     self.bluetoothStatusView.statusType = StatusTypeStop;
     self.bluetoothStatusView.timers = self.timeDuration;
+    self.bluetoothStatusView.textColor = [UIColor grayColor];
     treatInfoTmp =  nil;
     
     //开始治疗
-    [self.bluetooth changeLevel:intensityLevel];
     [self.bluetooth startWork];
-    //倒计时
-    [self timeCountDown];
-    //定时保存治疗数据
-    [self initTreatInfoTimer];
+    [self.bluetooth changeLevel:intensityLevel];
     
     beginDate = [NSDate date];
     
@@ -405,7 +417,6 @@
     [self.bluetooth endWork];
     //停止倒计时
     [countDownTimer invalidate];
-    [saveTreatInfoTimer invalidate];
     
     //保存治疗数据到数据库
     endDate = [NSDate date];
@@ -419,8 +430,10 @@
     self.timeView.isCanSelect = YES;
     
     timeRemaining = self.timeDuration;
+    timeCure = 0;
     self.bluetoothStatusView.statusType = StatusTypeStart;
     self.bluetoothStatusView.timers = self.timeDuration;
+    self.bluetoothStatusView.textColor = [UIColor grayColor];
     [self.bluetoothStatusView updateProgressWithPercent:0.001];
     
     //启动60分钟检查
@@ -430,10 +443,6 @@
 //倒计时
 - (void)timeCountDown {
     countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
-}
-//定时保存治疗数据
-- (void)initTreatInfoTimer {
-    saveTreatInfoTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(saveTreatInfo) userInfo:nil repeats:YES];
 }
 
 //60秒没有治疗直接断开链接
@@ -448,6 +457,12 @@
         self.bluetoothStatusView.timers = timeRemaining;
         CGFloat precent = (self.timeDuration * 1.0 - timeRemaining * 1.0)/(self.timeDuration * 1.0);
         [self.bluetoothStatusView updateProgressWithPercent:precent];
+        
+        //开始治疗，每1分钟保存一次数据
+        timeCure = self.timeDuration - timeRemaining;
+        if (timeCure > 0 && timeCure%60 == 0) {
+            [self saveTreatInfo];
+        }
     }
     else {
         [self blueStopWorkUI];
@@ -506,13 +521,18 @@
     if (connectState == ConnectStateNormal) { //正常链接成功
         self.bluetoothStatusView.statusType = StatusTypeStart;
         self.bluetoothStatusView.timers = self.timeDuration;
-        
+        self.bluetoothStatusView.textColor = [UIColor grayColor];
+
         //链接成功可选择频率和时间
         self.frequencyView.isCanSelect = YES;
         self.timeView.isCanSelect = YES;
         
         //Pairing successful!
-        jxt_showTextHUDTitleMessage(@"", @"Connect successful!");
+        NSString *alertStr = @"Connect successful!";
+        if (!self.patientInfo) {
+            alertStr = @"Pairing Succeffful!";
+        }
+        jxt_showTextHUDTitleMessage(@"", alertStr);
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -535,10 +555,16 @@
 - (void)wearState:(WearState)wearState Error:(NSError *)error {
     if (wearState == WearStateNormal) {
         NSLog(@"WearStateNormal");
+        //开始治疗后，结束治疗前
+        if (self.bluetoothStatusView.statusType == StatusTypeStop) {
+            //倒计时 开始
+            if (countDownTimer == nil) {
+                [self timeCountDown];
+            }
+        }
         if (!isWear) {
             [countDownTimer setFireDate:[NSDate date]];
-            [saveTreatInfoTimer setFireDate:[NSDate date]];
-            
+            self.bluetoothStatusView.textColor = [UIColor grayColor];
             //戴上后会自动隐藏
             if (alertC) {
                 [alertC dismissViewControllerAnimated:YES completion:nil];
@@ -550,10 +576,13 @@
         //暂停倒计时
         if (isWear) {
             [countDownTimer setFireDate:[NSDate distantFuture]];
-            [saveTreatInfoTimer setFireDate:[NSDate distantFuture]];
-
-            //提出警告
-            [self showError:error];
+            
+            //开始治疗后，结束治疗前
+            if (self.bluetoothStatusView.statusType == StatusTypeStop) {
+                self.bluetoothStatusView.textColor = [UIColor redColor];
+                //提出警告
+                [self showError:error];
+            }
         }
         isWear = NO;
     }
@@ -594,7 +623,7 @@
 - (void)saveTreatInfo {
 //    存储治疗数据到数据库
 //    初始化数据库
-    if (self.timeDuration - timeRemaining > 60 && _patientInfo.PatientID!=nil )  {
+    if (timeCure > 0  && _patientInfo.PatientID!=nil )  {
         dbOpration=[[DataBaseOpration alloc] init];
         if (treatInfoTmp) {
             NSDateFormatter *dateFormatter=[[NSDateFormatter alloc] init];
@@ -611,7 +640,7 @@
             treatInfoTmp.BeginTime = [dateFormatter stringFromDate:beginDate];
             treatInfoTmp.EndTime = @"";
             
-            treatInfoTmp.CureTime = [NSString stringWithFormat:@"%.ld", (self.timeDuration - timeRemaining)/60];
+            treatInfoTmp.CureTime = [NSString stringWithFormat:@"%.ld", (timeCure)/60];
             //更新
             [dbOpration updateTreatInfo:treatInfoTmp];
             [dbOpration closeDataBase];
@@ -633,7 +662,7 @@
             treatInfoTmp.BeginTime = [dateFormatter stringFromDate:beginDate];
             treatInfoTmp.EndTime = [dateFormatter stringFromDate:endDate];
             
-            treatInfoTmp.CureTime = [NSString stringWithFormat:@"%.ld", (self.timeDuration - timeRemaining)/60];
+            treatInfoTmp.CureTime = [NSString stringWithFormat:@"%.ld", (timeCure)/60];
             //插入
             [dbOpration insertTreatInfo:treatInfoTmp];
             [dbOpration closeDataBase];

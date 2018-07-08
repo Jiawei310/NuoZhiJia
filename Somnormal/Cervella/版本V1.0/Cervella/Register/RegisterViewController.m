@@ -11,6 +11,7 @@
 #import "DatePickerView.h"
 #import "AppDelegate.h"
 #import "HomeViewController.h"
+#import "AESCipher.h"
 
 
 @interface RegisterViewController ()<UITableViewDelegate, UITableViewDataSource, UITextViewDelegate, InterfaceModelDelegate>
@@ -340,10 +341,10 @@
 
 - (IBAction)registerAndLoginAction:(UIButton *)sender
 {
-    if (_acountTextField.text.length == 0)
+    if (_acountTextField.text.length == 0 || _passwordTextField.text.length == 0)
     {
         //提示账号不可为空
-        jxt_showTextHUDTitleMessage(@"", @"Username cannot be empyt,please check and re-enter.");
+        jxt_showTextHUDTitleMessage(@"", @"Please enter Username and Password first");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -381,15 +382,19 @@
     }
     else
     {
-        _patientInfo.PatientID = _acountTextField.text;
-        _patientInfo.PatientName = _acountTextField.text;
-        _patientInfo.PatientPwd = _passwordTextField.text;
+        _patientInfo.PatientID = aesEncryptString(_acountTextField.text, aes_key_value);
+        _patientInfo.PatientName = aesEncryptString(_acountTextField.text, aes_key_value);
+        _patientInfo.PatientPwd = aesEncryptString(_passwordTextField.text, aes_key_value);
+        _patientInfo.Email = aesEncryptString(_emailTextField.text, aes_key_value);
+        
         _patientInfo.Birthday = _birthTextField.text;
-        _patientInfo.Email = _emailTextField.text;
         _patientInfo.PatientSex = @"Male";
         if (_femaleBtn.selected) {
             _patientInfo.PatientSex = @"Female";
         }
+        
+        
+        
         _patientInfo.CellPhone = @"";
         _patientInfo.Age = 0;
         _patientInfo.FamilyPhone = @"";
