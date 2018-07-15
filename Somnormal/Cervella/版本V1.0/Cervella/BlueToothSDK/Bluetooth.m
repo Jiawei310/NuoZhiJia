@@ -472,7 +472,7 @@
         }
         
         
-        //充电状态
+        //充电状态。(0:充满电 1:在充电 2:没有充电)
         if (self.equipment.chargeStatus != 2) {
             errorE = [[NSError alloc] initWithDomain:@"Cervella is charging"
                                                 code:920

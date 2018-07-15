@@ -566,9 +566,9 @@
             [countDownTimer setFireDate:[NSDate date]];
             self.bluetoothStatusView.textColor = [UIColor grayColor];
             //戴上后会自动隐藏
-            if (alertC) {
-                [alertC dismissViewControllerAnimated:YES completion:nil];
-            }
+//            if (alertC) {
+//                [alertC dismissViewControllerAnimated:YES completion:nil];
+//            }
         }
         isWear = YES;
     }
@@ -581,7 +581,7 @@
             if (self.bluetoothStatusView.statusType == StatusTypeStop) {
                 self.bluetoothStatusView.textColor = [UIColor redColor];
                 //提出警告
-                [self showError:error];
+//                [self showError:error];
             }
         }
         isWear = NO;
