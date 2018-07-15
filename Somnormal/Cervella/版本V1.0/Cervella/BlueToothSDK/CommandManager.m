@@ -31,23 +31,25 @@
 {
     NSString *orderStr;
     NSString *strFrequency=[NSString string];
+    NSString *strTime=[NSString string];
     NSString *strVerify=[NSString string];
-    //校验码是前面所有的和
-    NSString *strTime=@"3C"; //@"14"; //strVerify=@"A0";
     if (workModel ==  WorkModelNormal)
     {
         strFrequency=@"00";
-        strVerify=@"C8";
+        strTime=@"14";
+        strVerify=@"A0";
     }
     else if (workModel == WorkModelStimulate)
     {
         strFrequency=@"01";
-        strVerify=@"C9";
+        strTime=@"14";
+        strVerify=@"A1";
     }
     else if (workModel == WorkModelHighIntensity)
     {
         strFrequency=@"02";
-        strVerify=@"CA";
+        strTime=@"14";
+        strVerify=@"A2";
     }
     
     for (CBCharacteristic *characteristic in characteristicArray)

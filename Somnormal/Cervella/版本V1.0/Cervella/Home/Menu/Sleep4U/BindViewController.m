@@ -24,17 +24,23 @@
     UILabel *UUIDLabel;
 }
 @synthesize arrayBLE;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    self.bluetooth.delegate = self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scanedEquipmentsNotificationCenter:) name:@"scanedEquipments" object:nil];
     
-//    self.title = @"Search for Cervella";
-    UILabel *titleLab = [[UILabel alloc] init];
-    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
-    titleLab.text = @"Search for Cervella";
-    titleLab.textColor = [UIColor whiteColor];
-    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
+    
+////    self.title = @"Search for Cervella";
+//    UILabel *titleLab = [[UILabel alloc] init];
+//    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
+//    titleLab.text = @"Search for Cervella";
+//    titleLab.textColor = [UIColor whiteColor];
+//    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
 
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -43,7 +49,9 @@
     
     //添加返回按钮
     UIButton *backLogin = [UIButton buttonWithType:UIButtonTypeSystem];
-    backLogin.frame = CGRectMake(12, 30, 23, 23);
+    backLogin.frame = CGRectMake(12, 30, 44, 100);
+    [backLogin setTitle:@"Search for Cervella" forState:UIControlStateNormal];
+
     [backLogin setImage:[UIImage imageNamed:@"btn_back"] forState:UIControlStateNormal];
     [backLogin addTarget:self action:@selector(backLoginClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backLoginItem = [[UIBarButtonItem alloc] initWithCustomView:backLogin];
@@ -51,7 +59,7 @@
     //添加fixedButton是为了让backLoginItem往左边靠拢
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedButton.width = -10;
-    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem,titleBtnItem];
+    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
     [_scanButton setBackgroundColor:[UIColor colorWithRed:0x25/255.0 green:0x7e/255.0 blue:0xd6/255.0 alpha:1]];
     [self.scanButton setTitle:@"Search Again" forState:UIControlStateNormal];
@@ -101,17 +109,23 @@
 - (IBAction)scanClick:(id)sender
 {
     [arrayBLE removeAllObjects];
+    self.bluetooth.delegate = self;
     [self.bluetooth scanEquipment];
     [self.scanResultTableView reloadData];
 }
 
 #pragma mark -- BluetoothDelegate
-- (void)scanedEquipments:(NSArray *)equipments {
-    //搜索到设备
-    arrayBLE = [equipments mutableCopy];
+//- (void)scanedEquipments:(NSArray *)equipments {
+//    //搜索到设备
+//    arrayBLE = [equipments mutableCopy];
+//    [self.scanResultTableView reloadData];
+//}
+
+- (void)scanedEquipmentsNotificationCenter:(NSNotification*) notification {
+    NSArray *arr = notification.object;
+    arrayBLE = [arr mutableCopy];
     [self.scanResultTableView reloadData];
 }
-
 #pragma mark -tableview的方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

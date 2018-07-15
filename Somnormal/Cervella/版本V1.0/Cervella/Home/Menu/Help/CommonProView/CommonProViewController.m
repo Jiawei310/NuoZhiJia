@@ -21,27 +21,30 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    UILabel *titleLab = [[UILabel alloc] init];
-    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
-    titleLab.text = self.title;
-    titleLab.textColor = [UIColor whiteColor];
-    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
-
-    self.title = nil;
+//    UILabel *titleLab = [[UILabel alloc] init];
+//    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
+//    titleLab.text = self.title;
+//    titleLab.textColor = [UIColor whiteColor];
+//    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent=YES;
     //添加返回按钮
     UIButton *backLogin = [UIButton buttonWithType:UIButtonTypeSystem];
-    backLogin.frame = CGRectMake(12, 30, 23, 23);
+    
+    backLogin.frame = CGRectMake(12, 30, 44, 100);
+    [backLogin setTitle:self.title forState:UIControlStateNormal];
+    self.title = nil;
+
+
     [backLogin setImage:[UIImage imageNamed:@"btn_back"] forState:UIControlStateNormal];
     [backLogin addTarget:self action:@selector(backLoginClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backLoginItem = [[UIBarButtonItem alloc] initWithCustomView:backLogin];
     //添加fixedButton是为了让backLoginItem往左边靠拢
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedButton.width = -10;
-    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem, titleBtnItem];
+    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
     commonTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREENWIDTH, SCREENHEIGHT) style:UITableViewStylePlain];
     //自动计算cell高度

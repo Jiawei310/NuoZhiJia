@@ -103,14 +103,9 @@
         _nameTextField.tag = 1;
         _nameTextField.enabled = NO;
         [cell.contentView addSubview:_nameTextField];
-
-        _nameTextField.text = _patientInfo.PatientID;
         
         //解密显示
-        if (_patientInfo.PatientID.length == 24) {
-            _birthLabel.text = aesDecryptString( _patientInfo.Birthday, aes_key_value);
-        }
-        
+        _nameTextField.text = aesDecryptString( _patientInfo.PatientID, aes_key_value);
     }
     else if (indexPath.row == 1)
     {
@@ -122,15 +117,7 @@
         _sexLabel.userInteractionEnabled = YES;
         _sexLabel.textAlignment = NSTextAlignmentRight;
         _sexLabel.font=[UIFont systemFontOfSize:16*Rate_NAV_H];
-        if (_patientInfo.PatientSex.length>0)
-        {
-            _sexLabel.text=@"Male";
-            if ([_patientInfo.PatientSex isEqualToString:@"女"] ||
-                [_patientInfo.PatientSex isEqualToString:@"Female"] ||
-                [_patientInfo.PatientSex isEqualToString:@"F"]) {
-                _sexLabel.text = @"Female";
-            }
-        }
+        _sexLabel.text = aesDecryptString(_patientInfo.PatientSex, aes_key_value);
         
         [cell.contentView addSubview:_sexLabel];
     }
@@ -146,12 +133,9 @@
             if ([str containsString:@"-"]) {
                 str = [str stringByReplacingOccurrencesOfString:@"-" withString:@"."];
             }
-            _birthLabel.text = str;
             
             //解密显示
-            if (_patientInfo.Birthday.length == 24) {
-                _birthLabel.text = aesDecryptString( _patientInfo.Birthday, aes_key_value);
-            }
+            _birthLabel.text = aesDecryptString( _patientInfo.Birthday, aes_key_value);
         }
         
         [cell.contentView addSubview:_birthLabel];
@@ -165,11 +149,9 @@
         _emailTextField.font=[UIFont systemFontOfSize:16*Rate_NAV_H];
         if (_patientInfo.Email.length > 0 && ![_patientInfo.Email isEqualToString:@"(null)"])
         {
-            _emailTextField.text=_patientInfo.Email;
             //解密显示
-            if (_patientInfo.Email.length == 24) {
-                _emailTextField.text = aesDecryptString( _patientInfo.Email, aes_key_value);
-            }
+            _emailTextField.text = aesDecryptString( _patientInfo.Email, aes_key_value);
+
         }
         else
         {

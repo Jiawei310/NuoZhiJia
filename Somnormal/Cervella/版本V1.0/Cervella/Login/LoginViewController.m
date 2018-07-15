@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "ForgotPasswordViewController.h"
 #import "HomeViewController.h"
+#import "AESCipher.h"
 
 @interface LoginViewController ()<UITableViewDelegate, UITableViewDataSource, InterfaceModelDelegate>
 
@@ -103,8 +104,10 @@
     {
         jxt_showLoadingHUDTitleMessage(@"Sign in", @"Loading...");
         isOverTime = YES;
+        NSString *nameStr = aesEncryptString(_acountTextField.text, aes_key_value);
+        NSString *passwordStr = aesEncryptString(_passwordTextField.text, aes_key_value);
         //调用登录接口
-        [interfaceModel sendJsonLoginInfoToServer:_acountTextField.text password:_passwordTextField.text isLogin:YES];
+        [interfaceModel sendJsonLoginInfoToServer:nameStr password:passwordStr isLogin:YES];
         [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(overTimeOpration) userInfo:nil repeats:NO];
     }
 }
@@ -137,7 +140,8 @@
     else
     {
         //判断不为空时，并验证输入的账号是否存在
-        [interfaceModel sendJsonLoginInfoToServer:_acountTextField.text password:@"" isLogin:NO];
+        NSString *nameStr = aesDecryptString(_acountTextField.text, aes_key_value);
+        [interfaceModel sendJsonLoginInfoToServer:nameStr password:@"" isLogin:NO];
         //设置“忘记密码”按钮不可点击，避免多次点击多次响应
         _forgotPasswordBtn.userInteractionEnabled = NO;
     }
@@ -169,7 +173,8 @@
     else if (interfaceModelBackType == InterfaceModelBackTypeFindPassword)
     {
         //先判断邮箱是否存在
-        [interfaceModel sendJsonPatientIDToServer:_acountTextField.text andPwd:nil];
+        NSString *nameStr = aesEncryptString(_acountTextField.text, aes_key_value);
+        [interfaceModel sendJsonPatientIDToServer:nameStr andPwd:nil];
         
     }
     else if (interfaceModelBackType == InterfaceModelBackTypeGetPatientInfo)

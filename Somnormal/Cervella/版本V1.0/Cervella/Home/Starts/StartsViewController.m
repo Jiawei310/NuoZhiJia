@@ -51,6 +51,9 @@
 @property (strong,nonatomic) SelectView *timeSelectView;
 @property (strong,nonatomic) BluetoothStatusView *bluetoothStatusView;
 
+@property (strong,nonatomic) NSArray *scanednEquipments;
+
+
 @end
 
 @implementation StartsViewController
@@ -84,14 +87,17 @@
     
 }
 @synthesize webData,soapResults,xmlParser,elementFound,matchingElement,conn;
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    self.bluetooth.delegate = self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scanedEquipmentsNotificationCenter:) name:@"scanedEquipments" object:nil];
+
     self.view.backgroundColor = [UIColor whiteColor];
-    //注册链接蓝牙通知
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendBluetoothInfoValue:) name:@"connectBLE" object:nil];
     //注册解绑通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(freeBluetoothInfo) name:@"Free" object:nil];
     //注册切换用户通知
@@ -109,15 +115,12 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:YES];
-    self.bluetooth.delegate = self;
-}
-
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [countDownTimer invalidate];
+    countDownTimer = nil;
     [unConnectTimer invalidate];
+    unConnectTimer = nil;
 }
 
 #pragma  mark - init
@@ -329,9 +332,12 @@
         if (statusType == StatusTypeNone) {
             //绑定过直接链接
             if (weakSelf.bluetoothInfo) {
-                if (weakSelf.bluetooth.equipments.count > 0) {
-                    for (Equipment *eq in weakSelf.bluetooth.equipments) {
+                BOOL hasEq = NO;
+                if (weakSelf.scanednEquipments.count > 0) {
+                    for (Equipment *eq in weakSelf.scanednEquipments) {
+                        NSLog(@"eq:%@",eq.peripheral.name);
                         if ([weakSelf.bluetoothInfo.peripheralIdentify isEqualToString:[eq.peripheral.identifier UUIDString]]) {
+                            hasEq = YES;
                             //链接蓝牙设备
                             [weakSelf.bluetooth connectEquipment:eq];
                             weakSelf.bluetoothStatusView.isCanTap = NO;
@@ -346,15 +352,21 @@
                             break;
                         }
                     }
-                } else {
+                    
+                }
+                if (!hasEq) {
+                    [weakSelf.bluetooth scanEquipment];
+                    
                     NSString *str = weakSelf.bluetoothInfo.deviceName;
                     str = [str stringByReplacingOccurrencesOfString:@"Sleep4U" withString:@"Cervella"];
-                    NSString *alertStr = [NSString stringWithFormat:@"Connecting to Cervella:%@", str];
-                    jxt_showTextHUDTitleMessage(@"", alertStr);
+                    
+                    
+                    jxt_showTextHUDTitleMessage(@"", @"Make sure Cervella unit is nearby and is sufficiently charged.");
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         jxt_dismissHUD();
                     });
                 }
+                
                 
             } else {
                 //点击绑定设备
@@ -362,7 +374,7 @@
                     BindViewController *bindViewController=[[BindViewController alloc] initWithNibName:@"BindViewController" bundle:nil];
                     bindViewController.bindFlag=@"1";
                     bindViewController.bindViewControllerSelectEquiment = ^(Equipment *eq) {
-                        for (Equipment *equipmemt in weakSelf.bluetooth.equipments) {
+                        for (Equipment *equipmemt in weakSelf.scanednEquipments) {
                             if ([[equipmemt.peripheral.identifier UUIDString] isEqualToString:[eq.peripheral.identifier UUIDString]]) {
                                 [weakSelf.bluetooth connectEquipment:equipmemt];
                                 weakSelf.bluetoothStatusView.isCanTap = NO;
@@ -401,8 +413,9 @@
     treatInfoTmp =  nil;
     
     //开始治疗
+    self.bluetooth.equipment.workModel = self.frequencySelector;
+    self.bluetooth.equipment.level = intensityLevel;
     [self.bluetooth startWork];
-    [self.bluetooth changeLevel:intensityLevel];
     
     beginDate = [NSDate date];
     
@@ -417,6 +430,7 @@
     [self.bluetooth endWork];
     //停止倒计时
     [countDownTimer invalidate];
+    countDownTimer = nil;
     
     //保存治疗数据到数据库
     endDate = [NSDate date];
@@ -472,6 +486,7 @@
 - (void)unConnectEquiment {
     [self freeBluetoothInfo];
 }
+
 //显示错误
 - (void)showError:(NSError *)error {
     if (error) {
@@ -492,27 +507,79 @@
     if (self.bluetooth.equipment) {
         [self.bluetooth stopConnectEquipment:self.bluetooth.equipment];
     }
-    [self blueStopWorkUI];
+    
+    //停止治疗
+    [self.bluetooth endWork];
+    //停止倒计时
+    [countDownTimer invalidate];
+    countDownTimer = nil;
+    
+    //保存治疗数据到数据库
+    endDate = [NSDate date];
+    [self saveTreatInfo];
+    beginDate = nil;
+    endDate = nil;
+    treatInfoTmp = nil;
+    //UI
+    //停止后频率和时间又可以选择
+    self.frequencyView.isCanSelect = YES;
+    self.timeView.isCanSelect = YES;
+    
+    timeRemaining = self.timeDuration;
+    timeCure = 0;
+    self.bluetoothStatusView.statusType = StatusTypeStart;
+    self.bluetoothStatusView.timers = self.timeDuration;
+    self.bluetoothStatusView.textColor = [UIColor grayColor];
+    [self.bluetoothStatusView updateProgressWithPercent:0.001];
+    
     self.bluetoothStatusView.statusType = StatusTypeNone;
     _bluetooth = nil;
+    
+    [unConnectTimer invalidate];
+    unConnectTimer = nil;
 }
 
 - (void)changeUser {
     if (self.bluetooth.equipment) {
         [self.bluetooth stopConnectEquipment:self.bluetooth.equipment];
     }
-    [self blueStopWorkUI];
+
+    //停止治疗
+    [self.bluetooth endWork];
+    //停止倒计时
+    [countDownTimer invalidate];
+    countDownTimer = nil;
+    
+    //保存治疗数据到数据库
+    endDate = [NSDate date];
+    [self saveTreatInfo];
+    beginDate = nil;
+    endDate = nil;
+    treatInfoTmp = nil;
+    //UI
+    //停止后频率和时间又可以选择
+    self.frequencyView.isCanSelect = YES;
+    self.timeView.isCanSelect = YES;
+    
+    timeRemaining = self.timeDuration;
+    timeCure = 0;
+    self.bluetoothStatusView.statusType = StatusTypeStart;
+    self.bluetoothStatusView.timers = self.timeDuration;
+    self.bluetoothStatusView.textColor = [UIColor grayColor];
+    [self.bluetoothStatusView updateProgressWithPercent:0.001];
     
     [self defaultData];
     self.bluetoothStatusView.statusType = StatusTypeNone;
     _bluetooth = nil;
 
+    [unConnectTimer invalidate];
+    unConnectTimer = nil;
 }
 
 #pragma mark -- BluetoothDelegate
-- (void)scanedEquipments:(NSArray *)equipments {
-    //搜索到设备
-//    self.scanednEquipments = equipments;
+- (void)scanedEquipmentsNotificationCenter:(NSNotification*) notification {
+    NSArray *arr = notification.object;
+    self.scanednEquipments = [arr mutableCopy];
 }
 
 - (void)connectState:(ConnectState)connectState Error:(NSError *)error {
@@ -528,21 +595,24 @@
         self.timeView.isCanSelect = YES;
         
         //Pairing successful!
-        NSString *alertStr = @"Connect successful!";
-        if (!self.patientInfo) {
-            alertStr = @"Pairing Succeffful!";
+        NSString *alertStr = @"Connecting successful!";
+        if (self.bluetoothInfo) {
+//            [self blueStartWorkUI];
         }
+        else {
+            //保存设备
+            [self saveConnectEquiment];
+            //上传服务器硬件设备
+            [self postBindDevice:self.bluetooth.equipment.deviceCode];
+            
+//            alertStr = @"Pairing Succeffful!";
+//            [self.bluetooth stopConnectEquipment:self.bluetooth.equipment];
+        }
+        
         jxt_showTextHUDTitleMessage(@"", alertStr);
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
-        //保存设备
-        [self saveConnectEquiment];
-        //上传服务器硬件设备
-        [self postBindDevice:self.bluetooth.equipment.deviceCode];
-        
-        //启动60分钟检查
-        [self initUnConnectTimer];
     }
     else {
         [self showError:error];
@@ -554,35 +624,26 @@
 
 - (void)wearState:(WearState)wearState Error:(NSError *)error {
     if (wearState == WearStateNormal) {
-        NSLog(@"WearStateNormal");
         //开始治疗后，结束治疗前
         if (self.bluetoothStatusView.statusType == StatusTypeStop) {
             //倒计时 开始
             if (countDownTimer == nil) {
                 [self timeCountDown];
             }
-        }
-        if (!isWear) {
-            [countDownTimer setFireDate:[NSDate date]];
+            if (!isWear && countDownTimer) {
+                [countDownTimer setFireDate:[NSDate date]];
+            }
             self.bluetoothStatusView.textColor = [UIColor grayColor];
-            //戴上后会自动隐藏
-//            if (alertC) {
-//                [alertC dismissViewControllerAnimated:YES completion:nil];
-//            }
         }
         isWear = YES;
     }
     else {
         //暂停倒计时
-        if (isWear) {
-            [countDownTimer setFireDate:[NSDate distantFuture]];
-            
-            //开始治疗后，结束治疗前
-            if (self.bluetoothStatusView.statusType == StatusTypeStop) {
-                self.bluetoothStatusView.textColor = [UIColor redColor];
-                //提出警告
-//                [self showError:error];
+        if (self.bluetoothStatusView.statusType == StatusTypeStop) {
+            if (isWear && countDownTimer) {
+                [countDownTimer setFireDate:[NSDate distantFuture]];
             }
+            self.bluetoothStatusView.textColor = [UIColor redColor];
         }
         isWear = NO;
     }
@@ -678,8 +739,9 @@
     if (!_bluetooth) {
         _bluetooth = [Bluetooth shareBluetooth];
         _bluetooth.delegate = self;
-        [_bluetooth scanEquipment];
-        
+        if (self.bluetoothInfo) {
+            [_bluetooth scanEquipment];
+        }
     }
     return _bluetooth;
 }

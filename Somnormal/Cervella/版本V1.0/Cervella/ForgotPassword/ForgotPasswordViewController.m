@@ -13,6 +13,7 @@
 
 #import "SKPSMTPMessage.h"
 #import "NSData+Base64Additions.h"
+#import "AESCipher.h"
 
 @interface ForgotPasswordViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, SKPSMTPMessageDelegate>
 
@@ -102,7 +103,7 @@
     {
         UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, SCREENWIDTH - 20, 30)];
         emailLabel.textAlignment = NSTextAlignmentCenter;
-        emailLabel.text = _patientInfo.Email;
+        emailLabel.text = aesDecryptString(_patientInfo.Email, aes_key_value) ;
         [cell.contentView addSubview:emailLabel];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -158,7 +159,7 @@
     
     //    testMsg.relayHost = @"smtp.qiye.163.com";
     //    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
-    //    testMsg.pass = @"Sleep4U2016";
+    //    testMsg.pass = @"Nzj19900307";
     
     //卢博士卢义强：
     //账号：LRHcare@yahoo.com
@@ -171,12 +172,12 @@
     testMsg.wantsSecure = YES; // smtp.gmail.com doesn't work without TLS!
     testMsg.delegate = self;
 
-    testMsg.relayHost = @"https://www.google.com/gmail/";
-    testMsg.login = @"support@cervella.us";
-    testMsg.pass = @"CervellaRocks!";
+    testMsg.relayHost = @"smtp.qiye.163.com";
+    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
+    testMsg.pass = @"Nzj19900307";
     
     testMsg.fromEmail = testMsg.login;
-    testMsg.toEmail = _patientInfo.Email;
+    testMsg.toEmail = aesDecryptString(_patientInfo.Email,aes_key_value);
     
     
     testMsg.subject = [NSString stringWithCString:"The email of identifying code for Cervella" encoding:NSUTF8StringEncoding];

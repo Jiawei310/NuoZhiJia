@@ -359,7 +359,7 @@
     }
     else if(_emailTextField.text.length == 0 || ![self isEmailAddress:_emailTextField.text])
     {
-        jxt_showTextHUDTitleMessage(@"", @"Mailbox address entered incorrectly.Please check and re-enter");
+        jxt_showTextHUDTitleMessage(@"", @"Please provide a valid e-mail address");
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             jxt_dismissHUD();
         });
@@ -386,12 +386,20 @@
         _patientInfo.PatientName = aesEncryptString(_acountTextField.text, aes_key_value);
         _patientInfo.PatientPwd = aesEncryptString(_passwordTextField.text, aes_key_value);
         _patientInfo.Email = aesEncryptString(_emailTextField.text, aes_key_value);
-        
-        _patientInfo.Birthday = _birthTextField.text;
-        _patientInfo.PatientSex = @"Male";
+        _patientInfo.Birthday = aesEncryptString(_birthTextField.text, aes_key_value);
+        NSString *sex = @"Male";
         if (_femaleBtn.selected) {
-            _patientInfo.PatientSex = @"Female";
+            sex = @"Female";
         }
+        _patientInfo.PatientSex = aesEncryptString(sex, aes_key_value);
+
+
+//        _patientInfo.PatientID = _acountTextField.text;
+//        _patientInfo.PatientName = _acountTextField.text;
+//        _patientInfo.PatientPwd = _passwordTextField.text;
+//        _patientInfo.Email = _emailTextField.text;
+        
+        
         
         
         

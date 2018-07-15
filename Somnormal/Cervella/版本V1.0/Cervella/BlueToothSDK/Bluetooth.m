@@ -26,6 +26,8 @@
 //手机为蓝牙中心
 @property (nonatomic, strong) CBCentralManager *centralManager;
 
+//发现的所有设备
+@property (nonatomic, strong) NSMutableArray *equipments;
 //命令
 @property (nonatomic, strong) CommandManager *commandManger;
 
@@ -58,6 +60,7 @@
         
         [self.centralManager scanForPeripheralsWithServices:nil options:nil];
         _scanTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(scanTimerAction) userInfo:nil repeats:NO];
+
     }
 }
 
@@ -97,11 +100,12 @@
 
 - (void)scanTimerAction {
     [self stopTimer];
-    NSError *error = [[NSError alloc] initWithDomain:@"Connect overtime"
+    NSError *error = [[NSError alloc] initWithDomain:@"连接时间超时"
                                                 code:999
-                                            userInfo:@{NSLocalizedDescriptionKey:@"Connect overtime",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"Make sure Cervella unit is nearby and is sufficiently charged.",
-                                                       }];
+                                            userInfo:@{NSLocalizedDescriptionKey:@"连接时间超时",
+                                                       NSLocalizedFailureReasonErrorKey:@"设备可能不在身边",
+                                                       NSLocalizedRecoverySuggestionErrorKey:@"检查设备",
+                                                       NSLocalizedRecoveryOptionsErrorKey:@[@"靠近自己",@"重启设备", @"蓝牙是否打开"]}];
     
     if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
         _connectSate = ConnectStateNone;
@@ -227,11 +231,12 @@
             break;
     }
     if (central.state != CBManagerStatePoweredOn) {
-        NSError *error = [[NSError alloc] initWithDomain:@"Search overtime"
+        NSError *error = [[NSError alloc] initWithDomain:@"搜索超时"
                                                     code:999
-                                                userInfo:@{NSLocalizedDescriptionKey:@"Search overtime",
-                                                           NSLocalizedRecoverySuggestionErrorKey:@"Make sure Cervella unit is nearby and is sufficiently charged.",
-                                                           }];
+                                                userInfo:@{NSLocalizedDescriptionKey:@"搜索超时，检查蓝牙，靠近设备",
+                                                           NSLocalizedFailureReasonErrorKey:@"蓝牙未开，设备不在身边",
+                                                           NSLocalizedRecoverySuggestionErrorKey:@"检查设备蓝牙",
+                                                           NSLocalizedRecoveryOptionsErrorKey:@[@"检查设备蓝牙",@"靠近设备"]}];
         [self cleanData];
         [self stopTimer];
         if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
@@ -257,6 +262,11 @@
         {
             NSLog(@"peripheral:%@", peripheral.name);
             [self.equipments addObject:equipment];
+            
+            
+            NSNotification *notification = [NSNotification notificationWithName:@"scanedEquipments" object:self.equipments userInfo:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+            
             if ([self.delegate respondsToSelector:@selector(scanedEquipments:)] ) {
                 [self.delegate scanedEquipments:self.equipments];
             }
@@ -277,22 +287,6 @@
     if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
         _connectSate = ConnectStateNormal;
         [self.delegate connectState:self.connectSate Error:nil];
-        
-        if (!self.equipment.deviceCode) {
-            //读取设备信息
-            [self readAndSendDeviceInfo];
-            
-            
-            //检测阻抗，时候正确佩戴
-            [self.checkElectricTimer fire];
-            //检测电量
-            [self.readBatteryTimer fire];
-            
-            //读取电量
-            [self readBattery];
-            //读取耳夹状态
-            [self detectionPersecondsForImpedance];
-        }
     }
 }
 
@@ -300,6 +294,7 @@
 - (void)centralManager:(CBCentralManager *)central didFailToConnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
     NSLog(@"didFailToConnectPeripheral : %@", error.localizedDescription);
+    NSLog(@"设备已被连接");
     //连接失败
     if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
         _connectSate = ConnectStateError;
@@ -310,9 +305,7 @@
 //蓝牙断开
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(nullable NSError *)error
 {
-    if (self.equipment.peripheral) {
-        [self.centralManager cancelPeripheralConnection:self.equipment.peripheral];
-    }
+    [self.centralManager cancelPeripheralConnection:self.equipment.peripheral];
     
     [self cleanData];
     [self stopTimer];
@@ -354,6 +347,11 @@
         //保存属性
         [self.equipment.characteristics addObject:c];
     }
+    
+//    if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
+//        _connectSate = ConnectStateNormal;
+//        [self.delegate connectState:self.connectSate Error:nil];
+//    }
 }
 
 //获取服务中的属性值
@@ -411,6 +409,9 @@
     if (self.equipment.equipmentWorkChannelState == EquipmentWorkChannelStateWork &&
         !_readBatteryTimer &&
         [valueStr containsString:@"55bb010781"]) {
+        //读取设备信息
+        [self readAndSendDeviceInfo];
+        
         //检测阻抗，时候正确佩戴
         [self.checkElectricTimer fire];
         //检测电量
@@ -448,42 +449,35 @@
     {
         [self.equipment battery:valueStr];
         
-        NSError *errorE = nil;
-        if(self.equipment.battery <= 5)
+        if (self.equipment.battery > 5 && self.equipment.battery <= 20)
+        {
+            //NSLog(@"电池电量小于百分之20，请及时给设备充电");
+
+            NSError *errorE = [[NSError alloc] initWithDomain:@"电量低于20%"
+                                                        code:920
+                                                    userInfo:@{NSLocalizedDescriptionKey:@"电量低于20%",
+                                                               NSLocalizedFailureReasonErrorKey:@"电量低于20%",
+                                                               NSLocalizedRecoverySuggestionErrorKey:@"及时给设备充电，以免影响您的使用",
+                                                               NSLocalizedRecoveryOptionsErrorKey:@[@"及时给设备充电，以免影响您的使用"]}];
+            if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
+                _connectSate = ConnectStateNormal;
+                [self.delegate connectState:self.connectSate Error:errorE];
+            }
+        }
+        else if(self.equipment.battery <= 5)
         {
             //NSLog(@"电池电量小于百分之5，设备无法正常工作，请先充电");
-            errorE = [[NSError alloc] initWithDomain:@"Battery power is less than 5%."
-                                                code:920
-                                            userInfo:@{NSLocalizedDescriptionKey:@"Battery power is less than 5%.",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"Please charge device prompyly."
-                                                       }];
-        } else if ( self.equipment.battery <= 20) {
-            //NSLog(@"电池电量小于百分之20，请及时给设备充电");
-            errorE = [[NSError alloc] initWithDomain:@"Battery power is less than 20%."
-                                                code:920
-                                            userInfo:@{NSLocalizedDescriptionKey:@"Battery power is less than 20%.",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"Please charge device prompyly.",
-                                                       }];
-        }
-        if (error) {
-            if ([self.delegate respondsToSelector:@selector(battery:Error:)]) {
-                [self.delegate battery:self.equipment.battery Error:errorE];
+            NSError *errorE = [[NSError alloc] initWithDomain:@"电量低于5%"
+                                                         code:920
+                                                     userInfo:@{NSLocalizedDescriptionKey:@"电量低于5%",
+                                                                NSLocalizedFailureReasonErrorKey:@"电量低于5%",
+                                                                NSLocalizedRecoverySuggestionErrorKey:@"尽快给设备充电，以免影响您的使用",
+                                                                NSLocalizedRecoveryOptionsErrorKey:@[@"尽快给设备充电，以免影响您的使用"]}];
+            if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
+                _connectSate = ConnectStateNormal;
+                [self.delegate connectState:self.connectSate Error:errorE];
             }
         }
-        
-        
-        //充电状态。(0:充满电 1:在充电 2:没有充电)
-        if (self.equipment.chargeStatus != 2) {
-            errorE = [[NSError alloc] initWithDomain:@"Cervella is charging"
-                                                code:920
-                                            userInfo:@{NSLocalizedDescriptionKey:@"Cervella is charging, it can not work.",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"Please use it after charged.",
-                                                       }];
-            if ([self.delegate respondsToSelector:@selector(chargeStatus:Error:)]) {
-                [self.delegate chargeStatus:self.equipment.battery Error:errorE];
-            }
-        }
-        
     }
 }
 

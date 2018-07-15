@@ -43,11 +43,6 @@ typedef NS_OPTIONS(NSUInteger, WearState) {
 - (void)connectState:(ConnectState )connectState Error:(NSError *)error;
 //佩戴状态
 - (void)wearState:(WearState )wearState Error:(NSError *)error;
-//电池状态
-- (void)battery:(NSUInteger )battery Error:(NSError *)error;
-//充电状态
-- (void)chargeStatus:(NSUInteger )battery Error:(NSError *)error;
-
 @end
 
 
@@ -55,9 +50,6 @@ typedef NS_OPTIONS(NSUInteger, WearState) {
 #pragma mark -- 属性
 //协议
 @property (nonatomic, weak) id <BluetoothDelegate> delegate;
-//发现的所有设备
-@property (nonatomic, strong) NSMutableArray *equipments;
-
 //连接的设备
 @property (nonatomic, strong) Equipment *equipment;
 //连接状态

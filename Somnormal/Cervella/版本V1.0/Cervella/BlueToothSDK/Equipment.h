@@ -37,10 +37,6 @@ typedef NS_OPTIONS(NSUInteger, EquipmentWorkChannelState) {
 @property (nonatomic, strong) NSMutableArray *characteristics;
 //电量百分比 1-100
 @property (nonatomic, assign) NSUInteger battery;
-
-//充电状态 0:充满电 1:在充电 2:没有充电
-@property (nonatomic, assign) NSUInteger chargeStatus;
-
 //code
 @property (nonatomic, strong) NSString *deviceCode;
 //是否佩戴好

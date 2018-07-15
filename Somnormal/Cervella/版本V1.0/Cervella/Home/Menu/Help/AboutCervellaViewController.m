@@ -24,26 +24,30 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UILabel *titleLab = [[UILabel alloc] init];
-    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
-    titleLab.text = self.title;
-    titleLab.textColor = [UIColor whiteColor];
-    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
-    self.title = nil;
+//    UILabel *titleLab = [[UILabel alloc] init];
+//    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
+//    titleLab.text = self.title;
+//    titleLab.textColor = [UIColor whiteColor];
+//    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
+//    self.title = nil;
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.translucent=YES;
     //添加返回按钮
     UIButton *backLogin = [UIButton buttonWithType:UIButtonTypeSystem];
-    backLogin.frame = CGRectMake(12, 30, 23, 23);
+    
+    backLogin.frame = CGRectMake(12, 30, 44, 100);
+    [backLogin setTitle:self.title forState:UIControlStateNormal];
+    self.title = nil;
+    
     [backLogin setImage:[UIImage imageNamed:@"btn_back"] forState:UIControlStateNormal];
     [backLogin addTarget:self action:@selector(backLoginClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backLoginItem = [[UIBarButtonItem alloc] initWithCustomView:backLogin];
     //添加fixedButton是为了让backLoginItem往左边靠拢
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedButton.width = -10;
-    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem, titleBtnItem];
+    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
     
     UIImageView *imageView = [[UIImageView alloc] init];
@@ -63,18 +67,18 @@
     [self.view addSubview:emailBtn];
     
     if (SCREENHEIGHT == 568) {
-        linkBtn.frame = CGRectMake(30, 358, SCREENWIDTH - 60, 30);
-        emailBtn.frame = CGRectMake(30, 390, SCREENWIDTH - 60, 30);
+        linkBtn.frame = CGRectMake(30, 396, SCREENWIDTH - 60, 30);
+        emailBtn.frame = CGRectMake(30, 428, SCREENWIDTH - 60, 30);
     } else if (SCREENHEIGHT == 667) {
-        linkBtn.frame = CGRectMake(30, 418, SCREENWIDTH - 60, 40);
-        emailBtn.frame = CGRectMake(30, 460, SCREENWIDTH - 60, 40);
+        linkBtn.frame = CGRectMake(30, 458, SCREENWIDTH - 60, 40);
+        emailBtn.frame = CGRectMake(30, 500, SCREENWIDTH - 60, 40);
     } else if (SCREENHEIGHT == 736) {
-        linkBtn.frame = CGRectMake(30, 460, SCREENWIDTH - 60, 40);
-        emailBtn.frame = CGRectMake(30, 505, SCREENWIDTH - 60, 40);
+        linkBtn.frame = CGRectMake(30, 500, SCREENWIDTH - 60, 40);
+        emailBtn.frame = CGRectMake(30, 545, SCREENWIDTH - 60, 40);
     }
     else if (SCREENHEIGHT == 812) {
-        linkBtn.frame = CGRectMake(30, 508, SCREENWIDTH - 60, 44);
-        emailBtn.frame = CGRectMake(30, 558, SCREENWIDTH - 60, 44);
+        linkBtn.frame = CGRectMake(30, 548, SCREENWIDTH - 60, 44);
+        emailBtn.frame = CGRectMake(30, 598, SCREENWIDTH - 60, 44);
     }
 }
 

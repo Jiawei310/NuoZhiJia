@@ -7,6 +7,7 @@
 //
 
 #import "ResetViewController.h"
+#import "AESCipher.h"
 
 @interface ResetViewController ()<UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, NSXMLParserDelegate, NSURLConnectionDelegate>
 
@@ -100,7 +101,9 @@
         if ([_passwordTextfield.text isEqualToString:_refillTextfield.text])
         {
             NSString *PatientID = _patientInfo.PatientID;
-            NSString *PatientPwd = _refillTextfield.text;
+//            NSString *PatientPwd = _refillTextfield.text;
+            NSString *PatientPwd = aesEncryptString(_refillTextfield.text, aes_key_value);
+            
             NSDictionary *jsonPhoneNum = [NSDictionary dictionaryWithObjectsAndKeys:PatientID,@"PatientID",PatientPwd,@"PatientNewPwd",nil];
             NSArray *jsonArray = [NSArray arrayWithObjects:jsonPhoneNum, nil];
             NSData *jsondata = [NSJSONSerialization dataWithJSONObject:jsonArray options:NSJSONWritingPrettyPrinted error:nil];
@@ -248,7 +251,8 @@
             NSString *state = [resultDic objectForKey:@"state"];
             if ([state isEqualToString:@"OK"])
             {
-                _patientInfo.PatientPwd = _refillTextfield.text;
+                NSString *PatientPwd = aesEncryptString(_refillTextfield.text, aes_key_value);
+                _patientInfo.PatientPwd = PatientPwd;
                 
                 DataBaseOpration *dataBaseOpration = [[DataBaseOpration alloc] init];
                 [dataBaseOpration updataUserInfo:_patientInfo];

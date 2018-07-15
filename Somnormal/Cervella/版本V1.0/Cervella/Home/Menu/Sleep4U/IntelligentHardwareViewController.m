@@ -32,11 +32,11 @@
     
 //    self.title = @"Pairing";
     
-    UILabel *titleLab = [[UILabel alloc] init];
-    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
-    titleLab.text = @"Pairing";
-    titleLab.textColor = [UIColor whiteColor];
-    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
+//    UILabel *titleLab = [[UILabel alloc] init];
+//    titleLab.frame = CGRectMake(0, 0, 44.0, 100);
+//    titleLab.text = @"Pairing";
+//    titleLab.textColor = [UIColor whiteColor];
+//    UIBarButtonItem *titleBtnItem = [[UIBarButtonItem alloc] initWithCustomView:titleLab];
 
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -44,14 +44,15 @@
     
     //添加返回按钮
     UIButton *backLogin = [UIButton buttonWithType:UIButtonTypeSystem];
-    backLogin.frame = CGRectMake(12, 30, 23, 23);
+    backLogin.frame = CGRectMake(12, 30, 44, 100);
+    [backLogin setTitle:@"Pairing" forState:UIControlStateNormal];
     [backLogin setImage:[UIImage imageNamed:@"btn_back"] forState:UIControlStateNormal];
     [backLogin addTarget:self action:@selector(backLoginClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backLoginItem = [[UIBarButtonItem alloc] initWithCustomView:backLogin];
     //添加fixedButton是为了让backLoginItem往左边靠拢
     UIBarButtonItem *fixedButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedButton.width = -10;
-    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem, titleBtnItem];
+    self.navigationItem.leftBarButtonItems = @[fixedButton, backLoginItem];
     
     /**************UI*************/
     //圆环

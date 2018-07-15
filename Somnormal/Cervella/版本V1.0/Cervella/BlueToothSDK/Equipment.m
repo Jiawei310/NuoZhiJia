@@ -70,16 +70,14 @@
 }
 
 - (void)battery:(NSString *)valueStr {
-    //55bb010a0100 02(0:充满电 1:在充电 2:没有充电) 0e(电量百分比) 09(版本号) 3500000000000000000000
-    NSString *batteryStr_One = [valueStr substringWithRange:NSMakeRange(14, 1)];
-    NSString *batteryStr_Two = [valueStr substringWithRange:NSMakeRange(15, 1)];
-    unichar batteryStr = [valueStr characterAtIndex:15];
-    if (batteryStr >= 'a' && batteryStr <= 'f')
+    NSString *numberStr_One = [valueStr substringWithRange:NSMakeRange(14, 1)];
+    NSString *numberStr_Two = [valueStr substringWithRange:NSMakeRange(15, 1)];
+    unichar numberStr = [valueStr characterAtIndex:15];
+    if (numberStr >= 'a' && numberStr <= 'f')
     {
-        batteryStr_Two = [NSString stringWithFormat:@"%d",batteryStr-87];
+        numberStr_Two = [NSString stringWithFormat:@"%d",numberStr-87];
     }
-    self.battery = [batteryStr_One intValue]*16+[batteryStr_Two intValue];
-    self.chargeStatus = [[valueStr substringWithRange:NSMakeRange(13, 1)] integerValue];
+    self.battery = [numberStr_One intValue]*16+[numberStr_Two intValue];
 }
 
 #pragma mark -- setter and getter

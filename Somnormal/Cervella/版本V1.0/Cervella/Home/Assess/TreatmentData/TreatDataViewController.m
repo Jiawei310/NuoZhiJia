@@ -238,8 +238,23 @@
     [dbOpration closeDataBase];
     
     [treatInfoAtPatientID removeAllObjects];
-    //最近一周内的治疗数据
-    [self putTreatDataToArray];
+    for (int i=0; i<treatInfoArray.count; i++)
+    {
+        TreatInfo *tmpTreatInfo=[treatInfoArray objectAtIndex:i];
+        if (tmpTreatInfo.BeginTime.length > 10) {
+            NSString *tmpStringDate=[tmpTreatInfo.BeginTime substringWithRange:NSMakeRange(0, 10)];
+            NSInteger tmpOne=[self getIntervalTimeFrom:[self stringToDate:BegainTime] toDate:[self stringToDate:tmpStringDate]];
+            NSInteger tmpTwo=[self getIntervalTimeFrom:[self stringToDate:tmpStringDate] toDate:[self stringToDate:EndTime]];
+            if (tmpOne>=0 && tmpTwo>=0 && [tmpTreatInfo.PatientID isEqualToString:_patientInfo.PatientID])
+            {
+                [treatInfoAtPatientID addObject:tmpTreatInfo];
+            }
+        }
+    }
+    if (treatInfoAtPatientID.count>0)
+    {
+        [self bubbleSort:treatInfoAtPatientID];
+    }
     [DataTableView reloadData];
 }
 

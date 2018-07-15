@@ -111,7 +111,6 @@
     
     dbOpration=[[DataBaseOpration alloc] init];
     treatInfoArray=[dbOpration getTreatDataFromDataBase];
-    evaluateInfoArray=[dbOpration getEvaluateDataFromDataBase];
     [dbOpration closeDataBase];
     
     //---------------------GCD----------------------支持多核，高效率的多线程技术
@@ -120,7 +119,7 @@
     //创建一个子线程
     dispatch_async(queue, ^{
         // 子线程code... ..
-        [self sendEvaluateDataToSevice];
+//        [self sendEvaluateDataToSevice];
         [self sendTreatDataToSevice];
     });
 }

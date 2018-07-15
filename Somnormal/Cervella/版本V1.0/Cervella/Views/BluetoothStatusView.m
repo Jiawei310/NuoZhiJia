@@ -188,8 +188,6 @@
 
 - (void)setTextColor:(UIColor *)textColor {
     _textColor = textColor;
-    
-    self.startLab.textColor = textColor;
     self.timeLab.textColor = textColor;
 }
 
