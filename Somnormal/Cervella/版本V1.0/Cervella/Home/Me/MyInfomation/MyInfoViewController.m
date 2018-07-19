@@ -105,7 +105,8 @@
         [cell.contentView addSubview:_nameTextField];
         
         //解密显示
-        _nameTextField.text = aesDecryptString( _patientInfo.PatientID, aes_key_value);
+//        _nameTextField.text = aesDecryptString( _patientInfo.PatientID, aes_key_value);
+        _nameTextField.text = _patientInfo.PatientID;
     }
     else if (indexPath.row == 1)
     {
@@ -117,7 +118,9 @@
         _sexLabel.userInteractionEnabled = YES;
         _sexLabel.textAlignment = NSTextAlignmentRight;
         _sexLabel.font=[UIFont systemFontOfSize:16*Rate_NAV_H];
-        _sexLabel.text = aesDecryptString(_patientInfo.PatientSex, aes_key_value);
+        
+//        _sexLabel.text = aesDecryptString(_patientInfo.PatientSex, aes_key_value);
+        _sexLabel.text = _patientInfo.PatientSex;
         
         [cell.contentView addSubview:_sexLabel];
     }
@@ -135,7 +138,8 @@
             }
             
             //解密显示
-            _birthLabel.text = aesDecryptString( _patientInfo.Birthday, aes_key_value);
+//            _birthLabel.text = aesDecryptString( _patientInfo.Birthday, aes_key_value);
+            _birthLabel.text = _patientInfo.Birthday;
         }
         
         [cell.contentView addSubview:_birthLabel];
@@ -150,7 +154,8 @@
         if (_patientInfo.Email.length > 0 && ![_patientInfo.Email isEqualToString:@"(null)"])
         {
             //解密显示
-            _emailTextField.text = aesDecryptString( _patientInfo.Email, aes_key_value);
+//            _emailTextField.text = aesDecryptString( _patientInfo.Email, aes_key_value);
+            _emailTextField.text = _patientInfo.Email;
 
         }
         else

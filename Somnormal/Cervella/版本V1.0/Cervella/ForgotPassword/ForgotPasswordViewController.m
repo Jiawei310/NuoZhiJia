@@ -103,7 +103,10 @@
     {
         UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, SCREENWIDTH - 20, 30)];
         emailLabel.textAlignment = NSTextAlignmentCenter;
-        emailLabel.text = aesDecryptString(_patientInfo.Email, aes_key_value) ;
+        
+//        emailLabel.text = aesDecryptString(_patientInfo.Email, aes_key_value) ;
+        emailLabel.text = _patientInfo.Email;
+        
         [cell.contentView addSubview:emailLabel];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -177,7 +180,9 @@
     testMsg.pass = @"Nzj19900307";
     
     testMsg.fromEmail = testMsg.login;
-    testMsg.toEmail = aesDecryptString(_patientInfo.Email,aes_key_value);
+    
+//    testMsg.toEmail = aesDecryptString(_patientInfo.Email,aes_key_value);
+    testMsg.toEmail = _patientInfo.Email;
     
     
     testMsg.subject = [NSString stringWithCString:"The email of identifying code for Cervella" encoding:NSUTF8StringEncoding];

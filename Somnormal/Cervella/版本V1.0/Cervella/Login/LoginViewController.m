@@ -104,8 +104,12 @@
     {
         jxt_showLoadingHUDTitleMessage(@"Sign in", @"Loading...");
         isOverTime = YES;
-        NSString *nameStr = aesEncryptString(_acountTextField.text, aes_key_value);
-        NSString *passwordStr = aesEncryptString(_passwordTextField.text, aes_key_value);
+        
+//        NSString *nameStr = aesEncryptString(_acountTextField.text, aes_key_value);
+//        NSString *passwordStr = aesEncryptString(_passwordTextField.text, aes_key_value);
+        NSString *nameStr = _acountTextField.text;
+        NSString *passwordStr = _passwordTextField.text;
+        
         //调用登录接口
         [interfaceModel sendJsonLoginInfoToServer:nameStr password:passwordStr isLogin:YES];
         [NSTimer scheduledTimerWithTimeInterval:20 target:self selector:@selector(overTimeOpration) userInfo:nil repeats:NO];
@@ -140,7 +144,10 @@
     else
     {
         //判断不为空时，并验证输入的账号是否存在
-        NSString *nameStr = aesDecryptString(_acountTextField.text, aes_key_value);
+        
+//        NSString *nameStr = aesDecryptString(_acountTextField.text, aes_key_value);
+        NSString *nameStr = _acountTextField.text;
+        
         [interfaceModel sendJsonLoginInfoToServer:nameStr password:@"" isLogin:NO];
         //设置“忘记密码”按钮不可点击，避免多次点击多次响应
         _forgotPasswordBtn.userInteractionEnabled = NO;
@@ -173,7 +180,9 @@
     else if (interfaceModelBackType == InterfaceModelBackTypeFindPassword)
     {
         //先判断邮箱是否存在
-        NSString *nameStr = aesEncryptString(_acountTextField.text, aes_key_value);
+//        NSString *nameStr = aesEncryptString(_acountTextField.text, aes_key_value);
+        NSString *nameStr = _acountTextField.text;
+        
         [interfaceModel sendJsonPatientIDToServer:nameStr andPwd:nil];
         
     }
