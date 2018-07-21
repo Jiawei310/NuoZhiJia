@@ -125,14 +125,17 @@
     if (self.isBind)
     {
         [turnBtn setTitle:@"Unpair Cervella" forState:UIControlStateNormal];
+        NSInteger battery = 0;
         if (self.bluetooth.equipment)
         {
-            percentLabel.text = [NSString stringWithFormat:@"%ld%%", self.bluetooth.equipment.battery];
+            battery = self.bluetooth.equipment.battery;
         }
         else
         {
-            percentLabel.text=@"0%";
+            battery = [[NSUserDefaults standardUserDefaults] integerForKey:@"BatteryOfCervial"];
         }
+        percentLabel.text = [NSString stringWithFormat:@"%ld%%", battery];
+
     }
     else
     {

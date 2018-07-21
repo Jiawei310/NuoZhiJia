@@ -586,6 +586,9 @@
     self.bluetoothStatusView.isCanTap = YES;
 
     if (connectState == ConnectStateNormal) { //正常链接成功
+        //60秒没开始断开
+        [self initUnConnectTimer];
+
         self.bluetoothStatusView.statusType = StatusTypeStart;
         self.bluetoothStatusView.timers = self.timeDuration;
         self.bluetoothStatusView.textColor = [UIColor grayColor];

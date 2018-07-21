@@ -100,12 +100,9 @@
 
 - (void)scanTimerAction {
     [self stopTimer];
-    NSError *error = [[NSError alloc] initWithDomain:@"连接时间超时"
+    NSError *error = [[NSError alloc] initWithDomain:@"connect fail"
                                                 code:999
-                                            userInfo:@{NSLocalizedDescriptionKey:@"连接时间超时",
-                                                       NSLocalizedFailureReasonErrorKey:@"设备可能不在身边",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"检查设备",
-                                                       NSLocalizedRecoveryOptionsErrorKey:@[@"靠近自己",@"重启设备", @"蓝牙是否打开"]}];
+                                            userInfo:@{NSLocalizedDescriptionKey:@"Make sure Cervella unit is nearby and is sufficiently charged."}];
     
     if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
         _connectSate = ConnectStateNone;
@@ -231,12 +228,9 @@
             break;
     }
     if (central.state != CBManagerStatePoweredOn) {
-        NSError *error = [[NSError alloc] initWithDomain:@"搜索超时"
+        NSError *error = [[NSError alloc] initWithDomain:@"searched fail"
                                                     code:999
-                                                userInfo:@{NSLocalizedDescriptionKey:@"搜索超时，检查蓝牙，靠近设备",
-                                                           NSLocalizedFailureReasonErrorKey:@"蓝牙未开，设备不在身边",
-                                                           NSLocalizedRecoverySuggestionErrorKey:@"检查设备蓝牙",
-                                                           NSLocalizedRecoveryOptionsErrorKey:@[@"检查设备蓝牙",@"靠近设备"]}];
+                                                userInfo:@{NSLocalizedDescriptionKey:@"Make sure Cervella unit is nearby and is sufficiently charged."}];
         [self cleanData];
         [self stopTimer];
         if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
@@ -434,11 +428,9 @@
         }
         else {
             wearState = WearStateError;
-            errorE = [[NSError alloc] initWithDomain:@"耳夹未佩戴好"
+            errorE = [[NSError alloc] initWithDomain:@"wear not ok"
                                                 code:930
-                                            userInfo:@{NSLocalizedDescriptionKey:@"耳夹未佩戴好",
-                                                       NSLocalizedRecoverySuggestionErrorKey:@"正确佩戴耳夹，或多加点导电液",
-                                                       }];
+                                            userInfo:@{NSLocalizedDescriptionKey:@"wear not ok,try again"}];
         }
         if ([self.delegate respondsToSelector:@selector(wearState:Error:)]) {
             [self.delegate wearState:wearState Error:errorE];
@@ -453,29 +445,30 @@
         {
             //NSLog(@"电池电量小于百分之20，请及时给设备充电");
 
-            NSError *errorE = [[NSError alloc] initWithDomain:@"电量低于20%"
+            NSError *errorE = [[NSError alloc] initWithDomain:@"less than 20%"
                                                         code:920
-                                                    userInfo:@{NSLocalizedDescriptionKey:@"电量低于20%",
-                                                               NSLocalizedFailureReasonErrorKey:@"电量低于20%",
-                                                               NSLocalizedRecoverySuggestionErrorKey:@"及时给设备充电，以免影响您的使用",
-                                                               NSLocalizedRecoveryOptionsErrorKey:@[@"及时给设备充电，以免影响您的使用"]}];
-            if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
-                _connectSate = ConnectStateNormal;
-                [self.delegate connectState:self.connectSate Error:errorE];
+                                                     userInfo:@{NSLocalizedDescriptionKey:@"Battery power is less than 20%. Please charge device promptly."}];
+            if ([self.delegate respondsToSelector:@selector(battery:Error:)]) {
+                [self.delegate battery:self.equipment.battery Error:errorE];
             }
         }
         else if(self.equipment.battery <= 5)
         {
             //NSLog(@"电池电量小于百分之5，设备无法正常工作，请先充电");
-            NSError *errorE = [[NSError alloc] initWithDomain:@"电量低于5%"
+            NSError *errorE = [[NSError alloc] initWithDomain:@"less than 5%"
                                                          code:920
-                                                     userInfo:@{NSLocalizedDescriptionKey:@"电量低于5%",
-                                                                NSLocalizedFailureReasonErrorKey:@"电量低于5%",
-                                                                NSLocalizedRecoverySuggestionErrorKey:@"尽快给设备充电，以免影响您的使用",
-                                                                NSLocalizedRecoveryOptionsErrorKey:@[@"尽快给设备充电，以免影响您的使用"]}];
-            if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
-                _connectSate = ConnectStateNormal;
-                [self.delegate connectState:self.connectSate Error:errorE];
+                                                     userInfo:@{NSLocalizedDescriptionKey:@"Battery power is less than 5%. Device unable to function, please charge device first."}];
+            if ([self.delegate respondsToSelector:@selector(battery:Error:)]) {
+                [self.delegate battery:self.equipment.battery Error:errorE];
+            }
+        }
+        //
+        if (self.equipment.isCharge) {
+            NSError *errorE = [[NSError alloc] initWithDomain:@"Charging"
+                                                         code:920
+                                                     userInfo:@{NSLocalizedDescriptionKey:@"sorry, it is charging"}];
+            if ([self.delegate respondsToSelector:@selector(chargeStatus:Error:)]) {
+                [self.delegate chargeStatus:self.equipment.battery Error:errorE];
             }
         }
     }

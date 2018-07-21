@@ -93,7 +93,9 @@
     [dbOpration deletePeripheralInfo];
     [dbOpration closeDataBase];
     
-    
+    //删除电量
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"BatteryOfCervial"];
+
     NSNotification *notification = [NSNotification notificationWithName:@"Free" object:nil userInfo:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
     
