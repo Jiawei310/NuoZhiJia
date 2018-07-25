@@ -83,10 +83,10 @@
     
     //Byte1   0代表充满电，1代表在充电，2代表没在充电
     NSString *charge = [valueStr substringWithRange:NSMakeRange(13, 1)];
-    if ([charge isEqualToString:@"2"]) {
-        self.isCharge = NO;
-    } else {
+    if ([charge isEqualToString:@"1"]) {
         self.isCharge = YES;
+    } else {
+        self.isCharge = NO;
     }
 }
 

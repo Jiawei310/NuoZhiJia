@@ -169,8 +169,9 @@
 }
 
 //设置工作模式 正常 刺激 高度刺激
-- (void)changeWorkModel:(WorkModel )workModel {
+- (void)changeWorkModel:(WorkModel )workModel timeIndex:(NSInteger )timeIndex {
     self.equipment.workModel = workModel;
+    self.equipment.timeIndex = timeIndex;
     if (self.equipment.equipmentWorkChannelState == EquipmentWorkChannelStateWork) {
         //若果更改工作模式，必须停止现在的治疗重新开始设置
         [self endWork];
@@ -179,7 +180,7 @@
         self.equipment.level = 1;
     }
     else {
-        _order = [self.commandManger sendSetTimeAndFrequencyOrder:self.equipment.peripheral characteristics:self.equipment.characteristics indexFrequency:workModel];
+        _order = [self.commandManger sendSetTimeAndFrequencyOrder:self.equipment.peripheral characteristics:self.equipment.characteristics indexFrequency:workModel timeInedx:timeIndex];
     }
 }
 
@@ -379,7 +380,7 @@
             if ([_order containsString:@"55AA030781028C"])
             {
                 //发送设置刺激参数命令，设置治疗时间和刺激频率
-                [self changeWorkModel:self.equipment.workModel];
+                [self changeWorkModel:self.equipment.workModel timeIndex:self.equipment.timeIndex];
             }
         }
         //设置工作模式 成功
@@ -462,7 +463,7 @@
                 [self.delegate battery:self.equipment.battery Error:errorE];
             }
         }
-        //
+        //充电提醒
         if (self.equipment.isCharge) {
             NSError *errorE = [[NSError alloc] initWithDomain:@"Charging"
                                                          code:920

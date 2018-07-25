@@ -77,7 +77,7 @@ typedef NS_OPTIONS(NSUInteger, WearState) {
 
 #pragma mark - 命令
 //设置工作模式 正常 刺激 高度刺激
-- (void)changeWorkModel:(WorkModel )workModel;
+- (void)changeWorkModel:(WorkModel )workModel timeIndex:(NSInteger )timeIndex;
 //调整强度 //硬件数值改动
 - (void)changeLevel:(NSUInteger )level;
 //开始工作

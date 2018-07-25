@@ -26,7 +26,9 @@
 #define TimeSelectors @[@"10Min",@"20Min",@"30Min",@"40Min",@"50Min",@"60Min"]
 #define TimeSelectorsInteger @[@"600",@"1200",@"1800",@"2400",@"3000",@"3600"]
 
-@interface StartsViewController ()<NSXMLParserDelegate,NSURLConnectionDelegate, ColorsSliderViewDelegate, BluetoothDelegate>
+@interface StartsViewController ()<NSXMLParserDelegate,NSURLConnectionDelegate, ColorsSliderViewDelegate, BluetoothDelegate> {
+    NSDate *resignBackgroundDate;
+}
 
 //接口请求和解析
 @property (strong,nonatomic) NSMutableData *webData;
@@ -96,6 +98,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(scanedEquipmentsNotificationCenter:) name:@"scanedEquipments" object:nil];
+    [self registerBackgoundNotification];
 
     self.view.backgroundColor = [UIColor whiteColor];
     //注册解绑通知
@@ -122,6 +125,45 @@
     [unConnectTimer invalidate];
     unConnectTimer = nil;
 }
+#pragma mark - 倒计时通知
+
+- (void)registerBackgoundNotification
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(resignActiveToRecordState)
+                                                 name:@"NOTIFICATION_RESIGN_ACTIVE"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(becomeActiveToRecordState)
+                                                 name:@"NOTIFICATION_BECOME_ACTIVE"
+                                               object:nil];
+}
+
+- (void)resignActiveToRecordState
+{
+    resignBackgroundDate = [NSDate date];
+    [countDownTimer setFireDate:[NSDate distantFuture]];
+}
+
+- (void)becomeActiveToRecordState
+{
+    NSTimeInterval timeHasGone = [[NSDate date] timeIntervalSinceDate:resignBackgroundDate];
+    if (timeRemaining > 0) {
+        timeRemaining = timeRemaining - timeHasGone;
+        
+        if (timeRemaining > 0) {
+            timeCure = self.timeDuration - timeRemaining;
+            [countDownTimer setFireDate:[NSDate date]];
+        }
+        else {
+            timeCure = self.timeDuration;
+            [self blueStopWorkUI];
+        }
+    }
+    resignBackgroundDate = nil;
+}
+
+
 
 #pragma  mark - init
 - (void)defaultData {
@@ -215,7 +257,7 @@
            weakSelf.frequencyView.items = @[@{@"image":@"ces_freq",@"title":@"Frequency",@"detail":FrequencySelectors[weakSelf.frequencySelector]}];
            //设置频率
            if (weakSelf.bluetooth.connectSate == ConnectStateNormal) {
-               [weakSelf.bluetooth changeWorkModel:weakSelf.frequencySelector];
+               [weakSelf.bluetooth changeWorkModel:weakSelf.frequencySelector timeIndex:weakSelf.timeSelector];
            }
        }
     };
@@ -477,8 +519,8 @@
         if (timeCure > 0 && timeCure%60 == 0) {
             [self saveTreatInfo];
         }
-    }
-    else {
+        
+    } else {
         [self blueStopWorkUI];
     }
 }
@@ -491,7 +533,7 @@
 - (void)showError:(NSError *)error {
     if (error) {
         //提出警告
-        NSString *str = [NSString stringWithFormat:@"%@\n%@",error.localizedDescription, error.localizedRecoverySuggestion];
+        NSString *str = [NSString stringWithFormat:@"%@",error.localizedDescription];
         alertC = [UIAlertController alertControllerWithTitle:@"" message:str preferredStyle:(UIAlertControllerStyleAlert)];
         UIAlertAction *alert = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *  action) {
             

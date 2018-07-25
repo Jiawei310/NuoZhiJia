@@ -12,7 +12,9 @@
 #import "CircleView.h"
 #import "Bluetooth.h"
 
-@interface IntelligentHardwareViewController ()
+@interface IntelligentHardwareViewController () {
+    NSInteger _battery;
+}
 @property (assign, nonatomic) BOOL isBind;
 @property (assign, nonatomic) Bluetooth *bluetooth;
 @end
@@ -125,16 +127,16 @@
     if (self.isBind)
     {
         [turnBtn setTitle:@"Unpair Cervella" forState:UIControlStateNormal];
-        NSInteger battery = 0;
+        _battery = 0;
         if (self.bluetooth.equipment)
         {
-            battery = self.bluetooth.equipment.battery;
+            _battery = self.bluetooth.equipment.battery;
         }
         else
         {
-            battery = [[NSUserDefaults standardUserDefaults] integerForKey:@"BatteryOfCervial"];
+            _battery = [[NSUserDefaults standardUserDefaults] integerForKey:@"BatteryOfCervial"];
         }
-        percentLabel.text = [NSString stringWithFormat:@"%ld%%", battery];
+        percentLabel.text = [NSString stringWithFormat:@"%ld%%", _battery];
 
     }
     else
@@ -176,7 +178,7 @@
     CGFloat position_x = myLayer.frame.size.width/2;
     progressLayer.path = [UIBezierPath bezierPathWithArcCenter:CGPointMake(position_x, position_y)
                                                         radius:position_y
-                                                    startAngle:(3*M_PI/2 - (self.bluetooth.equipment.battery/100.0)*(M_PI * 2))
+                                                    startAngle:(3*M_PI/2 - (_battery/100.0)*(M_PI * 2))
                                                       endAngle:(3*M_PI/2)
                                                      clockwise:YES].CGPath;
     progressLayer.fillColor = [UIColor clearColor].CGColor;

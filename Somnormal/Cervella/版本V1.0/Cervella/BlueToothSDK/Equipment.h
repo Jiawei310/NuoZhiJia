@@ -51,6 +51,8 @@ typedef NS_OPTIONS(NSUInteger, EquipmentWorkChannelState) {
 @property (nonatomic, assign) WorkModel workModel;
 //刺激强度
 @property (nonatomic, assign) NSUInteger level;
+//时长
+@property (nonatomic, assign) NSUInteger timeIndex;
 
 
 

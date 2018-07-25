@@ -26,31 +26,143 @@
 }
 
 - (NSString *)sendSetTimeAndFrequencyOrder:(CBPeripheral *)discoveredPeripheral
-                          characteristics:(NSMutableArray *)characteristicArray
-                           indexFrequency:(WorkModel)workModel
+                           characteristics:(NSMutableArray *)characteristicArray
+                            indexFrequency:(WorkModel)workModel
+                                 timeInedx:(NSInteger)timeIndex
 {
     NSString *orderStr;
     NSString *strFrequency=[NSString string];
     NSString *strTime=[NSString string];
     NSString *strVerify=[NSString string];
-    if (workModel ==  WorkModelNormal)
-    {
-        strFrequency=@"00";
-        strTime=@"14";
-        strVerify=@"A0";
+    if (timeIndex == 0) {//@"10Min"
+        if (workModel ==  WorkModelNormal)
+        {
+            strFrequency=@"00";
+            strTime=@"0A";
+            strVerify=@"96";
+        }
+        else if (workModel == WorkModelStimulate)
+        {
+            strFrequency=@"01";
+            strTime=@"0A";
+            strVerify=@"97";
+            
+        }
+        else if (workModel == WorkModelHighIntensity)
+        {
+            strFrequency=@"02";
+            strTime=@"0A";
+            strVerify=@"98";
+        }
     }
-    else if (workModel == WorkModelStimulate)
-    {
-        strFrequency=@"01";
-        strTime=@"14";
-        strVerify=@"A1";
+    if (timeIndex == 1) {//@"20Min"
+        if (workModel ==  WorkModelNormal)
+        {
+            //14  A0
+            strFrequency=@"00";
+            strTime=@"14";
+            strVerify=@"A0";
+        }
+        else if (workModel == WorkModelStimulate)
+        {
+            strFrequency=@"01";
+            strTime=@"14";
+            strVerify=@"A1";
+            
+        }
+        else if (workModel == WorkModelHighIntensity)
+        {
+            strFrequency=@"02";
+            strTime=@"14";
+            strVerify=@"A2";
+        }
     }
-    else if (workModel == WorkModelHighIntensity)
-    {
-        strFrequency=@"02";
-        strTime=@"14";
-        strVerify=@"A2";
+    if (timeIndex == 2) {//@"30Min"
+        if (workModel ==  WorkModelNormal)
+        {
+            strFrequency=@"00";
+            strTime=@"1E";
+            strVerify=@"AA";
+        }
+        else if (workModel == WorkModelStimulate)
+        {
+            strFrequency=@"01";
+            strTime=@"1E";
+            strVerify=@"AB";
+            
+        }
+        else if (workModel == WorkModelHighIntensity)
+        {
+            strFrequency=@"02";
+            strTime=@"1E";
+            strVerify=@"AC";
+        }
     }
+    if (timeIndex == 3) {//@"40Min"
+        if (workModel ==  WorkModelNormal)
+        {
+            strFrequency=@"00";
+            strTime=@"28";
+            strVerify=@"B4";
+        }
+        else if (workModel == WorkModelStimulate)
+        {
+            strFrequency=@"01";
+            strTime=@"28";
+            strVerify=@"B5";
+            
+        }
+        else if (workModel == WorkModelHighIntensity)
+        {
+            strFrequency=@"02";
+            strTime=@"28";
+            strVerify=@"B6";
+        }
+    }
+    if (timeIndex == 4) {//@"50Min"
+        if (workModel ==  WorkModelNormal)
+        {
+            strFrequency=@"00";
+            strTime=@"32";
+            strVerify=@"BE";
+        }
+        else if (workModel == WorkModelStimulate)
+        {
+            strFrequency=@"01";
+            strTime=@"32";
+            strVerify=@"BF";
+            
+        }
+        else if (workModel == WorkModelHighIntensity)
+        {
+            strFrequency=@"02";
+            strTime=@"32";
+            strVerify=@"C0";
+        }
+    }
+    else if (timeIndex == 5) {//@"60Min"
+        if (workModel ==  WorkModelNormal)
+        {
+            //14  A0
+            strFrequency=@"00";
+            strTime=@"3C";
+            strVerify=@"C8";
+        }
+        else if (workModel == WorkModelStimulate)
+        {
+            strFrequency=@"01";
+            strTime=@"3C";
+            strVerify=@"C9";
+            
+        }
+        else if (workModel == WorkModelHighIntensity)
+        {
+            strFrequency=@"02";
+            strTime=@"3C";
+            strVerify=@"CA";
+        }
+    }
+    
     
     for (CBCharacteristic *characteristic in characteristicArray)
     {

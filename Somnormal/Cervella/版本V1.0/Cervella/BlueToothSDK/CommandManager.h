@@ -33,7 +33,8 @@
  */
 - (NSString *)sendSetTimeAndFrequencyOrder:(CBPeripheral *)discoveredPeripheral
                           characteristics:(NSMutableArray *)characteristicArray
-                           indexFrequency:(WorkModel)workModel;
+                           indexFrequency:(WorkModel)workModel
+                                 timeInedx:(NSInteger)timeIndex;
 
 /*
  *发送'电流设定'命令，并返回发送命令的字符串
