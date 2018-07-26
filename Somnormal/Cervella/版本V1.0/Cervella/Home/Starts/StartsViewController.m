@@ -154,6 +154,9 @@
         if (timeRemaining > 0) {
             timeCure = self.timeDuration - timeRemaining;
             [countDownTimer setFireDate:[NSDate date]];
+            if (timeCure >= 60) {
+                [self saveTreatInfo];
+            }
         }
         else {
             timeCure = self.timeDuration;
@@ -457,6 +460,7 @@
     //开始治疗
     self.bluetooth.equipment.workModel = self.frequencySelector;
     self.bluetooth.equipment.level = intensityLevel;
+    self.bluetooth.equipment.timeIndex = self.timeSelector;
     [self.bluetooth startWork];
     
     beginDate = [NSDate date];
@@ -702,7 +706,7 @@
 //充电状态
 - (void)chargeStatus:(NSUInteger )battery Error:(NSError *)error {
     [self showError:error];
-    [self freeBluetoothInfo];
+//    [self freeBluetoothInfo];
 }
 
 #pragma mark - DataBaseOpration
