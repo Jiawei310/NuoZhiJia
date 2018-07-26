@@ -104,8 +104,8 @@
         UILabel *emailLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, SCREENWIDTH - 20, 30)];
         emailLabel.textAlignment = NSTextAlignmentCenter;
         
-//        emailLabel.text = aesDecryptString(_patientInfo.Email, aes_key_value) ;
-        emailLabel.text = _patientInfo.Email;
+        emailLabel.text = aesDecryptString(_patientInfo.Email, aes_key_value) ;
+//        emailLabel.text = _patientInfo.Email;
         
         [cell.contentView addSubview:emailLabel];
     }
@@ -181,8 +181,8 @@
     
     testMsg.fromEmail = testMsg.login;
     
-//    testMsg.toEmail = aesDecryptString(_patientInfo.Email,aes_key_value);
-    testMsg.toEmail = _patientInfo.Email;
+    testMsg.toEmail = aesDecryptString(_patientInfo.Email,aes_key_value);
+//    testMsg.toEmail = _patientInfo.Email;
     
     
     testMsg.subject = [NSString stringWithCString:"The email of identifying code for Cervella" encoding:NSUTF8StringEncoding];

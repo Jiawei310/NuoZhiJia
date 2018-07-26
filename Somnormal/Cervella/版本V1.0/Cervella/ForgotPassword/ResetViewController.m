@@ -102,8 +102,8 @@
         {
             NSString *PatientID = _patientInfo.PatientID;
             
-//            NSString *PatientPwd = aesEncryptString(_refillTextfield.text, aes_key_value);
-            NSString *PatientPwd = _refillTextfield.text;
+            NSString *PatientPwd = aesEncryptString(_refillTextfield.text, aes_key_value);
+//            NSString *PatientPwd = _refillTextfield.text;
 
             NSDictionary *jsonPhoneNum = [NSDictionary dictionaryWithObjectsAndKeys:PatientID,@"PatientID",PatientPwd,@"PatientNewPwd",nil];
             NSArray *jsonArray = [NSArray arrayWithObjects:jsonPhoneNum, nil];
@@ -253,8 +253,8 @@
             if ([state isEqualToString:@"OK"])
             {
                 
-//                NSString *PatientPwd = aesEncryptString(_refillTextfield.text, aes_key_value);
-                NSString *PatientPwd = _refillTextfield.text;
+                NSString *PatientPwd = aesEncryptString(_refillTextfield.text, aes_key_value);
+//                NSString *PatientPwd = _refillTextfield.text;
                 
                 _patientInfo.PatientPwd = PatientPwd;
                 

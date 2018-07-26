@@ -386,17 +386,17 @@
         if (_femaleBtn.selected) {
             sex = @"Female";
         }
-//        _patientInfo.PatientID = aesEncryptString(_acountTextField.text, aes_key_value);
-//        _patientInfo.PatientName = aesEncryptString(_acountTextField.text, aes_key_value);
-//        _patientInfo.PatientPwd = aesEncryptString(_passwordTextField.text, aes_key_value);
-//        _patientInfo.Email = aesEncryptString(_emailTextField.text, aes_key_value);
+        _patientInfo.PatientID = aesEncryptString(_acountTextField.text, aes_key_value);
+        _patientInfo.PatientName = aesEncryptString(_acountTextField.text, aes_key_value);
+        _patientInfo.PatientPwd = aesEncryptString(_passwordTextField.text, aes_key_value);
+        _patientInfo.Email = aesEncryptString(_emailTextField.text, aes_key_value);
 //        _patientInfo.Birthday = aesEncryptString(_birthTextField.text, aes_key_value);
 //        _patientInfo.PatientSex = aesEncryptString(sex, aes_key_value);
         
-        _patientInfo.PatientID = _acountTextField.text;
-        _patientInfo.PatientName = _acountTextField.text;
-        _patientInfo.PatientPwd = _passwordTextField.text;
-        _patientInfo.Email = _emailTextField.text;
+//        _patientInfo.PatientID = _acountTextField.text;
+//        _patientInfo.PatientName = _acountTextField.text;
+//        _patientInfo.PatientPwd = _passwordTextField.text;
+//        _patientInfo.Email = _emailTextField.text;
         _patientInfo.Birthday = _birthTextField.text;
         _patientInfo.PatientSex = sex;
         

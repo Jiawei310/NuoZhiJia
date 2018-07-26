@@ -105,8 +105,8 @@
         [cell.contentView addSubview:_nameTextField];
         
         //解密显示
-//        _nameTextField.text = aesDecryptString( _patientInfo.PatientID, aes_key_value);
-        _nameTextField.text = _patientInfo.PatientID;
+        _nameTextField.text = aesDecryptString( _patientInfo.PatientID, aes_key_value);
+//        _nameTextField.text = _patientInfo.PatientID;
     }
     else if (indexPath.row == 1)
     {
@@ -154,8 +154,8 @@
         if (_patientInfo.Email.length > 0 && ![_patientInfo.Email isEqualToString:@"(null)"])
         {
             //解密显示
-//            _emailTextField.text = aesDecryptString( _patientInfo.Email, aes_key_value);
-            _emailTextField.text = _patientInfo.Email;
+            _emailTextField.text = aesDecryptString( _patientInfo.Email, aes_key_value);
+//            _emailTextField.text = _patientInfo.Email;
 
         }
         else
