@@ -289,7 +289,7 @@
 
 - (IBAction)exitBtnClick:(UIButton *)sender
 {
-    [JXTAlertView showAlertViewWithTitle:@"" message:@"Confirm Log Out" cancelButtonTitle:@"Yes" otherButtonTitle:@"No" cancelButtonBlock:^(NSInteger buttonIndex) {
+    [JXTAlertView showAlertViewWithTitle:@"" message:@"Confirm Exit" cancelButtonTitle:@"Yes" otherButtonTitle:@"No" cancelButtonBlock:^(NSInteger buttonIndex) {
         
         //切换账号
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"PatientID"];
