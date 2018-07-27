@@ -24,6 +24,7 @@
     CAShapeLayer *myLayer;
     CAShapeLayer *progressLayer;
     UILabel *percentLabel;
+    UIImageView *noneImage;
     
     BluetoothInfo *_bluetoothInfo;
 }
@@ -61,6 +62,9 @@
     myLayer = [[CAShapeLayer alloc] init];
     //百分比
     percentLabel=[[UILabel alloc] init];
+    noneImage = [[UIImageView alloc] init];
+    noneImage.hidden = YES;
+    noneImage.image = [UIImage imageNamed:@"noneBattery"];
     
     if (SCREENHEIGHT == 568) {
         myLayer.frame=CGRectMake(72.5, 114, 175, 175);
@@ -76,6 +80,7 @@
         myLayer.frame=CGRectMake((SCREENWIDTH - 195)/2.0, 114, 195, 195);
         percentLabel.frame=CGRectMake(5, 80, 185, 35);
     }
+    noneImage.frame = percentLabel.frame;
     
     myLayer.path = [self drawPathWithArcCenter:4];
     myLayer.fillColor = [UIColor clearColor].CGColor;
@@ -86,6 +91,7 @@
     percentLabel.textAlignment=NSTextAlignmentCenter;
     percentLabel.font=[UIFont systemFontOfSize:30];
     [myLayer addSublayer:percentLabel.layer];
+    [myLayer addSublayer:noneImage.layer];
     
     
     //battery level
@@ -124,6 +130,7 @@
     }
     
     /**************Data*************/
+    noneImage.hidden = YES;
     if (self.isBind)
     {
         [turnBtn setTitle:@"Unpair Cervella" forState:UIControlStateNormal];
@@ -143,7 +150,8 @@
     {
         [turnBtn setTitle:@"Search for Cervella" forState:UIControlStateNormal];
 
-        percentLabel.text=@"- -";
+        percentLabel.text=@"";
+        noneImage.hidden = NO;
     }
   
     [self setupLayer];

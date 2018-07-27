@@ -706,7 +706,7 @@
 //充电状态
 - (void)chargeStatus:(NSUInteger )battery Error:(NSError *)error {
     [self showError:error];
-//    [self freeBluetoothInfo];
+    [self freeBluetoothInfo];
 }
 
 #pragma mark - DataBaseOpration
