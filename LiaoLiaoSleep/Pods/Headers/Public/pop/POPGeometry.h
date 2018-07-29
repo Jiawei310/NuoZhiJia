@@ -1,5 +1,0 @@
-XSym
-0030
-e461fbd16d2fc9eeacec85bfbafa8cbf
-../../../pop/pop/POPGeometry.h
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 

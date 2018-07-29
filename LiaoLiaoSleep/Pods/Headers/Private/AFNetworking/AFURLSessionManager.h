@@ -1,5 +1,0 @@
-XSym
-0056
-a3bd7fc117378393958c284c9ca15d0c
-../../../AFNetworking/AFNetworking/AFURLSessionManager.h
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       

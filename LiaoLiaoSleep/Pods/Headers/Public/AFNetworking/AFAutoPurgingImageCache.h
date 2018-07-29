@@ -1,5 +1,0 @@
-XSym
-0066
-7a01961f4b426f2f443d0b9675d2874e
-../../../AFNetworking/UIKit+AFNetworking/AFAutoPurgingImageCache.h
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             

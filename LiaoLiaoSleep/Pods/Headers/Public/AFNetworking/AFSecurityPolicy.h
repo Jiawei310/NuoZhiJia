@@ -1,5 +1,0 @@
-XSym
-0053
-63647efc0058c7cf24d189e7c92795dc
-../../../AFNetworking/AFNetworking/AFSecurityPolicy.h
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          

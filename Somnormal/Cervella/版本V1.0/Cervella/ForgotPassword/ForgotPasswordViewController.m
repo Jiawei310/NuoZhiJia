@@ -164,6 +164,10 @@
     //    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
     //    testMsg.pass = @"Nzj19900307";
     
+//    testMsg.relayHost = @"smtp.qiye.163.com";
+//    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
+//    testMsg.pass = @"Nzj19900307";
+    
     //卢博士卢义强：
     //账号：LRHcare@yahoo.com
     //密码：ncc201807
@@ -175,9 +179,9 @@
     testMsg.wantsSecure = YES; // smtp.gmail.com doesn't work without TLS!
     testMsg.delegate = self;
 
-    testMsg.relayHost = @"smtp.qiye.163.com";
-    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
-    testMsg.pass = @"Nzj19900307";
+    testMsg.relayHost = @"smtp.yeah.net";
+    testMsg.login = @"support_cervella@yeat.net";
+    testMsg.pass = @"Cervella123456";
     
     testMsg.fromEmail = testMsg.login;
     

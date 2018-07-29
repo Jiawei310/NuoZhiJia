@@ -143,7 +143,6 @@
     else if (timeIndex == 5) {//@"60Min"
         if (workModel ==  WorkModelNormal)
         {
-            //14  A0
             strFrequency=@"00";
             strTime=@"3C";
             strVerify=@"C8";

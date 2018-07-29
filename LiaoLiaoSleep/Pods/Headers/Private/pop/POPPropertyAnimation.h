@@ -1,5 +1,0 @@
-XSym
-0039
-7b035da96b27ea8c507b3bdfdeddf2bd
-../../../pop/pop/POPPropertyAnimation.h
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        

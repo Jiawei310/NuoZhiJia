@@ -1,5 +1,0 @@
-XSym
-0034
-e89d4324112f1da61ece57f2456211d6
-../../../pop/pop/POPSpringSolver.h
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             

@@ -1,5 +1,0 @@
-XSym
-0038
-bdd124e0bb66b8fcab68d0693e435106
-../../../pop/pop/POPAnimationPrivate.h
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

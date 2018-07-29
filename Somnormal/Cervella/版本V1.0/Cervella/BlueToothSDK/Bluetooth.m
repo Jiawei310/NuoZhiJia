@@ -368,8 +368,10 @@
 //Notification 通知监听
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
-    NSData* data = characteristic.value;
-    NSString *valueStr =[Tool hexadecimalString:data];
+    NSString *valueStr = @"";
+    NSData* data = nil;
+    data = characteristic.value;
+    valueStr =[Tool hexadecimalString:data];
     NSLog(@"valueAnswer: %@",valueStr);
     
     #pragma mark 整个流程

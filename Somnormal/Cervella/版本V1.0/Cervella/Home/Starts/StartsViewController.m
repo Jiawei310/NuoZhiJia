@@ -523,7 +523,6 @@
         if (timeCure > 0 && timeCure%60 == 0) {
             [self saveTreatInfo];
         }
-        
     } else {
         [self blueStopWorkUI];
     }

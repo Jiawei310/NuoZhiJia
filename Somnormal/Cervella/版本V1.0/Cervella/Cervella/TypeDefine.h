@@ -30,4 +30,8 @@
 #define JHADDRESS  @"http://58.247.120.194:8098/MeetingOnlinePatient.asmx"
 
 
+//#define ADDRESS    @"http://a.nuozhijia.com.cn:8098"
+//#define JHADDRESS  @"http://a.nuozhijia.com.cn:8098/MeetingOnlinePatient.asmx"
+
+
 #endif /* TypeDefine_h */
