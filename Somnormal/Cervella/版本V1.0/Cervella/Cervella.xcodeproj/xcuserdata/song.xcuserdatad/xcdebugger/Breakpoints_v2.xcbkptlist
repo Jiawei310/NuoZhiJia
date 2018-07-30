@@ -153,13 +153,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "BlueToothSDK/CommandManager.m"
-            timestampString = "554551528.655318"
+            filePath = "Home/Starts/StartsViewController.m"
+            timestampString = "554650934.575444"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "-sendSetTimeAndFrequencyOrder:characteristics:indexFrequency:timeInedx:"
+            startingLineNumber = "527"
+            endingLineNumber = "527"
+            landmarkName = "-handleTimer"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -169,13 +169,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Home/Starts/StartsViewController.m"
-            timestampString = "554551637.828105"
+            filePath = "Model/&#x547d;&#x4ee4;&#x53d1;&#x9001;/SendCommand.m"
+            timestampString = "554652950.670226"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "527"
-            endingLineNumber = "527"
-            landmarkName = "-handleTimer"
+            startingLineNumber = "192"
+            endingLineNumber = "192"
+            landmarkName = "-sendElectricQuantity:characteristics:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
