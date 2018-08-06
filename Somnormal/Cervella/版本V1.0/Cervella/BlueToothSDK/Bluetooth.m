@@ -15,12 +15,12 @@
     
     NSTimer *_checkElectricTimer;       //设置阻抗检测的NSTimer对象
     NSTimer *_readBatteryTimer;         //设置读取电量的NSTimer对象
+    BOOL _isReadBatteryTimer;
     BOOL _isConnect;                    //判断是否后连接成功
     Byte chOUTFinal[8];                 //用于存储设备序列号的16进制数的char类型数组
     NSMutableArray *_valueStrs;         //存储应答数据的字符串数组
     
     NSTimer *_scanTimer;                //搜索设备60秒限制
-
 }
 
 //手机为蓝牙中心
@@ -114,6 +114,8 @@
     self.equipment = nil;
     self.commandManger = nil;
     _order = nil;
+    _isReadBatteryTimer = NO;
+
     [self cleanEquipments];
     
 }
@@ -153,6 +155,7 @@
 - (void)readBattery
 {
     [self.commandManger sendElectricQuantity:self.equipment.peripheral characteristics:self.equipment.characteristics];
+    _isReadBatteryTimer = YES;
 }
 
 //发送切换通道状态命令，设置通道参数为正常工作
@@ -343,10 +346,7 @@
         [self.equipment.characteristics addObject:c];
     }
     
-//    if ([self.delegate respondsToSelector:@selector(connectState:Error:)]) {
-//        _connectSate = ConnectStateNormal;
-//        [self.delegate connectState:self.connectSate Error:nil];
-//    }
+    [self readBattery];
 }
 
 //获取服务中的属性值
@@ -440,9 +440,10 @@
         }
     }
     //电量提示
-    else if ([valueStr containsString:@"55bb010a"])
+    else if ([valueStr containsString:@"55bb010a01"] && _isReadBatteryTimer)
     {
         [self.equipment battery:valueStr];
+        _isReadBatteryTimer = NO;
         
         if (self.equipment.battery > 5 && self.equipment.battery <= 20)
         {
@@ -520,7 +521,7 @@
 
 - (NSTimer *)readBatteryTimer {
     if (!_readBatteryTimer) {
-        _readBatteryTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(readBattery) userInfo:nil repeats:YES];
+        _readBatteryTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(readBattery) userInfo:nil repeats:YES];
     }
     return _readBatteryTimer;
 }
