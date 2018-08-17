@@ -10,13 +10,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Home/Me/MyInfomation/MyInfoViewController.m"
-            timestampString = "552561309.941618"
+            timestampString = "556080636.666363"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "281"
             endingLineNumber = "281"
             landmarkName = "-sendValueBackToController:type:"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[MyInfoViewController sendValueBackToController:type:]"
+                  moduleName = "Cervella"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/YangMing/self/GitHub/NuoZhiJia/Somnormal/Cervella/%E7%89%88%E6%9C%ACV1.0/Cervella/Home/Me/MyInfomation/MyInfoViewController.m"
+                  timestampString = "556080636.72768"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "281"
+                  endingLineNumber = "281"
+                  offsetFromSymbolStart = "440">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__55-[MyInfoViewController sendValueBackToController:type:]_block_invoke_3"
+                  moduleName = "Cervella"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/YangMing/self/GitHub/NuoZhiJia/Somnormal/Cervella/%E7%89%88%E6%9C%ACV1.0/Cervella/Home/Me/MyInfomation/MyInfoViewController.m"
+                  timestampString = "556080636.729695"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "281"
+                  endingLineNumber = "281"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.190"
+                  moduleName = "Cervella"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/YangMing/self/GitHub/NuoZhiJia/Somnormal/Cervella/%E7%89%88%E6%9C%ACV1.0/Cervella/Home/Me/MyInfomation/MyInfoViewController.m"
+                  timestampString = "556080636.731124"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "281"
+                  endingLineNumber = "281"
+                  offsetFromSymbolStart = "20">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -97,6 +144,86 @@
             endingLineNumber = "116"
             landmarkName = "ForgotPasswordViewController"
             landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Login/LoginViewController.m"
+            timestampString = "556080636.666712"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "-doForgotPassword"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Login/LoginViewController.m"
+            timestampString = "556080636.666755"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "-doForgotPassword"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AES/AESCipher.m"
+            timestampString = "556080285.341349"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
+            landmarkName = "aesDecryptString"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "aesDecryptString"
+                  moduleName = "Cervella"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/YangMing/self/GitHub/NuoZhiJia/Somnormal/Cervella/%E7%89%88%E6%9C%ACV1.0/Cervella/AES/AESCipher.m"
+                  timestampString = "556080636.761008"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "76">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "aesDecryptString"
+                  moduleName = "Cervella"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/YangMing/self/GitHub/NuoZhiJia/Somnormal/Cervella/%E7%89%88%E6%9C%ACV1.0/Cervella/AES/AESCipher.m"
+                  timestampString = "556080636.762676"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "62"
+                  endingLineNumber = "62"
+                  offsetFromSymbolStart = "132">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

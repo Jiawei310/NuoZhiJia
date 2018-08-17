@@ -145,7 +145,7 @@
     {
         //判断不为空时，并验证输入的账号是否存在
         
-        NSString *nameStr = aesDecryptString(_acountTextField.text, aes_key_value);
+        NSString *nameStr = aesEncryptString(_acountTextField.text, aes_key_value);
 //        NSString *nameStr = _acountTextField.text;
         
         [interfaceModel sendJsonLoginInfoToServer:nameStr password:@"" isLogin:NO];
