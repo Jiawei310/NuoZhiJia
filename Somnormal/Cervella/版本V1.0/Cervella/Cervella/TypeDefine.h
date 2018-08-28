@@ -26,10 +26,11 @@
 //#define ADDRESS    @"http://211.161.200.73:8098"
 //#define JHADDRESS  @"http://211.161.200.73:8098/MeetingOnlinePatient.asmx"
 
-#define ADDRESS    @"http://58.247.120.194:8098"
-#define JHADDRESS  @"http://58.247.120.194:8098/MeetingOnlinePatient.asmx"
+//#define ADDRESS    @"http://58.247.120.194:8098"
+//#define JHADDRESS  @"http://58.247.120.194:8098/MeetingOnlinePatient.asmx"
 
-
+#define ADDRESS    @"http://47.90.215.31:8098"
+#define JHADDRESS  @"http://47.90.215.31:8098/MeetingOnlinePatient.asmx"
 //#define ADDRESS    @"http://a.nuozhijia.com.cn:8098"
 //#define JHADDRESS  @"http://a.nuozhijia.com.cn:8098/MeetingOnlinePatient.asmx"
 
