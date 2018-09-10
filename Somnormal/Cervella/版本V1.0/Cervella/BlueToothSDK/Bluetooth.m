@@ -16,6 +16,7 @@
     NSTimer *_checkElectricTimer;       //设置阻抗检测的NSTimer对象
     NSTimer *_readBatteryTimer;         //设置读取电量的NSTimer对象
     BOOL _isReadBatteryTimer;
+    BOOL _isReadWareTimer;
     BOOL _isConnect;                    //判断是否后连接成功
     Byte chOUTFinal[8];                 //用于存储设备序列号的16进制数的char类型数组
     NSMutableArray *_valueStrs;         //存储应答数据的字符串数组
@@ -115,6 +116,7 @@
     self.commandManger = nil;
     _order = nil;
     _isReadBatteryTimer = NO;
+    _isReadWareTimer = NO;
 
     [self cleanEquipments];
     
@@ -149,6 +151,7 @@
 - (void)detectionPersecondsForImpedance
 {
     [self.commandManger sendImpedanceDetectionOrder:self.equipment.peripheral characteristics:self.equipment.characteristics];
+    _isReadWareTimer = YES;
 }
 
 //读取电量
@@ -421,10 +424,11 @@
         [self.equipment deviceInfo:valueStr];
     }
     //阻抗
-    else if ([valueStr containsString:@"55bb010b84"])
+    else if ([valueStr containsString:@"55bb010b84"] && _isReadWareTimer)
     {
         WearState wearState = WearStateNone;
         NSError *errorE = nil;
+        _isReadWareTimer = NO;
         
         if ([self.equipment isWearOK:valueStr]) {
             wearState = WearStateNormal;
@@ -521,7 +525,7 @@
 
 - (NSTimer *)readBatteryTimer {
     if (!_readBatteryTimer) {
-        _readBatteryTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(readBattery) userInfo:nil repeats:YES];
+        _readBatteryTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(readBattery) userInfo:nil repeats:YES];
     }
     return _readBatteryTimer;
 }

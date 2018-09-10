@@ -88,7 +88,7 @@
 
 - (IBAction)FreeBindButtonClick:(UIButton *)sender
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"After unpairing,Cervella will no longer work properly." delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"OK", nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"After unpairing,Cervella will no longer work properly with this device." delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"OK", nil];
     [alert show];
     
 }

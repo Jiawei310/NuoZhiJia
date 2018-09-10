@@ -181,7 +181,7 @@
 
     testMsg.relayHost = @"smtp.yeah.net";
     testMsg.login = @"support_cervella@yeat.net";
-    testMsg.pass = @"Cervella123456";
+    testMsg.pass = @"nuozhijia2018";//@"Cervella123456";
     
     testMsg.fromEmail = testMsg.login;
     

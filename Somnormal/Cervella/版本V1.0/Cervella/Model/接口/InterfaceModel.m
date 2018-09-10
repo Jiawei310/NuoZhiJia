@@ -464,7 +464,7 @@
                     
                     if ([description isEqualToString:@"账号不存在！"])
                     {
-                        [JXTAlertView showToastViewWithTitle:@"" message:@"username error!" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
+                        [JXTAlertView showToastViewWithTitle:@"" message:@"Incorrect username format." duration:2 dismissCompletion:^(NSInteger buttonIndex) {
                             NSLog(@"OK");
                         }];
                     }
@@ -480,7 +480,7 @@
             {
                 if ([description isEqualToString:@"账号不存在！"])
                 {
-                    [JXTAlertView showToastViewWithTitle:@"" message:@"username error!" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
+                    [JXTAlertView showToastViewWithTitle:@"" message:@"Incorrect username format." duration:2 dismissCompletion:^(NSInteger buttonIndex) {
                         NSLog(@"OK");
                     }];
                     

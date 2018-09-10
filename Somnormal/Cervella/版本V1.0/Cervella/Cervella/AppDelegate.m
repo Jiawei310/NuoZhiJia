@@ -21,6 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [NSThread sleepForTimeInterval:2.5];
     
     //从NSUserDefaults中获取存储的用户信息
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
