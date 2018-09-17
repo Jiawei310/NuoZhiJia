@@ -470,7 +470,7 @@
                     }
                     else if ([state isEqualToString:@"NO"] && [description isEqualToString:@"密码错误！"])
                     {
-                        [JXTAlertView showToastViewWithTitle:@"" message:@"password error!" duration:2 dismissCompletion:^(NSInteger buttonIndex) {
+                        [JXTAlertView showToastViewWithTitle:@"" message:@"Incorrect password." duration:2 dismissCompletion:^(NSInteger buttonIndex) {
                             NSLog(@"OK");
                         }];
                     }
