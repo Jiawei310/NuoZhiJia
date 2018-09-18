@@ -11,7 +11,8 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+// com.nuozhijia.Cervella
+// com.nzj.Cervella
 
 @end
 
