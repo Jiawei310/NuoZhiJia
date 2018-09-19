@@ -156,14 +156,6 @@
 #pragma -- 邮件后台发送操作
 - (void)sendCodeOpration
 {
-    //  E-mail login:https://www.google.com/gmail/
-    //  User Name:support@cervella.us
-    //  Password:CervellaRocks!
-    
-    //    testMsg.relayHost = @"smtp.qiye.163.com";
-    //    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
-    //    testMsg.pass = @"Nzj19900307";
-    
 //    testMsg.relayHost = @"smtp.qiye.163.com";
 //    testMsg.login = @"sleepstyle@nuozhijia.com.cn";
 //    testMsg.pass = @"Nzj19900307";
@@ -173,23 +165,31 @@
     //密码：ncc201807
     //yahoo 的邮箱服务器
     
+    NSString *host = @"smtp.yeah.net";
+    NSString *fromEmail =  @"support_cervella@yeah.net";
+    NSString *pass = @"nuozhijia2018";//@"Cervella123456";
+    
+    
+//    NSString *host = @"smtp.163.com";
+//    NSString *fromEmail =  @"13062659772@163.com";
+//    NSString *pass = @"Wangyi.8981";
     
     SKPSMTPMessage *testMsg = [[SKPSMTPMessage alloc] init];
+    testMsg.fromEmail = fromEmail;
+    testMsg.toEmail = aesDecryptString(_patientInfo.Email,aes_key_value);
+    testMsg.relayHost = host;
+
     testMsg.requiresAuth = YES;
+    
+    testMsg.login = fromEmail;
+    testMsg.pass = pass;
+    
+    testMsg.subject = [NSString stringWithCString:"The email of identifying code for Cervella" encoding:NSUTF8StringEncoding];
+    
+    
     testMsg.wantsSecure = YES; // smtp.gmail.com doesn't work without TLS!
     testMsg.delegate = self;
 
-    testMsg.relayHost = @"smtp.yeah.net";
-    testMsg.login = @"support_cervella@yeah.net";
-    testMsg.pass = @"nuozhijia2018";//Cervella123456
-    
-    testMsg.fromEmail = testMsg.login;
-    
-    testMsg.toEmail = aesDecryptString(_patientInfo.Email,aes_key_value);
-//    testMsg.toEmail = _patientInfo.Email;
-    
-    
-    testMsg.subject = [NSString stringWithCString:"The email of identifying code for Cervella" encoding:NSUTF8StringEncoding];
     NSDictionary *plainPart = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey,
                                [NSString stringWithFormat:@"Thanks for using, the identfying code is:%@",[self createRandomNumber]],kSKPSMTPPartMessageKey,
                                @"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];
