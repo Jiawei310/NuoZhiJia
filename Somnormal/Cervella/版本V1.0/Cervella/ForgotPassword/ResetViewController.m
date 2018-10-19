@@ -78,7 +78,7 @@
     if (indexPath.row == 0)
     {
         _passwordTextfield = [[UITextField alloc] initWithFrame:CGRectMake(10, 5, SCREENWIDTH - 20, 40)];
-        _passwordTextfield.placeholder = @"Password should be 6-18 numbers";
+        _passwordTextfield.placeholder = @"Password should be 6-18 characters";
         _passwordTextfield.secureTextEntry = YES;
         [cell.contentView addSubview:_passwordTextfield];
     }
@@ -263,7 +263,7 @@
                 [dataBaseOpration closeDataBase];
                 
                 //提示修改成功
-                jxt_showTextHUDTitleMessage(@"", @"Modified successful");
+                jxt_showTextHUDTitleMessage(@"", @"Password changed!");
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                     jxt_dismissHUD();
                 });

@@ -474,7 +474,7 @@
         if (self.equipment.isCharge) {
             NSError *errorE = [[NSError alloc] initWithDomain:@"Charging"
                                                          code:920
-                                                     userInfo:@{NSLocalizedDescriptionKey:@"sorry, it is charging"}];
+                                                     userInfo:@{NSLocalizedDescriptionKey:@"Treatment is stopped during charging."}];
             if ([self.delegate respondsToSelector:@selector(chargeStatus:Error:)]) {
                 [self.delegate chargeStatus:self.equipment.battery Error:errorE];
             }
@@ -525,7 +525,7 @@
 
 - (NSTimer *)readBatteryTimer {
     if (!_readBatteryTimer) {
-        _readBatteryTimer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(readBattery) userInfo:nil repeats:YES];
+        _readBatteryTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(readBattery) userInfo:nil repeats:YES];
     }
     return _readBatteryTimer;
 }
