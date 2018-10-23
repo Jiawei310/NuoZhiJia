@@ -88,9 +88,32 @@
 
 - (IBAction)FreeBindButtonClick:(UIButton *)sender
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"After unpairing, Cervella will no longer work with this device." delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"OK", nil];
-    [alert show];
+    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"" message:@"After unpairing, Cervella will no longer work with this device." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"CANCEL" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        //1.删除数据库中的蓝牙绑定数据
+        DataBaseOpration *dbOpration = [[DataBaseOpration alloc] init];
+        [dbOpration deletePeripheralInfo];
+        [dbOpration closeDataBase];
+
+        //删除电量
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"BatteryOfCervial"];
+
+        NSNotification *notification = [NSNotification notificationWithName:@"Free" object:nil userInfo:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+        //2.跳转界面
+        NSArray *arr = self.navigationController.viewControllers;
+        [self.navigationController popToViewController:[arr objectAtIndex:arr.count - 3] animated:YES];
+    }];
+    [alertC addAction:cancelAction];
+    [alertC addAction:okAction];
+    [self presentViewController:alertC animated:YES completion:nil];
     
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"After unpairing, Cervella will no longer work with this device." delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"OK", nil];
+//    [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
