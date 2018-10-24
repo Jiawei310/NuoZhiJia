@@ -525,7 +525,7 @@
 
 - (NSTimer *)readBatteryTimer {
     if (!_readBatteryTimer) {
-        _readBatteryTimer = [NSTimer scheduledTimerWithTimeInterval:30 target:self selector:@selector(readBattery) userInfo:nil repeats:YES];
+        _readBatteryTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(readBattery) userInfo:nil repeats:YES];
     }
     return _readBatteryTimer;
 }
