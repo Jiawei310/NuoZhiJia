@@ -6,13 +6,15 @@
 //  Copyright © 2017年 Justin. All rights reserved.
 //
 
+// 诺之嘉：com.nuozhijia.Cervella
+// 美国：com.nzj.Cervella
+
 #import <UIKit/UIKit.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-// com.nuozhijia.Cervella
-// com.nzj.Cervella
+
 
 @end
 

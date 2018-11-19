@@ -349,7 +349,7 @@
         [self.equipment.characteristics addObject:c];
     }
     
-    [self readBattery];
+//    [self readBattery];
 }
 
 //获取服务中的属性值
@@ -477,6 +477,7 @@
                                                      userInfo:@{NSLocalizedDescriptionKey:@"Treatment is stopped during charging."}];
             if ([self.delegate respondsToSelector:@selector(chargeStatus:Error:)]) {
                 [self.delegate chargeStatus:self.equipment.battery Error:errorE];
+                self.equipment.isCharge = NO;
             }
         }
     }
@@ -518,14 +519,14 @@
 
 - (NSTimer *)checkElectricTimer {
     if (!_checkElectricTimer) {
-        _checkElectricTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(detectionPersecondsForImpedance) userInfo:nil repeats:YES];
+        _checkElectricTimer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(detectionPersecondsForImpedance) userInfo:nil repeats:YES];
     }
     return _checkElectricTimer;
 }
 
 - (NSTimer *)readBatteryTimer {
     if (!_readBatteryTimer) {
-        _readBatteryTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(readBattery) userInfo:nil repeats:YES];
+        _readBatteryTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(readBattery) userInfo:nil repeats:YES];
     }
     return _readBatteryTimer;
 }
