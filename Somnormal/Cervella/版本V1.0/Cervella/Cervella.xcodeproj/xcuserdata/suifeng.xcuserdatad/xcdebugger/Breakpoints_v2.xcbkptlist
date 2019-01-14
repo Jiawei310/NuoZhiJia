@@ -25,13 +25,13 @@
                   symbolName = "-[MyInfoViewController sendValueBackToController:type:]"
                   moduleName = "Cervella"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YangMing/self/GitHub/NuoZhiJia/Somnormal/Cervella/%E7%89%88%E6%9C%ACV1.0/Cervella/Home/Me/MyInfomation/MyInfoViewController.m"
-                  timestampString = "563856122.882311"
+                  urlString = "file:///Users/YangMing/Song/GitHub/NuoZhiJia/Somnormal/Cervella/%E7%89%88%E6%9C%ACV1.0/Cervella/Home/Me/MyInfomation/MyInfoViewController.m"
+                  timestampString = "568861292.236626"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "281"
                   endingLineNumber = "281"
-                  offsetFromSymbolStart = "440">
+                  offsetFromSymbolStart = "393">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -40,13 +40,13 @@
                   symbolName = "__55-[MyInfoViewController sendValueBackToController:type:]_block_invoke_3"
                   moduleName = "Cervella"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YangMing/self/GitHub/NuoZhiJia/Somnormal/Cervella/%E7%89%88%E6%9C%ACV1.0/Cervella/Home/Me/MyInfomation/MyInfoViewController.m"
-                  timestampString = "563856122.884145"
+                  urlString = "file:///Users/YangMing/Song/GitHub/NuoZhiJia/Somnormal/Cervella/%E7%89%88%E6%9C%ACV1.0/Cervella/Home/Me/MyInfomation/MyInfoViewController.m"
+                  timestampString = "568861292.238633"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "281"
                   endingLineNumber = "281"
-                  offsetFromSymbolStart = "52">
+                  offsetFromSymbolStart = "34">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -55,13 +55,13 @@
                   symbolName = "__destroy_helper_block_.190"
                   moduleName = "Cervella"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/YangMing/self/GitHub/NuoZhiJia/Somnormal/Cervella/%E7%89%88%E6%9C%ACV1.0/Cervella/Home/Me/MyInfomation/MyInfoViewController.m"
-                  timestampString = "563856122.885511"
+                  urlString = "file:///Users/YangMing/Song/GitHub/NuoZhiJia/Somnormal/Cervella/%E7%89%88%E6%9C%ACV1.0/Cervella/Home/Me/MyInfomation/MyInfoViewController.m"
+                  timestampString = "568861292.240883"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "281"
                   endingLineNumber = "281"
-                  offsetFromSymbolStart = "20">
+                  offsetFromSymbolStart = "16">
                </Location>
             </Locations>
          </BreakpointContent>
